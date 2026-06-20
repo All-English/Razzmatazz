@@ -12,7 +12,16 @@
     "notFound": "Nessun quiz trovato",
     "pleaseCreate": "Per favore crea prima un quiz",
     "pleaseSelect": "Per favore seleziona un quiz",
-    "startGame": "Inizia il gioco"
+    "startGame": "Inizia il gioco",
+    "hasMismatchError": "Impossibile avviare il gioco: il quiz selezionato contiene domande non corrispondenti.",
+    "mismatchBadge": "Errore di corrispondenza",
+    "mismatchTooltip": "Questo quiz contiene frammenti disordinati che non corrispondono alla frase corretta. Modifica il quiz per correggerlo prima di iniziare una partita.",
+    "limitRange": "Limita intervallo domande",
+    "fromQuestion": "Dalla domanda",
+    "toQuestion": "a",
+    "shuffle": "Mescola domande",
+    "questionsCount": "{{count}} domande",
+    "changeQuizz": "Modifica quiz"
   },
   "result": {
     "delete": "Elimina risultato",

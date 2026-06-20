@@ -1,0 +1,53 @@
+{
+  "configurationsTitle": "설정",
+  "logout": "로그아웃",
+  "passwordPlaceholder": "비밀번호",
+  "quizz": {
+    "create": "퀴즈 만들기",
+    "delete": "퀴즈 삭제",
+    "deleteConfirm": "정말 \"{{name}}\" 퀴즈를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "deleted": "퀴즈가 삭제되었습니다",
+    "import": "JSON에서 퀴즈 가져오기",
+    "none": "아직 생성된 퀴즈가 없습니다",
+    "notFound": "퀴즈를 찾을 수 없습니다",
+    "pleaseCreate": "먼저 퀴즈를 만들어 주세요",
+    "pleaseSelect": "퀴즈를 선택해 주세요",
+    "startGame": "게임 시작",
+    "hasMismatchError": "게임 시작 불가: 선택한 퀴즈에 불일치하는 질문이 포함되어 있습니다.",
+    "mismatchBadge": "불일치 오류",
+    "mismatchTooltip": "이 퀴즈에는 올바른 문장과 일치하지 않는 섞인 청크들이 있습니다. 게임을 시작하기 전에 퀴즈를 편집하여 수정해 주세요.",
+    "limitRange": "질문 범위 설정",
+    "fromQuestion": "시작 질문",
+    "toQuestion": "끝 질문",
+    "shuffle": "질문 섞기",
+    "questionsCount": "{{count}}개 질문",
+    "changeQuizz": "퀴즈 변경"
+  },
+  "result": {
+    "delete": "결과 삭제",
+    "deleteConfirm": "\"{{name}}\" 결과를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "deleted": "결과가 삭제되었습니다",
+    "noAnswer": "답변 없음",
+    "none": "아직 결과가 없습니다. 게임을 완료하여 여기에 리포트를 확인해 보세요",
+    "paginationOf": " / ",
+    "stats": {
+      "correctAnswers": "정답",
+      "playersAnswered": "제출한 플레이어"
+    },
+    "table": {
+      "answered": "답변 완료",
+      "correct": " 정답",
+      "correctIncorrect": "정답 / 오답",
+      "incorrect": " 오답",
+      "player": "플레이어",
+      "points": "점수"
+    },
+    "playerCount": "{{count}}명 플레이어",
+    "timeLimitSuffix": "초 시간 제한"
+  },
+  "tabs": {
+    "play": "게임 진행",
+    "quizz": "퀴즈 관리",
+    "results": "결과 분석"
+  }
+}

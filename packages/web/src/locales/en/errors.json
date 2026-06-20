@@ -11,7 +11,9 @@
     "managerDisconnected": "Manager disconnected",
     "noPlayersConnected": "No players connected",
     "notFound": "Game not found",
-    "playerAlreadyConnected": "Player already connected"
+    "playerAlreadyConnected": "Player already connected",
+    "usernameTaken": "Username is already taken",
+    "invalidRange": "Invalid question range configuration"
   },
   "manager": {
     "failedToReadConfig": "Failed to read game config",
@@ -24,17 +26,19 @@
     "title": "Page not found"
   },
   "quizz": {
-    "answerEmpty": "An answer cannot be empty",
-    "failedToDelete": "Failed to delete quizz",
-    "failedToSave": "Quizz is incomplete, make sure all questions have a title and at least one correct answer",
-    "failedToUpdate": "Failed to update quizz",
+    "duplicateTitle": "A quiz with this title already exists. Please use a unique title.",
+    "chunkEmpty": "A chunk cannot be empty",
+    "failedToDelete": "Failed to delete quiz",
+    "failedToSave": "Quiz is incomplete, make sure all questions have a prompt, chunks, and a correct sentence",
+    "failedToUpdate": "Failed to update quiz",
     "invalidMediaUrl": "Media URL must be a valid URL",
-    "noQuestions": "A quizz must have at least one question",
-    "notFound": "Quizz not found",
-    "questionEmpty": "Question cannot be empty",
+    "noQuestions": "A quiz must have at least one question",
+    "notFound": "Quiz not found",
+    "promptEmpty": "Korean prompt cannot be empty",
+    "sentenceEmpty": "Correct sentence cannot be empty",
     "subjectEmpty": "Subject cannot be empty",
-    "tooFewAnswers": "A question must have at least 2 answers",
-    "tooManyAnswers": "A question cannot have more than 4 answers"
+    "tooFewChunks": "A question must have at least 2 chunks",
+    "invalidChunksOrder": "The correct chunks order does not reconstruct the correct sentence."
   },
   "route": {
     "back": "Go back home",

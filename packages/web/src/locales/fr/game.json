@@ -1,5 +1,14 @@
 {
   "correct": "Bravo !",
+  "correctMessages": [
+    "Bravo !",
+    "Super !",
+    "Continue comme ça !",
+    "Fantastique !",
+    "Bien joué !",
+    "Parfait !",
+    "Excellent !"
+  ],
   "gamePinLabel": "PIN de la partie :",
   "hud": {
     "answers": "Réponses",
@@ -20,8 +29,36 @@
   "resultBehind": ", derrière ",
   "resultTop": "Tu es ",
   "startGame": "Demarrer la partie",
-  "usernamePlaceholder": "Pseudo",
+  "usernamePlaceholder": "Nom du joueur",
   "waitingForAnswers": "En attente des réponses des joueurs",
   "waitingForPlayers": "En attente des joueurs",
-  "wrong": "Dommage"
+  "wrong": "Dommage",
+  "wrongMessages": [
+    "Continue d'essayer !",
+    "Pas tout à fait !",
+    "Réessaie !",
+    "Presque !",
+    "N'abandonne pas !",
+    "Tu peux le faire !"
+  ],
+  "studyCompleteHeader": "Excellent travail !",
+  "studyCompleteSub": "Tu as terminé toutes les questions ! 🎉",
+  "studyTryAgain": "Pas tout à fait – réessaie !",
+  "studyTimeLabel": "Ton temps : {{time}}",
+  "bestTimeLabel": "Meilleur temps : {{time}}",
+  "newPersonalBest": "🎉 Nouveau record personnel !",
+  "tryToBeatBest": "Peux-tu battre ton meilleur temps ?",
+  "playAgain": "Rejouer",
+  "studyScoreLabel": "Ton score : {{score}} pts",
+  "bestScoreLabel": "Meilleur score : {{score}} pts",
+  "newPersonalBestScore": "🎉 Nouveau record de score !",
+  "tryToBeatBestScore": "Peux-tu battre ton meilleur score ?",
+  "currentAttempt": "Tentative actuelle",
+  "personalBests": "Records personnels",
+  "historyTitle": "Historique d'entraînement",
+  "roundLabel": "Round #{{round}}",
+  "personalBestBadge": "Top",
+  "waitingForHost": "En attente de l'hôte…",
+  "waitingForNextGame": "En attente du prochain jeu…",
+  "backToLobby": "Retour au lobby"
 }

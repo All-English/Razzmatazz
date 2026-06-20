@@ -2,10 +2,18 @@ import { MEDIA_TYPES } from "@razzia/common/constants"
 import type { QuestionMedia } from "@razzia/common/types/game"
 import AlertDialog from "@razzia/web/components/AlertDialog"
 import { type QuestionWithId } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
+import { isDerivationSuccessful } from "@razzia/web/features/quizz/utils/chunks"
 import clsx from "clsx"
-import { Music, Trash2, Video } from "lucide-react"
+import { AlertTriangle, Music, Trash2, Video } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { twMerge } from "tailwind-merge"
+
+const CHUNK_MINI_COLORS = [
+  "bg-[#E69F00]",
+  "bg-[#56B4E9]",
+  "bg-[#3DBFA0]",
+  "bg-[#CC79A7]",
+]
 
 const SlideMedia = ({ media }: { media?: QuestionMedia }) => {
   if (media?.type === MEDIA_TYPES.IMAGE) {
@@ -43,6 +51,9 @@ const QuizzEditorCard = ({
   onDelete,
 }: Props) => {
   const { t } = useTranslation()
+  const isMismatched =
+    question.correctSentence.trim() !== "" &&
+    !isDerivationSuccessful(question.correctSentence, question.scrambledChunks)
 
   return (
     <div
@@ -51,31 +62,36 @@ const QuizzEditorCard = ({
         clsx(
           "group relative flex h-36 cursor-pointer flex-col justify-between gap-1 rounded-lg border-2 border-gray-200 bg-white px-6 py-2",
           {
-            "border-primary": isActive,
+            "border-indigo-600": isActive,
+            "border-red-400 bg-red-50/10": isMismatched && !isActive,
+            "border-red-500": isMismatched && isActive,
           },
         ),
       )}
     >
-      <span className="absolute top-2 left-2 text-xs font-semibold text-gray-400">
-        {index + 1}
-      </span>
+      <div className="absolute top-2 left-2 flex items-center gap-1">
+        <span className="text-xs font-semibold text-gray-400">{index + 1}</span>
+        {isMismatched && <AlertTriangle className="size-3.5 text-red-500" />}
+      </div>
       <p className="truncate text-center text-xs font-semibold text-gray-700">
-        {question.question || t("quizz:noQuestionYet")}
+        {question.koreanPrompt || t("quizz:noQuestionYet")}
       </p>
 
       <SlideMedia media={question.media} />
 
-      <div className="grid grid-cols-2 gap-1">
-        {question.answers.map((_, i) => (
+      {/* Chunk count indicator */}
+      <div className="flex flex-wrap justify-center gap-1">
+        {question.scrambledChunks.slice(0, 4).map((_, i) => (
           <div
             key={i}
-            className="flex h-4 flex-1 items-center rounded-md border border-gray-300 px-0.5"
-          >
-            {question.solutions.includes(i) && (
-              <div className="ml-auto size-1.5 rounded-full bg-green-400" />
-            )}
-          </div>
+            className={`h-3 flex-1 rounded-sm ${CHUNK_MINI_COLORS[i % CHUNK_MINI_COLORS.length]}`}
+          />
         ))}
+        {question.scrambledChunks.length > 4 && (
+          <span className="text-[10px] text-gray-400">
+            +{question.scrambledChunks.length - 4}
+          </span>
+        )}
       </div>
 
       {canDelete && (

@@ -5,6 +5,7 @@ allowBuilds:
   esbuild: true
   oxlint: true
   oxlint-tsgolint: true
+  sharp: set this to true or false
 
 minimumReleaseAge: 10080
 blockExoticSubdeps: true

@@ -7,13 +7,14 @@ import {
   useSocket,
 } from "@razzia/web/features/game/contexts/socket-context"
 import { usePlayerStore } from "@razzia/web/features/game/stores/player"
-import { useSearch } from "@tanstack/react-router"
+import { useSearch, useNavigate } from "@tanstack/react-router"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 const Room = () => {
   const { socket, isConnected } = useSocket()
-  const { join } = usePlayerStore()
+  const { join, setInviteCode } = usePlayerStore()
+  const navigate = useNavigate()
   const [invitation, setInvitation] = useState("")
   const { pin } = useSearch({ from: "/(auth)/" })
   const hasJoinedRef = useRef(false)
@@ -23,8 +24,17 @@ const Room = () => {
     socket.emit(EVENTS.PLAYER.JOIN, invitation.replace(/\s/gu, ""))
   }
 
-  useEvent(EVENTS.GAME.SUCCESS_ROOM, (gameId) => {
-    join(gameId)
+  useEvent(EVENTS.GAME.SUCCESS_ROOM, (data) => {
+    const gameId = typeof data === "string" ? data : data.gameId
+    const isRegistered = typeof data === "string" ? false : data.isRegistered
+
+    setInviteCode(invitation.replace(/\s/gu, "") || pin || "")
+
+    if (isRegistered) {
+      navigate({ to: "/party/$gameId", params: { gameId } })
+    } else {
+      join(gameId)
+    }
   })
 
   useEffect(() => {
@@ -39,7 +49,11 @@ const Room = () => {
   return (
     <Card>
       <p className="mb-2 text-lg font-semibold">{t("game:pinLabel")}</p>
-      <PinInput value={invitation} onChange={setInvitation} />
+      <PinInput
+        value={invitation}
+        onChange={setInvitation}
+        onEnter={handleJoin}
+      />
       <Button className="mt-4" onClick={handleJoin}>
         {t("common:submit")}
       </Button>

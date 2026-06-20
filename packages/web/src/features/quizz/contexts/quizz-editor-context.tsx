@@ -1,5 +1,9 @@
 import type { Question, QuizzWithId } from "@razzia/common/types/game"
 import {
+  deriveCorrectChunks,
+  isValidChunksOrder,
+} from "@razzia/web/features/quizz/utils/chunks"
+import {
   createContext,
   useContext,
   useState,
@@ -23,23 +27,34 @@ interface QuizzEditorContextType {
   removeQuestion: (_index: number) => void
   reorderQuestions: (_from: number, _to: number) => void
   updateQuestion: (_index: number, _updates: Partial<QuestionWithId>) => void
+  setQuestions: (_questions: QuestionWithId[]) => void
 }
 
 const QuizzEditorContext = createContext<QuizzEditorContextType | null>(null)
 
 const defaultQuestion = (): QuestionWithId => ({
   id: uuid(),
-  question: "",
-  answers: ["", ""],
-  solutions: [0],
+  koreanPrompt: "",
+  scrambledChunks: ["", ""],
+  correctChunks: ["", ""],
+  correctSentence: "",
   cooldown: 5,
-  time: 20,
+  time: 30,
 })
 
-const toQuestionWithId = (q: Question): QuestionWithId => ({
-  ...q,
-  id: uuid(),
-})
+const toQuestionWithId = (q: Question): QuestionWithId => {
+  const correctChunks =
+    q.correctChunks.length === q.scrambledChunks.length &&
+    isValidChunksOrder(q.correctSentence, q.correctChunks)
+      ? q.correctChunks
+      : deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
+
+  return {
+    ...q,
+    id: uuid(),
+    correctChunks,
+  }
+}
 
 type QuizzEditorProviderProps = PropsWithChildren<{
   initialData?: QuizzWithId
@@ -92,7 +107,24 @@ export const QuizzEditorProvider = ({
 
   const updateQuestion = (index: number, updates: Partial<QuestionWithId>) => {
     setQuestions((prev) =>
-      prev.map((q, i) => (i === index ? { ...q, ...updates } : q)),
+      prev.map((q, i) => {
+        if (i !== index) return q
+
+        const next = { ...q, ...updates }
+
+        // If the sentence or scrambled chunks changed, re-derive the correct order in the background
+        if (
+          updates.correctSentence !== undefined ||
+          updates.scrambledChunks !== undefined
+        ) {
+          next.correctChunks = deriveCorrectChunks(
+            next.correctSentence,
+            next.scrambledChunks,
+          )
+        }
+
+        return next
+      }),
     )
   }
 
@@ -110,6 +142,7 @@ export const QuizzEditorProvider = ({
         removeQuestion,
         reorderQuestions,
         updateQuestion,
+        setQuestions,
       }}
     >
       {children}

@@ -150,32 +150,34 @@ const Podium = ({ data: { subject, top } }: Props) => {
             </div>
           )}
 
-          <div
-            className={clsx(
-              "z-30 flex h-[60%] w-full translate-y-full flex-col items-center gap-3 opacity-0 transition-all",
-              {
-                "translate-y-0! opacity-100": apparition >= 3,
-              },
-              {
-                "md:min-w-64": top.length < 2,
-              },
-            )}
-          >
-            <p
+          {top[0] && (
+            <div
               className={clsx(
-                "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white opacity-0 drop-shadow-lg md:text-4xl",
-                { "anim-balanced opacity-100": apparition >= 4 },
+                "z-30 flex h-[60%] w-full translate-y-full flex-col items-center gap-3 opacity-0 transition-all",
+                {
+                  "translate-y-0! opacity-100": apparition >= 3,
+                },
+                {
+                  "md:min-w-64": top.length < 2,
+                },
               )}
             >
-              {top[0].username}
-            </p>
-            <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-xl pt-6 text-center shadow-2xl">
-              <Medal rank={1} />
-              <p className="text-3xl font-bold text-white drop-shadow-sm md:text-4xl">
-                {top[0].points}
+              <p
+                className={clsx(
+                  "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white opacity-0 drop-shadow-lg md:text-4xl",
+                  { "anim-balanced opacity-100": apparition >= 4 },
+                )}
+              >
+                {top[0].username}
               </p>
+              <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-xl pt-6 text-center shadow-2xl">
+                <Medal rank={1} />
+                <p className="text-3xl font-bold text-white drop-shadow-sm md:text-4xl">
+                  {top[0].points}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           {top[2] && (
             <div

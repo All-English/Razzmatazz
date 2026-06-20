@@ -18,7 +18,14 @@ export class PlayerManager {
   join(socket: Socket, username: string): void {
     const clientId = socket.handshake.auth.clientId as string
 
-    if (this.findByClientId(clientId)) {
+    const existingPlayer = this.findByClientId(clientId)
+    if (existingPlayer) {
+      if (existingPlayer.id === socket.id) {
+        socket.emit(EVENTS.GAME.SUCCESS_JOIN, this.gameId)
+
+        return
+      }
+
       socket.emit(
         EVENTS.GAME.ERROR_MESSAGE,
         "errors:game.playerAlreadyConnected",
@@ -35,6 +42,17 @@ export class PlayerManager {
       return
     }
 
+    const normalizedUsername = username.trim().toLowerCase()
+    const isNameTaken = this.players.some(
+      (p) => p.username.trim().toLowerCase() === normalizedUsername,
+    )
+
+    if (isNameTaken) {
+      socket.emit(EVENTS.GAME.ERROR_MESSAGE, "errors:game.usernameTaken")
+
+      return
+    }
+
     socket.join(this.gameId)
 
     const player: Player = {
@@ -44,6 +62,7 @@ export class PlayerManager {
       username,
       points: 0,
       streak: 0,
+      studyRound: 1,
     }
 
     this.players.push(player)
@@ -105,6 +124,14 @@ export class PlayerManager {
 
   replace(players: Player[]): void {
     this.players = players
+  }
+
+  resetScores(): void {
+    for (const player of this.players) {
+      player.points = 0
+      player.streak = 0
+      player.studyRound = 1
+    }
   }
 
   findById(socketId: string): Player | undefined {

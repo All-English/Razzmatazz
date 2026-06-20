@@ -3,16 +3,25 @@
   "logout": "Logout",
   "passwordPlaceholder": "Password",
   "quizz": {
-    "create": "Create Quizz",
-    "delete": "Delete quizz",
+    "create": "Create Quiz",
+    "delete": "Delete quiz",
     "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
-    "deleted": "Quizz deleted",
-    "import": "Import quizz from JSON",
-    "none": "No quizz created yet",
-    "notFound": "No quizz found",
-    "pleaseCreate": "Please create a quizz first",
-    "pleaseSelect": "Please select a quizz",
-    "startGame": "Start game"
+    "deleted": "Quiz deleted",
+    "import": "Import quiz from JSON",
+    "none": "No quiz created yet",
+    "notFound": "No quiz found",
+    "pleaseCreate": "Please create a quiz first",
+    "pleaseSelect": "Please select a quiz",
+    "startGame": "Start game",
+    "hasMismatchError": "Cannot start game: the selected quiz contains mismatched questions.",
+    "mismatchBadge": "Mismatch Error",
+    "mismatchTooltip": "This quiz has scrambled chunks that don't match the correct sentence. Edit the quiz to fix it before starting a game.",
+    "limitRange": "Limit question range",
+    "fromQuestion": "From question",
+    "toQuestion": "to",
+    "shuffle": "Shuffle questions",
+    "questionsCount": "{{count}} questions",
+    "changeQuizz": "Change Quiz"
   },
   "result": {
     "delete": "Delete result",
@@ -38,7 +47,7 @@
   },
   "tabs": {
     "play": "Play",
-    "quizz": "Quizz",
+    "quizz": "Quiz",
     "results": "Results"
   }
 }

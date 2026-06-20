@@ -1,4 +1,5 @@
 import { EVENTS } from "@razzia/common/constants"
+import { STATUS } from "@razzia/common/types/game/status"
 import GameWrapper from "@razzia/web/features/game/components/GameWrapper"
 import {
   socketClient,
@@ -12,16 +13,24 @@ import {
   isKeyOf,
 } from "@razzia/web/features/game/utils/constants"
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router"
+import { useEffect } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 
 const PlayerGamePage = () => {
   const navigate = useNavigate()
-  const { socket } = useSocket()
+  const { socket, isConnected } = useSocket()
   const { gameId: gameIdParam } = useParams({ from: "/party/$gameId" })
-  const { status, setPlayer, setGameId, setStatus, reset } = usePlayerStore()
+  const { status, setPlayer, setGameId, setInviteCode, setStatus, reset, resetStudyStats } =
+    usePlayerStore()
   const { setQuestionStates } = useQuestionStore()
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (isConnected && gameIdParam) {
+      socket.emit(EVENTS.PLAYER.RECONNECT, { gameId: gameIdParam })
+    }
+  }, [isConnected, gameIdParam, socket])
 
   useEvent("connect", () => {
     if (gameIdParam) {
@@ -33,20 +42,30 @@ const PlayerGamePage = () => {
     EVENTS.PLAYER.SUCCESS_RECONNECT,
     ({
       gameId: reconnectGameId,
+      inviteCode,
       status: reconnectStatus,
       player,
       currentQuestion,
     }) => {
       setGameId(reconnectGameId)
+      setInviteCode(inviteCode)
       setStatus(reconnectStatus.name, reconnectStatus.data)
       setPlayer(player)
       setQuestionStates(currentQuestion)
     },
   )
 
+  useEvent(EVENTS.PLAYER.UPDATE, (updatedPlayer) => {
+    setPlayer(updatedPlayer)
+  })
+
   useEvent(EVENTS.GAME.STATUS, ({ name, data }) => {
     if (name in GAME_STATE_COMPONENTS) {
       setStatus(name, data)
+    }
+    // New game starting — reset study stats from previous session
+    if (name === STATUS.SHOW_START) {
+      resetStudyStats()
     }
   })
 

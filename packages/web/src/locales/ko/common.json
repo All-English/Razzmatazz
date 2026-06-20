@@ -1,0 +1,21 @@
+{
+  "cancel": "취소",
+  "confirm": "확인",
+  "connecting": "연결 중...",
+  "delete": "삭제",
+  "exit": "나가기",
+  "language": {
+    "de": "독일어",
+    "en": "영어",
+    "es": "스페인어",
+    "fr": "프랑스어",
+    "it": "이탈리아어",
+    "ko": "한국어"
+  },
+  "loading": "로딩 중...",
+  "next": "다음",
+  "save": "저장",
+  "seconds": "초",
+  "skip": "건너뛰기",
+  "submit": "제출"
+}

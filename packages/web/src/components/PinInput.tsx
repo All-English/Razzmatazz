@@ -9,11 +9,18 @@ import {
 interface Props {
   value: string
   onChange: (_value: string) => void
+  onEnter?: () => void
   length?: number
   className?: string
 }
 
-const PinInput = ({ value, onChange, length = 6, className }: Props) => {
+const PinInput = ({
+  value,
+  onChange,
+  onEnter,
+  length = 4,
+  className,
+}: Props) => {
   const refs = useRef<Array<HTMLInputElement | null>>([])
 
   const padded = value.padEnd(length, " ").slice(0, length)
@@ -31,6 +38,11 @@ const PinInput = ({ value, onChange, length = 6, className }: Props) => {
 
   const handleKeyDown =
     (index: number) => (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter" && onEnter) {
+        onEnter()
+        return
+      }
+
       if (e.key === "Backspace") {
         e.preventDefault()
 

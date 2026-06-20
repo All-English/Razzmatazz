@@ -1,10 +1,12 @@
 import { EVENTS } from "@razzia/common/constants"
+import type { GameMode } from "@razzia/common/types/game"
 import { inviteCodeValidator } from "@razzia/common/validators/auth"
 import type { SocketContext } from "@razzia/socket/handlers/types"
 import { getQuizz } from "@razzia/socket/services/config"
 import Game from "@razzia/socket/services/game"
 import Registry from "@razzia/socket/services/registry"
 import { withGame } from "@razzia/socket/utils/game"
+import { isDerivationSuccessful } from "@razzia/common/utils/chunks"
 
 export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   const registry = Registry.getInstance()
@@ -42,7 +44,7 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     const game = registry.getPlayerGame(gameId, clientId)
 
     if (game) {
-      game.reconnect(socket)
+      game.reconnectPlayer(socket)
 
       return
     }
@@ -54,7 +56,7 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     const game = registry.getManagerGame(gameId, clientId)
 
     if (game) {
-      game.reconnect(socket)
+      game.reconnectManager(socket)
 
       return
     }
@@ -72,7 +74,22 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
       return
     }
 
-    const game = new Game(io, socket, quizz)
+    const hasMismatch = quizz.questions.some(
+      (q) =>
+        q.correctSentence.trim() !== "" &&
+        !isDerivationSuccessful(q.correctSentence, q.scrambledChunks),
+    )
+
+    if (hasMismatch) {
+      socket.emit(EVENTS.GAME.ERROR_MESSAGE, "manager:quizz.hasMismatchError")
+
+      return
+    }
+
+    // Clone the quizz to prevent mutating any cached copy in memory
+    const quizzCopy = JSON.parse(JSON.stringify(quizz)) as typeof quizz
+
+    const game = new Game(io, socket, quizzCopy)
     registry.addGame(game)
   })
 
@@ -93,7 +110,9 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
       return
     }
 
-    socket.emit(EVENTS.GAME.SUCCESS_ROOM, game.gameId)
+    const isRegistered = game.players.some((p) => p.clientId === clientId)
+
+    socket.emit(EVENTS.GAME.SUCCESS_ROOM, { gameId: game.gameId, isRegistered })
   })
 
   socket.on(EVENTS.PLAYER.LOGIN, ({ gameId, data }) =>
@@ -104,14 +123,31 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     withGame(gameId, socket, (game) => game.kickPlayer(socket, playerId)),
   )
 
-  socket.on(EVENTS.MANAGER.START_GAME, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.start(socket)),
+  socket.on(EVENTS.MANAGER.START_GAME, ({ gameId, mode, options }) =>
+    withGame(gameId, socket, (game) =>
+      game.start(socket, (mode as GameMode) || "competitive", options),
+    ),
   )
 
-  socket.on(EVENTS.PLAYER.SELECTED_ANSWER, ({ gameId, data }) =>
+  socket.on(EVENTS.PLAYER.SUBMIT_SENTENCE, ({ gameId, data }) =>
     withGame(gameId, socket, (game) =>
-      game.selectAnswer(socket, data.answerKey),
+      game.submitSentence(socket, data.submittedSentence, data.submittedChunks),
     ),
+  )
+
+  socket.on(EVENTS.PLAYER.STUDY_SUBMIT, ({ gameId, data }) =>
+    withGame(gameId, socket, (game) =>
+      game.studySubmit(
+        socket,
+        data.questionIndex,
+        data.submittedSentence,
+        data.submittedChunks,
+      ),
+    ),
+  )
+
+  socket.on(EVENTS.PLAYER.STUDY_RESTART, ({ gameId }) =>
+    withGame(gameId, socket, (game) => game.studyRestart(socket)),
   )
 
   socket.on(EVENTS.MANAGER.ABORT_QUIZ, ({ gameId }) =>
@@ -126,12 +162,57 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     withGame(gameId, socket, (game) => game.showLeaderboard()),
   )
 
+  socket.on(EVENTS.MANAGER.END_GAME_EARLY, ({ gameId }) =>
+    withGame(gameId, socket, (game) => game.endGameEarly(socket)),
+  )
+
+  socket.on(EVENTS.MANAGER.PLAY_AGAIN, ({ gameId }) =>
+    withGame(gameId, socket, (game) => game.playAgain(socket)),
+  )
+
+  socket.on(EVENTS.MANAGER.CHANGE_QUIZ, ({ gameId, quizzId }) =>
+    withGame(gameId, socket, (game) => {
+      const quizzList = getQuizz()
+      const quizz = quizzList.find((q) => q.id === quizzId)
+
+      if (!quizz) {
+        socket.emit(EVENTS.GAME.ERROR_MESSAGE, "errors:quizz.notFound")
+
+        return
+      }
+
+      const hasMismatch = quizz.questions.some(
+        (q) =>
+          q.correctSentence.trim() !== "" &&
+          !isDerivationSuccessful(q.correctSentence, q.scrambledChunks),
+      )
+
+      if (hasMismatch) {
+        socket.emit(EVENTS.GAME.ERROR_MESSAGE, "manager:quizz.hasMismatchError")
+
+        return
+      }
+
+      game.updateQuiz(quizz)
+    }),
+  )
+
   socket.on(EVENTS.MANAGER.LEAVE, ({ gameId }) => {
     const game = registry.getManagerGame(gameId, clientId)
 
     if (game) {
       console.log(`Manager left game ${game.inviteCode}`)
       handleManagerLeave(game)
+    }
+  })
+
+  socket.on(EVENTS.MANAGER.EXIT_GAME, ({ gameId }: { gameId: string }) => {
+    const game = registry.getManagerGame(gameId, clientId)
+
+    if (game) {
+      console.log(`Manager explicitly exited game ${game.inviteCode}`)
+      io.to(game.gameId).emit(EVENTS.GAME.RESET, "game:waitingForPlayers")
+      registry.removeGame(game.gameId)
     }
   })
 

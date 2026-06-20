@@ -1,6 +1,12 @@
 {
   "addAnswerPlaceholder": "Ajouter une réponse...",
   "addQuestion": "Ajouter une question",
+  "autoGenerate": "Auto-générer",
+  "storyImport": "Importer une histoire",
+  "storyImportTitle": "Importation d'histoire / texte",
+  "storyImportDescription": "Collez une histoire, un paragraphe ou un texte brut. L'éditeur le divisera automatiquement en phrases, générera des segments brouillés pour chaque phrase et les ajoutera comme nouvelles questions.",
+  "storyImportPlaceholder": "Il était une fois, un petit oiseau...",
+  "importStoryButton": "Importer les phrases",
   "answersCountSuffix": " réponses",
   "deleteQuestion": "Supprimer la question",
   "noQuestionYet": "Aucune question pour l'instant",
@@ -23,7 +29,11 @@
     "mediaUrlPlaceholder": "Entrez l'URL...",
     "placeholder": "Commencez à écrire votre question..."
   },
-  "quizzSaved": "Quizz enregistré avec succès",
-  "quizzUpdated": "Quizz mis à jour avec succès",
-  "titleQuizzPlaceholder": "Titre du quizz..."
+  "quizzSaved": "Quiz enregistré avec succès",
+  "quizzUpdated": "Quiz mis à jour avec succès",
+  "titleQuizzPlaceholder": "Titre du quiz...",
+  "mismatchWarning": "Les segments brouillés ne correspondent pas à la phrase correcte. Veuillez vérifier l'orthographe, la ponctuation ou la formulation.",
+  "saveMismatchConfirm": "Attention : Les segments pour la/les question(s) {{questions}} ne correspondent pas à leurs phrases correctes. Si vous enregistrez, les joueurs risquent d'être mal notés.\n\nVoulez-vous enregistrer quand même ?",
+  "importMismatchWarning": "Avertissement d'importation : Les segments pour la/les question(s) {{questions}} ne correspondent pas à leurs phrases correctes. Veuillez les vérifier.",
+  "previewMismatchPlaceholder": "Impossible d'afficher l'aperçu : les segments brouillés ne correspondent pas à la phrase correcte."
 }

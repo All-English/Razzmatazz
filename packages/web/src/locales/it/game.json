@@ -1,5 +1,14 @@
 {
   "correct": "Bravo!",
+  "correctMessages": [
+    "Bravo!",
+    "Grande!",
+    "Continua così!",
+    "Fantastico!",
+    "Ben fatto!",
+    "Perfetto!",
+    "Eccellente!"
+  ],
   "gamePinLabel": "PIN del gioco:",
   "hud": {
     "answers": "Risposte",
@@ -20,8 +29,36 @@
   "resultBehind": ", dietro ",
   "resultTop": "Hai terminato ",
   "startGame": "Inizia il gioco",
-  "usernamePlaceholder": "Nome utente qui",
+  "usernamePlaceholder": "Nome giocatore",
   "waitingForAnswers": "In attesa delle risposte dei giocatori",
   "waitingForPlayers": "In attesa di giocatori",
-  "wrong": "Peccato"
+  "wrong": "Peccato",
+  "wrongMessages": [
+    "Continua a provare!",
+    "Non proprio!",
+    "Riprova!",
+    "Quasi!",
+    "Non mollare!",
+    "Ce la puoi fare!"
+  ],
+  "studyCompleteHeader": "Ottimo lavoro!",
+  "studyCompleteSub": "Hai finito tutte le domande! 🎉",
+  "studyTryAgain": "Non proprio – riprova!",
+  "studyTimeLabel": "Il tuo tempo: {{time}}",
+  "bestTimeLabel": "Tempo migliore: {{time}}",
+  "newPersonalBest": "🎉 Nuovo record personale!",
+  "tryToBeatBest": "Puoi battere il tuo tempo migliore?",
+  "playAgain": "Gioca ancora",
+  "studyScoreLabel": "Il tuo punteggio: {{score}} pts",
+  "bestScoreLabel": "Punteggio migliore: {{score}} pts",
+  "newPersonalBestScore": "🎉 Nuovo punteggio record!",
+  "tryToBeatBestScore": "Riesci a battere il tuo punteggio migliore?",
+  "currentAttempt": "Tentativo corrente",
+  "personalBests": "Record personali",
+  "historyTitle": "Cronologia di pratica",
+  "roundLabel": "Round #{{round}}",
+  "personalBestBadge": "Migliore",
+  "waitingForHost": "In attesa dell'host…",
+  "waitingForNextGame": "In attesa dell'inizio del prossimo gioco…",
+  "backToLobby": "Torna alla lobby"
 }

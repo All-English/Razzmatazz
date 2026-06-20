@@ -87,6 +87,10 @@ class Registry {
 
   removeGame(gameId: string): boolean {
     const initialLength = this.games.length
+    const game = this.getGameById(gameId)
+    if (game) {
+      game.saveStudyResults()
+    }
     this.games = this.games.filter((g) => g.gameId !== gameId)
     this.emptyGames = this.emptyGames.filter((g) => g.game.gameId !== gameId)
 
@@ -124,6 +128,9 @@ class Registry {
     }
 
     const removed = this.emptyGames.filter((g) => !stillEmpty.includes(g))
+    for (const item of removed) {
+      item.game.saveStudyResults()
+    }
     const removedGameIds = removed.map((r) => r.game.gameId)
 
     this.games = this.games.filter((g) => !removedGameIds.includes(g.gameId))

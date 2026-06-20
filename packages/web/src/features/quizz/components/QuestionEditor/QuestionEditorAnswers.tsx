@@ -1,122 +1,177 @@
-import {
-  ANSWERS_COLORS,
-  ANSWERS_LABELS,
-} from "@razzia/web/features/game/utils/constants"
 import { useQuizzEditor } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
-import clsx from "clsx"
-import { Check, Minus, Plus } from "lucide-react"
+import {
+  autoGenerateChunks,
+  isDerivationSuccessful,
+} from "@razzia/web/features/quizz/utils/chunks"
+import { AlertTriangle, Minus, Plus, Wand2 } from "lucide-react"
+import type { ChangeEvent } from "react"
 import { useTranslation } from "react-i18next"
+
+const CHUNK_COLORS = [
+  "bg-[#E69F00]",
+  "bg-[#56B4E9]",
+  "bg-[#3DBFA0]",
+  "bg-[#CC79A7]",
+  "bg-[#9B59B6]",
+  "bg-[#E74C3C]",
+  "bg-[#2ECC71]",
+  "bg-[#F39C12]",
+]
 
 const QuestionEditorAnswers = () => {
   const { currentQuestion, currentIndex, updateQuestion } = useQuizzEditor()
   const { t } = useTranslation()
 
-  const updateAnswer = (index: number, value: string) => {
-    const next = [...currentQuestion.answers]
+  const handleChangeCorrectSentence = (e: ChangeEvent<HTMLInputElement>) => {
+    updateQuestion(currentIndex, { correctSentence: e.target.value })
+  }
+
+  const isMismatched =
+    currentQuestion.correctSentence.trim() !== "" &&
+    !isDerivationSuccessful(
+      currentQuestion.correctSentence,
+      currentQuestion.scrambledChunks,
+    )
+
+  const updateChunk = (index: number, value: string) => {
+    const next = [...currentQuestion.scrambledChunks]
     next[index] = value
-    updateQuestion(currentIndex, { answers: next })
+    updateQuestion(currentIndex, { scrambledChunks: next })
   }
 
-  const addAnswer = () => {
-    if (currentQuestion.answers.length >= 4) {
-      return
-    }
-
-    updateQuestion(currentIndex, { answers: [...currentQuestion.answers, ""] })
-  }
-
-  const removeAnswer = () => {
-    if (currentQuestion.answers.length <= 2) {
-      return
-    }
-
-    const next = currentQuestion.answers.slice(0, -1)
-    const maxIndex = next.length - 1
-    const nextSolution = currentQuestion.solutions.filter((s) => s <= maxIndex)
-
+  const addChunk = () => {
     updateQuestion(currentIndex, {
-      answers: next,
-      solutions: nextSolution.length > 0 ? nextSolution : [0],
+      scrambledChunks: [...currentQuestion.scrambledChunks, ""],
     })
   }
 
-  const toggleSolution = (index: number) => {
-    const current = currentQuestion.solutions
+  const removeChunk = () => {
+    if (currentQuestion.scrambledChunks.length <= 2) {
+      return
+    }
 
-    if (current.includes(index)) {
-      const next = current.filter((s) => s !== index)
-      updateQuestion(currentIndex, {
-        solutions: next.length > 0 ? next : [index],
-      })
-    } else {
-      updateQuestion(currentIndex, { solutions: [...current, index] })
+    updateQuestion(currentIndex, {
+      scrambledChunks: currentQuestion.scrambledChunks.slice(0, -1),
+    })
+  }
+
+  const handleAutoGenerateChunks = () => {
+    const generated = autoGenerateChunks(currentQuestion.correctSentence)
+
+    if (generated.length > 0) {
+      updateQuestion(currentIndex, { scrambledChunks: generated })
     }
   }
 
   return (
-    <div className="z-10 flex flex-col gap-3">
-      <div className="flex items-center justify-between px-1">
-        <div className="rounded-lg bg-white px-2 py-1 text-sm font-semibold text-gray-500">
-          {currentQuestion.answers.length}
-          {t("quizz:answersCountSuffix")}
+    <div className="z-10 flex flex-col gap-4">
+      {/* Correct Sentence */}
+      <div>
+        <label className="mb-1 block px-1 text-sm font-semibold text-white drop-shadow-md">
+          {t("quizz:correctSentenceLabel")}
+        </label>
+        <div className="rounded-xl bg-emerald-500 shadow-sm">
+          <input
+            className="w-full bg-transparent p-4 text-lg font-semibold text-white placeholder-white/60 outline-none"
+            placeholder={t("quizz:correctSentencePlaceholder")}
+            value={currentQuestion.correctSentence}
+            onChange={handleChangeCorrectSentence}
+          />
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={removeAnswer}
-            disabled={currentQuestion.answers.length <= 2}
-            className="flex size-7 items-center justify-center rounded-lg bg-gray-200 text-gray-600 hover:bg-gray-300 disabled:opacity-40"
-          >
-            <Minus className="size-4" />
-          </button>
-          <button
-            onClick={addAnswer}
-            disabled={currentQuestion.answers.length >= 4}
-            className="flex size-7 items-center justify-center rounded-lg bg-gray-200 text-gray-600 hover:bg-gray-300 disabled:opacity-40"
-          >
-            <Plus className="size-4" />
-          </button>
-        </div>
+        {isMismatched && (
+          <div className="mt-2 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/15 p-3 text-red-200 backdrop-blur-sm">
+            <AlertTriangle className="mt-0.5 size-5 shrink-0 text-red-400" />
+            <p className="text-sm leading-relaxed font-medium">
+              {t("quizz:mismatchWarning")}
+            </p>
+          </div>
+        )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        {currentQuestion.answers.map((answer, i) => {
-          const isSelected = currentQuestion.solutions.includes(i)
+      {/* Chunks */}
+      <div>
+        <div className="flex items-center justify-between px-1">
+          <label className="text-sm font-semibold text-white drop-shadow-md">
+            {t("quizz:chunksLabel")} ({currentQuestion.scrambledChunks.length})
+          </label>
+          <div className="flex items-center gap-2">
+            {currentQuestion.correctSentence.trim() && (
+              <button
+                onClick={handleAutoGenerateChunks}
+                className="flex h-7 items-center justify-center gap-1 rounded-lg border border-indigo-500/30 bg-indigo-600 px-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95"
+              >
+                <Wand2 className="size-3.5" />
+                {t("quizz:autoGenerate")}
+              </button>
+            )}
+            <button
+              onClick={removeChunk}
+              disabled={currentQuestion.scrambledChunks.length <= 2}
+              className="flex size-7 items-center justify-center rounded-lg bg-gray-200 text-gray-600 hover:bg-gray-300 disabled:opacity-40"
+            >
+              <Minus className="size-4" />
+            </button>
+            <button
+              onClick={addChunk}
+              className="flex size-7 items-center justify-center rounded-lg bg-gray-200 text-gray-600 hover:bg-gray-300"
+            >
+              <Plus className="size-4" />
+            </button>
+          </div>
+        </div>
 
-          return (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {currentQuestion.scrambledChunks.map((chunk, i) => (
             <div
               key={i}
-              className={clsx(
-                "flex items-center gap-3 rounded-2xl px-4 py-6",
-                ANSWERS_COLORS[i],
-              )}
+              className={`flex items-center gap-2 rounded-xl px-4 py-3 ${CHUNK_COLORS[i % CHUNK_COLORS.length]}`}
             >
-              <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-black/20 text-sm font-bold text-white md:size-8 md:text-base">
-                {ANSWERS_LABELS[i]}
+              <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-black/20 text-xs font-bold text-white">
+                {i + 1}
               </span>
-              <div className="flex flex-1 items-center justify-between gap-1.5 drop-shadow-md">
-                <input
-                  className="w-full bg-transparent font-semibold text-white placeholder-white/70 outline-none"
-                  placeholder={t("quizz:addAnswerPlaceholder")}
-                  value={answer}
-                  onChange={(e) => updateAnswer(i, e.target.value)}
-                />
-                <button
-                  type="button"
-                  onClick={() => toggleSolution(i)}
-                  className={clsx(
-                    "flex size-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-                    isSelected
-                      ? "border-white bg-white text-green-600"
-                      : "border-white/60 bg-transparent",
-                  )}
-                >
-                  {isSelected && <Check className="size-4 stroke-5" />}
-                </button>
-              </div>
+              <input
+                className="w-32 bg-transparent font-semibold text-white placeholder-white/60 outline-none sm:w-40"
+                placeholder={t("quizz:chunkPlaceholder")}
+                value={chunk}
+                onChange={(e) => updateChunk(i, e.target.value)}
+              />
             </div>
-          )
-        })}
+          ))}
+        </div>
       </div>
+
+      {/* Preview */}
+      {currentQuestion.scrambledChunks.some((c) => c.trim()) && (
+        <div className="z-10 rounded-xl bg-white/10 p-3 backdrop-blur-sm">
+          <p className="mb-1 text-xs font-semibold tracking-wider text-white/60 uppercase">
+            {t("quizz:correctChunksLabel")}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {isMismatched ? (
+              <span className="text-sm text-red-200 italic">
+                {t("quizz:previewMismatchPlaceholder")}
+              </span>
+            ) : (
+              currentQuestion.correctChunks
+                .filter((c) => c.trim())
+                .map((chunk, i) => {
+                  const originalIndex =
+                    currentQuestion.scrambledChunks.indexOf(chunk)
+                  const colorIndex = originalIndex !== -1 ? originalIndex : i
+
+                  return (
+                    <span
+                      key={i}
+                      className={`rounded-lg px-3 py-1 text-sm font-bold text-white transition-all duration-200 ${CHUNK_COLORS[colorIndex % CHUNK_COLORS.length]}`}
+                    >
+                      {chunk}
+                    </span>
+                  )
+                })
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

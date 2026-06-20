@@ -1,15 +1,67 @@
-import {
-  ANSWERS_COLORS,
-  ANSWERS_LABELS,
-} from "@razzia/web/features/game/utils/constants"
 import { useResultModal } from "@razzia/web/features/manager/contexts/result-modal-context"
-import clsx from "clsx"
 import { Check, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
+const formatTime = (totalSeconds: number) => {
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  if (minutes > 0) {
+    return `${minutes}m ${seconds}s`
+  }
+  return `${seconds}s`
+}
+
 const ResultModalTable = () => {
-  const { questionResult, getPlayerPoints } = useResultModal()
+  const { result, questionResult, roundResult, getPlayerPoints } =
+    useResultModal()
   const { t } = useTranslation()
+
+  if (result.mode === "study") {
+    return (
+      <table className="w-full text-sm">
+        <thead className="sticky top-0 shadow-sm">
+          <tr className="border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            <th className="px-5 py-2.5">{t("manager:result.table.player")}</th>
+            <th className="px-4 py-2.5">
+              {t("manager:result.stats.averageTime", "Time")}
+            </th>
+            <th className="px-4 py-2.5 text-right">
+              {t("manager:result.table.points")}
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {result.players.map((p, i) => {
+            const playerRound = roundResult?.playerResults.find(
+              (pr) => pr.playerName === p.username,
+            )
+
+            return (
+              <tr key={i} className="hover:bg-gray-50">
+                <td className="px-5 py-2.5 font-medium">{p.username}</td>
+                <td className="px-4 py-2.5">
+                  {playerRound ? (
+                    <span className="text-xs font-medium text-gray-700">
+                      {formatTime(playerRound.time)}
+                    </span>
+                  ) : (
+                    <span className="text-xs font-medium text-gray-400">—</span>
+                  )}
+                </td>
+                <td className="px-4 py-2.5 text-right font-semibold text-gray-700">
+                  {playerRound ? (
+                    <span>{playerRound.score} pts</span>
+                  ) : (
+                    <span className="font-normal text-gray-400">—</span>
+                  )}
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
+  }
 
   return (
     <table className="w-full text-sm">
@@ -26,35 +78,31 @@ const ResultModalTable = () => {
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-100">
-        {questionResult.playerAnswers.map((pa, i) => {
+        {questionResult?.playerAnswers.map((pa, i) => {
+          const cleanStr = (s: string) =>
+            s.toLowerCase().replace(/[\p{P}\p{S}\s]/gu, "")
           const isCorrect =
-            pa.answerId !== null &&
-            questionResult.solutions.includes(pa.answerId)
-          const answerLabel =
-            pa.answerId !== null ? ANSWERS_LABELS[pa.answerId % 4] : null
+            pa.submittedSentence !== null &&
+            questionResult &&
+            cleanStr(pa.submittedSentence) ===
+              cleanStr(questionResult.correctSentence)
 
           return (
             <tr key={i} className="hover:bg-gray-50">
               <td className="px-5 py-2.5 font-medium">{pa.playerName}</td>
               <td className="px-4 py-2.5">
-                {pa.answerId !== null && answerLabel ? (
-                  <span
-                    className={clsx(
-                      "inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-white",
-                      ANSWERS_COLORS[pa.answerId % 4],
-                    )}
-                  >
-                    <span className="font-bold">{answerLabel}</span>
-                    <span className="max-w-30 truncate">
-                      {questionResult.answers[pa.answerId]}
-                    </span>
+                {pa.submittedSentence !== null ? (
+                  <span className="max-w-48 truncate text-xs text-gray-700">
+                    {pa.submittedSentence}
                   </span>
                 ) : (
                   <span className="text-xs text-gray-400">—</span>
                 )}
               </td>
               <td className="px-4 py-2.5">
-                {isCorrect ? (
+                {pa.submittedSentence === null ? (
+                  <span className="text-xs text-gray-400">—</span>
+                ) : isCorrect ? (
                   <span className="flex items-center gap-1 text-green-600">
                     <Check className="size-3.5" />{" "}
                     {t("manager:result.table.correct")}

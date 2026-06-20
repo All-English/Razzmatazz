@@ -11,6 +11,7 @@ export const EVENTS = {
     UPDATE_QUESTION: "game:updateQuestion",
     PLAYER_ANSWER: "game:playerAnswer",
     CREATE: "game:create",
+    STUDY_WRONG: "game:studyWrong",
   },
   PLAYER: {
     SUCCESS_RECONNECT: "player:successReconnect",
@@ -19,7 +20,10 @@ export const EVENTS = {
     LOGIN: "player:login",
     RECONNECT: "player:reconnect",
     LEAVE: "player:leave",
-    SELECTED_ANSWER: "player:selectedAnswer",
+    SUBMIT_SENTENCE: "player:submitSentence",
+    STUDY_SUBMIT: "player:studySubmit",
+    STUDY_RESTART: "player:studyRestart",
+    UPDATE: "player:update",
   },
   MANAGER: {
     SUCCESS_RECONNECT: "manager:successReconnect",
@@ -41,6 +45,11 @@ export const EVENTS = {
     GET_CONFIG: "manager:getConfig",
     LOGOUT: "manager:logout",
     UNAUTHORIZED: "manager:unauthorized",
+    STUDY_PROGRESS: "manager:studyProgress",
+    EXIT_GAME: "manager:exitGame",
+    END_GAME_EARLY: "manager:endGameEarly",
+    PLAY_AGAIN: "manager:playAgain",
+    CHANGE_QUIZ: "manager:changeQuiz",
   },
   QUIZZ: {
     GET: "quizz:get",
@@ -66,43 +75,28 @@ export const MEDIA_TYPES = {
 } as const
 
 export const EXAMPLE_QUIZZ = {
-  subject: "Example Quizz",
+  subject: "ESL Sentence Builder - Example",
   questions: [
     {
-      question: "What is good answer ?",
-      answers: ["No", "Good answer", "No", "No"],
-      solutions: [1],
+      koreanPrompt: "그것은 큰 가스 덩어리야.",
+      scrambledChunks: ["of gas.", "It", "a big ball", "is"],
+      correctSentence: "It is a big ball of gas.",
       cooldown: 5,
-      time: 15,
+      time: 30,
     },
     {
-      question: "What is good answer with image ?",
-      answers: ["No", "No", "No", "Good answer"],
-      media: {
-        type: MEDIA_TYPES.IMAGE,
-        url: "https://placehold.co/600x400.png",
-      },
-      solutions: [3],
+      koreanPrompt: "나는 학교에 갑니다.",
+      scrambledChunks: ["go", "I", "school.", "to"],
+      correctSentence: "I go to school.",
       cooldown: 5,
-      time: 20,
+      time: 30,
     },
     {
-      question: "What is good answer with two answers ?",
-      answers: ["Good answer", "No"],
-      media: {
-        type: MEDIA_TYPES.IMAGE,
-        url: "https://placehold.co/600x400.png",
-      },
-      solutions: [0],
+      koreanPrompt: "그녀는 빨간 사과를 좋아해요.",
+      scrambledChunks: ["red apples.", "She", "likes"],
+      correctSentence: "She likes red apples.",
       cooldown: 5,
-      time: 20,
-    },
-    {
-      question: "Which of these are primary colors ?",
-      answers: ["Red", "Green", "Blue", "Yellow"],
-      solutions: [0, 2, 3],
-      cooldown: 5,
-      time: 20,
+      time: 30,
     },
   ],
 } as const

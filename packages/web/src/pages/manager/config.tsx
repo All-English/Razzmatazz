@@ -8,19 +8,22 @@ import {
 } from "@razzia/web/features/game/contexts/socket-context"
 import { useManagerStore } from "@razzia/web/features/game/stores/manager"
 import Configurations from "@razzia/web/features/manager/components/configurations"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, useNavigate, Navigate } from "@tanstack/react-router"
 
 const ManagerConfigPage = () => {
   const { isConnected } = useSocket()
-  const { setGameId, setStatus, setConfig, config } = useManagerStore()
+  const { setGameId, setStatus, setConfig, config, setInviteCode, setActiveQuizzId } =
+    useManagerStore()
   const navigate = useNavigate()
 
   useEvent(EVENTS.MANAGER.CONFIG, (data) => {
     setConfig(data)
   })
 
-  useEvent(EVENTS.MANAGER.GAME_CREATED, ({ gameId, inviteCode }) => {
+  useEvent(EVENTS.MANAGER.GAME_CREATED, ({ gameId, inviteCode, quizzId }) => {
     setGameId(gameId)
+    setInviteCode(inviteCode)
+    setActiveQuizzId(quizzId)
     setStatus(STATUS.SHOW_ROOM, {
       text: "game:waitingForPlayers",
       inviteCode,
@@ -37,7 +40,7 @@ const ManagerConfigPage = () => {
   }
 
   if (!config) {
-    return navigate({ to: "/manager" })
+    return <Navigate to="/manager" />
   }
 
   return (

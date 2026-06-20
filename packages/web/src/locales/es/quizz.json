@@ -1,6 +1,12 @@
 {
   "addAnswerPlaceholder": "Añadir una respuesta...",
   "addQuestion": "Añadir pregunta",
+  "autoGenerate": "Auto-generar",
+  "storyImport": "Importar historia",
+  "storyImportTitle": "Importación de historia / texto",
+  "storyImportDescription": "Pega una historia, párrafo o texto sin formato. El editor lo dividirá automáticamente en oraciones, generará segmentos desordenados para cada oración y los agregará como nuevas preguntas.",
+  "storyImportPlaceholder": "Había una vez, un pequeño pájaro...",
+  "importStoryButton": "Importar oraciones",
   "answersCountSuffix": " respuestas",
   "deleteQuestion": "Eliminar pregunta",
   "noQuestionYet": "Aún no hay preguntas",
@@ -25,5 +31,9 @@
   },
   "quizzSaved": "Cuestionario guardado con éxito",
   "quizzUpdated": "Cuestionario actualizado con éxito",
-  "titleQuizzPlaceholder": "Título del cuestionario..."
+  "titleQuizzPlaceholder": "Título del cuestionario...",
+  "mismatchWarning": "Los fragmentos mezclados no coinciden con la frase correcta. Por favor, comprueba la ortografía, la puntuación o el redactado.",
+  "saveMismatchConfirm": "Advertencia: Los fragmentos de la(s) pregunta(s) {{questions}} no coinciden con sus frases correctas. Si guardas, los jugadores podrían recibir puntuaciones incorrectas.\n\n¿Quieres guardar de todos modos?",
+  "importMismatchWarning": "Advertencia de importación: Los fragmentos de la(s) pregunta(s) {{questions}} no coinciden con sus frases correctas. Por favor, revísalas.",
+  "previewMismatchPlaceholder": "No se puede mostrar la vista previa: los fragmentos mezclados no coinciden con la frase correcta."
 }

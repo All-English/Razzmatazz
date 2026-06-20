@@ -3,8 +3,14 @@ import type {
   GameResult,
   GameResultMeta,
   QuizzWithId,
+  Question,
 } from "@razzia/common/types/game"
 import { quizzValidator } from "@razzia/common/validators/quizz"
+import {
+  isDerivationSuccessful,
+  deriveCorrectChunks,
+  isValidChunksOrder,
+} from "@razzia/common/utils/chunks"
 import { normalizeFilename } from "@razzia/socket/utils/game"
 import fs from "fs"
 import { resolve } from "path"
@@ -73,7 +79,15 @@ export const getGameConfig = (): GameConfig => {
 }
 
 export const getQuizzMeta = () =>
-  getQuizz().map(({ id, subject }) => ({ id, subject }))
+  getQuizz().map(({ id, subject, questions }) => {
+    const hasMismatch = questions.some(
+      (q) =>
+        q.correctSentence.trim() !== "" &&
+        !isDerivationSuccessful(q.correctSentence, q.scrambledChunks),
+    )
+
+    return { id, subject, hasMismatch, questionCount: questions.length }
+  })
 
 export const getQuizzById = (id: string) => {
   const filePath = getPath(`quizz/${id}.json`)
@@ -83,7 +97,35 @@ export const getQuizzById = (id: string) => {
   }
 
   const data = fs.readFileSync(filePath, "utf-8")
-  const result = quizzValidator.safeParse(JSON.parse(data))
+  const parsed = JSON.parse(data) as { questions?: Array<Partial<Question>> }
+  const questionsBefore = parsed.questions ? JSON.stringify(parsed.questions) : ""
+
+  if (parsed.questions && Array.isArray(parsed.questions)) {
+    parsed.questions = parsed.questions.map((q) => {
+      if (
+        q.correctSentence &&
+        q.scrambledChunks &&
+        q.correctChunks &&
+        (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
+          q.correctChunks.length !== q.scrambledChunks.length)
+      ) {
+        const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
+        if (healed.length > 0) {
+          return { ...q, correctChunks: healed }
+        }
+      }
+      return q
+    })
+  }
+
+  const modified = parsed.questions ? JSON.stringify(parsed.questions) !== questionsBefore : false
+
+  if (modified) {
+    fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2))
+    console.info(`Auto-healed invalid correctChunks in quizz config "${id}.json"`)
+  }
+
+  const result = quizzValidator.safeParse(parsed)
 
   if (!result.success) {
     throw new Error(`Invalid quizz "${id}"`)
@@ -107,7 +149,35 @@ export const getQuizz = () => {
     const quizz: QuizzWithId[] = files.flatMap((file) => {
       const data = fs.readFileSync(getPath(`quizz/${file}`), "utf-8")
       const id = file.replace(".json", "")
-      const result = quizzValidator.safeParse(JSON.parse(data))
+      const parsed = JSON.parse(data) as { questions?: Array<Partial<Question>> }
+      const questionsBefore = parsed.questions ? JSON.stringify(parsed.questions) : ""
+
+      if (parsed.questions && Array.isArray(parsed.questions)) {
+        parsed.questions = parsed.questions.map((q) => {
+          if (
+            q.correctSentence &&
+            q.scrambledChunks &&
+            q.correctChunks &&
+            (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
+              q.correctChunks.length !== q.scrambledChunks.length)
+          ) {
+            const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
+            if (healed.length > 0) {
+              return { ...q, correctChunks: healed }
+            }
+          }
+          return q
+        })
+      }
+
+      const modified = parsed.questions ? JSON.stringify(parsed.questions) !== questionsBefore : false
+
+      if (modified) {
+        fs.writeFileSync(getPath(`quizz/${file}`), JSON.stringify(parsed, null, 2))
+        console.info(`Auto-healed invalid correctChunks in quizz config "${file}"`)
+      }
+
+      const result = quizzValidator.safeParse(parsed)
 
       if (!result.success) {
         console.warn(`Invalid quizz config "${file}":`, result.error.issues)
@@ -118,7 +188,7 @@ export const getQuizz = () => {
       return [{ id, ...result.data }]
     })
 
-    return quizz
+    return quizz.sort((a, b) => a.subject.localeCompare(b.subject))
   } catch (error) {
     console.error("Failed to read quizz config:", error)
 
@@ -131,6 +201,19 @@ export const updateQuizz = (id: string, data: unknown): { id: string } => {
 
   if (!result.success) {
     throw new Error(result.error.issues[0].message)
+  }
+
+  // Check for duplicate title (excluding itself)
+  const existing = getQuizz()
+  const isDuplicate = existing.some(
+    (q) =>
+      q.id !== id &&
+      q.subject.toLowerCase().trim() ===
+        result.data.subject.toLowerCase().trim(),
+  )
+
+  if (isDuplicate) {
+    throw new Error("errors:quizz.duplicateTitle")
   }
 
   const oldPath = getPath(`quizz/${id}.json`)
@@ -190,6 +273,7 @@ export const getResultsMeta = (): GameResultMeta[] => {
         subject: result.subject,
         date: result.date,
         playerCount: result.players.length,
+        mode: result.mode ?? "competitive",
       }
     } catch {
       return null
@@ -233,6 +317,18 @@ export const saveQuizz = (data: unknown): { id: string } => {
 
   if (!result.success) {
     throw new Error(result.error.issues[0].message)
+  }
+
+  // Check for duplicate title
+  const existing = getQuizz()
+  const isDuplicate = existing.some(
+    (q) =>
+      q.subject.toLowerCase().trim() ===
+      result.data.subject.toLowerCase().trim(),
+  )
+
+  if (isDuplicate) {
+    throw new Error("errors:quizz.duplicateTitle")
   }
 
   const id = normalizeFilename(result.data.subject)

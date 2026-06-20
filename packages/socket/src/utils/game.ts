@@ -26,7 +26,7 @@ export const withGame = (
   callback(game)
 }
 
-export const createInviteCode = (length = 6) => {
+export const createInviteCode = (length = 4) => {
   let result = ""
   const characters = "0123456789"
   const charactersLength = characters.length

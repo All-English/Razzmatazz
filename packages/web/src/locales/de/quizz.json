@@ -1,6 +1,12 @@
 {
   "addAnswerPlaceholder": "Antwort hinzufügen...",
   "addQuestion": "Frage hinzufügen",
+  "autoGenerate": "Auto-Generierung",
+  "storyImport": "Geschichte importieren",
+  "storyImportTitle": "Geschichts- / Textimport",
+  "storyImportDescription": "Fügen Sie eine Geschichte, einen Absatz oder Rohtext ein. Der Editor teilt den Text automatisch in Sätze auf, generiert durcheinandergebrachte Textabschnitte für jeden Satz und fügt diese als neue Fragen hinzu.",
+  "storyImportPlaceholder": "Es war einmal ein kleiner Vogel...",
+  "importStoryButton": "Sätze importieren",
   "answersCountSuffix": " Antworten",
   "deleteQuestion": "Frage löschen",
   "noQuestionYet": "Noch keine Fragen",
@@ -25,5 +31,9 @@
   },
   "quizzSaved": "Quiz erfolgreich gespeichert",
   "quizzUpdated": "Quiz erfolgreich aktualisiert",
-  "titleQuizzPlaceholder": "Quiz-Titel..."
+  "titleQuizzPlaceholder": "Quiz-Titel...",
+  "mismatchWarning": "Die gemischten Teile passen nicht zum korrekten Satz. Bitte überprüfe Rechtschreibung, Zeichensetzung oder Wortwahl.",
+  "saveMismatchConfirm": "Warnung: Die Segmente für Frage(n) {{questions}} stimmen nicht mit den korrekten Sätzen überein. Wenn du speicherst, werden Spieler möglicherweise falsch bewertet.\n\nMöchtest du trotzdem speichern?",
+  "importMismatchWarning": "Importwarnung: Die Segmente für Frage(n) {{questions}} stimmen nicht mit den korrekten Sätzen überein. Bitte überprüfe sie.",
+  "previewMismatchPlaceholder": "Vorschau kann nicht angezeigt werden: Die gemischten Teile passen nicht zum korrekten Satz."
 }

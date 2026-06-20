@@ -20,7 +20,7 @@ const Background = ({ children }: PropsWithChildren) => (
     >
       <GithubIcon size={14} />
       {/* oxlint-disable-next-line no-undef */}
-      Razzia - v{__APP_VERSION__}
+      Razzmatazz - v{__APP_VERSION__}
     </a>
   </section>
 )

@@ -7,11 +7,13 @@ export interface Player {
   username: string
   points: number
   streak: number
+  studyRound?: number
 }
 
 export interface Answer {
   playerId: string
-  answerId: number
+  submittedSentence: string
+  submittedChunks: string[]
   points: number
 }
 
@@ -25,10 +27,11 @@ export interface QuestionMedia {
 }
 
 export interface Question {
-  question: string
+  koreanPrompt: string
+  scrambledChunks: string[]
+  correctChunks: string[]
+  correctSentence: string
   media?: QuestionMedia
-  answers: string[]
-  solutions: number[]
   cooldown: number
   time: number
 }
@@ -43,6 +46,8 @@ export type QuizzWithId = Quizz & { id: string }
 export interface QuizzMeta {
   id: string
   subject: string
+  hasMismatch?: boolean
+  questionCount?: number
 }
 
 export interface GameUpdateQuestion {
@@ -52,7 +57,7 @@ export interface GameUpdateQuestion {
 
 export interface PlayerAnswerRecord {
   playerName: string
-  answerId: number | null
+  submittedSentence: string | null
 }
 
 export type QuestionResult = Question & {
@@ -65,12 +70,25 @@ export interface GameResultPlayer {
   rank: number
 }
 
+export interface StudyPlayerRoundResult {
+  playerName: string
+  score: number
+  time: number
+}
+
+export interface StudyRoundResult {
+  round: number
+  playerResults: StudyPlayerRoundResult[]
+}
+
 export interface GameResult {
   id: string
   subject: string
   date: string
+  mode?: GameMode
   players: GameResultPlayer[]
   questions: QuestionResult[]
+  rounds?: StudyRoundResult[]
 }
 
 export interface GameResultMeta {
@@ -78,4 +96,15 @@ export interface GameResultMeta {
   subject: string
   date: string
   playerCount: number
+  mode?: GameMode
+}
+
+export type GameMode = "competitive" | "study"
+
+export interface StudyProgress {
+  playerId: string
+  username: string
+  completed: number
+  total: number
+  studyRound: number
 }

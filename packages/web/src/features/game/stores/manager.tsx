@@ -9,13 +9,17 @@ import { create } from "zustand"
 
 interface ManagerStore<T> {
   config: ManagerConfig | null
+  activeQuizzId: string | null
 
   gameId: string | null
+  inviteCode: string | null
   status: Status<T> | null
   players: Player[]
 
   setConfig: (_config: ManagerConfig) => void
+  setActiveQuizzId: (_id: string | null) => void
   setGameId: (_gameId: string | null) => void
+  setInviteCode: (_inviteCode: string | null) => void
   setStatus: <K extends keyof T>(_name: K, _data: T[K]) => void
   resetStatus: () => void
   setPlayers: (_players: Player[]) => void
@@ -25,7 +29,9 @@ interface ManagerStore<T> {
 
 const initialState = {
   config: null,
+  activeQuizzId: null,
   gameId: null,
+  inviteCode: null,
   status: null,
   players: [],
 }
@@ -34,8 +40,10 @@ export const useManagerStore = create<ManagerStore<StatusDataMap>>((set) => ({
   ...initialState,
 
   setConfig: (config) => set({ config }),
+  setActiveQuizzId: (activeQuizzId) => set({ activeQuizzId }),
 
   setGameId: (gameId) => set({ gameId }),
+  setInviteCode: (inviteCode) => set({ inviteCode }),
 
   setStatus: (name, data) => set({ status: createStatus(name, data) }),
   resetStatus: () => set({ status: null }),

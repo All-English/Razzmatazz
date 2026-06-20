@@ -12,7 +12,16 @@
     "notFound": "Kein Quiz gefunden",
     "pleaseCreate": "Bitte erstelle zuerst ein Quiz",
     "pleaseSelect": "Bitte wähle ein Quiz aus",
-    "startGame": "Spiel starten"
+    "startGame": "Spiel starten",
+    "hasMismatchError": "Spiel kann nicht gestartet werden: Das ausgewählte Quiz enthält fehlerhafte Fragen.",
+    "mismatchBadge": "Fehlerhafte Fragen",
+    "mismatchTooltip": "Dieses Quiz enthält durcheinandergebrachte Textabschnitte, die nicht mit dem korrekten Satz übereinstimmen. Bearbeite das Quiz, um den Fehler vor dem Spielstart zu beheben.",
+    "limitRange": "Fragenbereich begrenzen",
+    "fromQuestion": "Von Frage",
+    "toQuestion": "bis",
+    "shuffle": "Fragen mischen",
+    "questionsCount": "{{count}} Fragen",
+    "changeQuizz": "Quiz ändern"
   },
   "result": {
     "delete": "Ergebnis löschen",

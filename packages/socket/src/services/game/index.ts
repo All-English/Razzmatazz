@@ -1,5 +1,11 @@
 import { EVENTS } from "@razzia/common/constants"
-import type { Player, Quizz } from "@razzia/common/types/game"
+import type {
+  GameMode,
+  Player,
+  Quizz,
+  QuizzWithId,
+  GameResult,
+} from "@razzia/common/types/game"
 import type { Server, Socket } from "@razzia/common/types/game/socket"
 import {
   STATUS,
@@ -19,6 +25,7 @@ const registry = Registry.getInstance()
 class Game {
   readonly gameId: string
   readonly inviteCode: string
+  private quizzId: string
 
   private readonly io: Server
   private readonly _manager: {
@@ -48,7 +55,15 @@ class Game {
 
     this.io = io
     this.gameId = uuid()
-    this.inviteCode = createInviteCode()
+    this.quizzId = (quizz as QuizzWithId).id ?? ""
+
+    let code = ""
+
+    do {
+      code = createInviteCode()
+    } while (registry.getGameByInviteCode(code))
+
+    this.inviteCode = code
     this._manager = {
       id: socket.id,
       clientId,
@@ -83,6 +98,7 @@ class Game {
     socket.emit(EVENTS.MANAGER.GAME_CREATED, {
       gameId: this.gameId,
       inviteCode: this.inviteCode,
+      quizzId: this.quizzId,
     })
 
     console.log(
@@ -100,6 +116,10 @@ class Game {
 
   get started(): boolean {
     return this.round.isStarted()
+  }
+
+  get mode(): GameMode {
+    return this.round.getMode()
   }
 
   // ── Status broadcasting ──────────────────────────────────────────────────
@@ -130,6 +150,10 @@ class Game {
 
   join(socket: Socket, username: string) {
     this.playerManager.join(socket, username)
+
+    if (this.started) {
+      this.round.playerJoinedMidGame(socket, this.lastBroadcastStatus)
+    }
   }
 
   kickPlayer(socket: Socket, playerId: string) {
@@ -140,23 +164,39 @@ class Game {
 
   // Reconnect
 
-  reconnect(socket: Socket) {
-    const { clientId } = socket.handshake.auth
-
-    if (this._manager.clientId === clientId) {
-      this.reconnectManager(socket)
-
-      return
-    }
-
-    this.reconnectPlayer(socket)
-  }
-
-  private reconnectManager(socket: Socket) {
+  reconnectManager(socket: Socket) {
     if (this._manager.connected) {
-      socket.emit(EVENTS.GAME.RESET, "errors:game.managerAlreadyConnected")
+      if (this._manager.id === socket.id) {
+        const status = this.managerStatus ??
+          this.lastBroadcastStatus ??
+          (!this.started
+            ? {
+                name: STATUS.SHOW_ROOM,
+                data: { text: "game:waitingForPlayers", inviteCode: this.inviteCode },
+              }
+            : {
+                name: STATUS.WAIT,
+                data: { text: "game:waitingForPlayers" },
+              })
 
-      return
+        socket.emit(EVENTS.MANAGER.SUCCESS_RECONNECT, {
+          gameId: this.gameId,
+          inviteCode: this.inviteCode,
+          currentQuestion: this.round.getReconnectInfo(),
+          status,
+          players: this.playerManager.getAll(),
+          quizzId: this.quizzId,
+        })
+        socket.emit(EVENTS.GAME.TOTAL_PLAYERS, this.playerManager.count())
+
+        return
+      }
+
+      const oldManagerId = this._manager.id
+      this.io
+        .to(oldManagerId)
+        .emit(EVENTS.GAME.RESET, "errors:game.managerAlreadyConnected")
+      this.io.in(oldManagerId).socketsLeave(this.gameId)
     }
 
     socket.join(this.gameId)
@@ -164,16 +204,24 @@ class Game {
     this._manager.connected = true
 
     const status = this.managerStatus ??
-      this.lastBroadcastStatus ?? {
-        name: STATUS.WAIT,
-        data: { text: "game:waitingForPlayers" },
-      }
+      this.lastBroadcastStatus ??
+      (!this.started
+        ? {
+            name: STATUS.SHOW_ROOM,
+            data: { text: "game:waitingForPlayers", inviteCode: this.inviteCode },
+          }
+        : {
+            name: STATUS.WAIT,
+            data: { text: "game:waitingForPlayers" },
+          })
 
     socket.emit(EVENTS.MANAGER.SUCCESS_RECONNECT, {
       gameId: this.gameId,
+      inviteCode: this.inviteCode,
       currentQuestion: this.round.getReconnectInfo(),
       status,
       players: this.playerManager.getAll(),
+      quizzId: this.quizzId,
     })
     socket.emit(EVENTS.GAME.TOTAL_PLAYERS, this.playerManager.count())
 
@@ -181,7 +229,7 @@ class Game {
     console.log(`Manager reconnected to game ${this.inviteCode}`)
   }
 
-  private reconnectPlayer(socket: Socket) {
+  reconnectPlayer(socket: Socket) {
     const clientId = socket.handshake.auth.clientId as string
     const player = this.playerManager.findByClientId(clientId)
 
@@ -190,9 +238,30 @@ class Game {
     }
 
     if (player.connected) {
-      socket.emit(EVENTS.GAME.RESET, "errors:game.playerAlreadyConnected")
+      if (player.id === socket.id) {
+        const status = this.playerStatus.get(socket.id) ??
+          this.lastBroadcastStatus ?? {
+            name: STATUS.WAIT,
+            data: { text: "game:waitingForPlayers" },
+          }
 
-      return
+        socket.emit(EVENTS.PLAYER.SUCCESS_RECONNECT, {
+          gameId: this.gameId,
+          inviteCode: this.inviteCode,
+          currentQuestion: this.round.getReconnectInfo(),
+          status,
+          player: { username: player.username, points: player.points },
+        })
+        socket.emit(EVENTS.GAME.TOTAL_PLAYERS, this.playerManager.count())
+
+        return
+      }
+
+      const oldPlayerId = player.id
+      this.io
+        .to(oldPlayerId)
+        .emit(EVENTS.GAME.RESET, "errors:game.playerAlreadyConnected")
+      this.io.in(oldPlayerId).socketsLeave(this.gameId)
     }
 
     socket.join(this.gameId)
@@ -216,6 +285,7 @@ class Game {
 
     socket.emit(EVENTS.PLAYER.SUCCESS_RECONNECT, {
       gameId: this.gameId,
+      inviteCode: this.inviteCode,
       currentQuestion: this.round.getReconnectInfo(),
       status,
       player: { username: player.username, points: player.points },
@@ -255,12 +325,43 @@ class Game {
     this.cooldown.abort()
   }
 
-  async start(socket: Socket) {
-    await this.round.start(socket)
+  updateQuiz(quizz: Quizz) {
+    this.quizzId = (quizz as QuizzWithId).id ?? ""
+    this.round.updateQuizz(quizz)
   }
 
-  selectAnswer(socket: Socket, answerId: number) {
-    this.round.selectAnswer(socket, answerId)
+  async start(
+    socket: Socket,
+    mode: GameMode = "competitive",
+    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number },
+  ) {
+    await this.round.start(socket, mode, options)
+  }
+
+  submitSentence(
+    socket: Socket,
+    submittedSentence: string,
+    submittedChunks: string[],
+  ) {
+    this.round.submitSentence(socket, submittedSentence, submittedChunks)
+  }
+
+  studySubmit(
+    socket: Socket,
+    questionIndex: number,
+    submittedSentence: string,
+    submittedChunks: string[],
+  ): void {
+    this.round.studySubmit(
+      socket,
+      questionIndex,
+      submittedSentence,
+      submittedChunks,
+    )
+  }
+
+  studyRestart(socket: Socket): void {
+    this.round.studyRestart(socket)
   }
 
   nextRound(socket: Socket) {
@@ -273,6 +374,86 @@ class Game {
 
   showLeaderboard() {
     this.round.showLeaderboard()
+  }
+
+  endGameEarly(socket: Socket) {
+    this.round.endGameEarly(socket)
+  }
+
+  playAgain(socket: Socket) {
+    if (this._manager.id !== socket.id) {
+      return
+    }
+
+    // Stop any running cooldown (e.g. if called mid-study-mode)
+    this.cooldown.abort()
+
+    // Reset all round + player state
+    this.round.reset()
+    this.playerManager.resetScores()
+
+    // Clear status caches so reconnects get a clean slate
+    this.lastBroadcastStatus = null
+    this.managerStatus = null
+    this.playerStatus.clear()
+
+    const players = this.playerManager.getAll()
+    const roomStatus = {
+      name: STATUS.SHOW_ROOM,
+      data: { text: "game:waitingForPlayers", inviteCode: this.inviteCode },
+    } as const
+
+    // Send players to a waiting screen (WAIT is already in their component map)
+    for (const player of players) {
+      this.sendStatus(player.id, STATUS.WAIT, {
+        text: "game:waitingForNextGame",
+      })
+    }
+
+    // Send the manager back to the lobby with the full fresh player list
+    this.sendStatus(this._manager.id, STATUS.SHOW_ROOM, {
+      text: "game:waitingForPlayers",
+      inviteCode: this.inviteCode,
+    })
+    this.io.to(this._manager.id).emit(EVENTS.MANAGER.SUCCESS_RECONNECT, {
+      gameId: this.gameId,
+      inviteCode: this.inviteCode,
+      currentQuestion: this.round.getReconnectInfo(),
+      status: roomStatus,
+      players,
+      quizzId: this.quizzId,
+    })
+
+    // Refresh counts for everyone
+    this.io.to(this.gameId).emit(EVENTS.GAME.TOTAL_PLAYERS, players.length)
+    this.io.to(this.gameId).emit(EVENTS.GAME.UPDATE_QUESTION, null)
+
+    console.log(`Game ${this.inviteCode} reset for a new round`)
+  }
+
+  saveStudyResults(): void {
+    if (this.mode !== "study") {
+      return
+    }
+    const studyResults = this.round.getStudyResults()
+    if (studyResults.length === 0) {
+      return
+    }
+
+    const resultData: GameResult = {
+      id: `${Date.now()}-${uuid().substring(0, 8)}`,
+      subject: this.round.getQuizzSubject(),
+      date: new Date().toISOString(),
+      mode: "study",
+      players: this.players.map((p) => ({
+        username: p.username,
+        points: p.points,
+        rank: 0,
+      })),
+      questions: [],
+      rounds: studyResults,
+    }
+    saveResult(resultData)
   }
 }
 

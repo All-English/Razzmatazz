@@ -1,4 +1,8 @@
-import type { GameResult, QuestionResult } from "@razzia/common/types/game"
+import type {
+  GameResult,
+  QuestionResult,
+  StudyRoundResult,
+} from "@razzia/common/types/game"
 import {
   createContext,
   useContext,
@@ -8,15 +12,15 @@ import {
 
 interface ResultModalContextType {
   result: GameResult
-  questionResult: QuestionResult
+  questionResult?: QuestionResult
+  roundResult?: StudyRoundResult
   questionIndex: number
   total: number
   totalPlayers: number
   answeredCount: number
   correctCount: number
   correctPct: number
-  maxAnswerCount: number
-  getPlayerPoints: (_name: string) => number
+  getPlayerPoints: (name: string) => number
   goNext: () => void
   goPrev: () => void
   onClose: () => void
@@ -32,29 +36,31 @@ type Props = PropsWithChildren<{
 export const ResultModalProvider = ({ children, result, onClose }: Props) => {
   const [questionIndex, setQuestionIndex] = useState(0)
 
-  const questionResult = result.questions[questionIndex]
-  const total = result.questions.length
+  const isStudy = result.mode === "study"
+  const total = isStudy ? (result.rounds?.length ?? 0) : result.questions.length
   const totalPlayers = result.players.length
 
-  const answeredCount = questionResult.playerAnswers.filter(
-    (pa) => pa.answerId !== null,
-  ).length
+  const questionResult = !isStudy ? result.questions[questionIndex] : undefined
+  const roundResult = isStudy ? result.rounds?.[questionIndex] : undefined
 
-  const correctCount = questionResult.playerAnswers.filter(
-    (pa) =>
-      pa.answerId !== null && questionResult.solutions.includes(pa.answerId),
-  ).length
+  const answeredCount = questionResult
+    ? questionResult.playerAnswers.filter((pa) => pa.submittedSentence !== null)
+        .length
+    : 0
+
+  const cleanStr = (s: string) =>
+    s.toLowerCase().replace(/[\p{P}\p{S}\s]/gu, "")
+  const correctCount = questionResult
+    ? questionResult.playerAnswers.filter(
+        (pa) =>
+          pa.submittedSentence !== null &&
+          cleanStr(pa.submittedSentence) ===
+            cleanStr(questionResult.correctSentence),
+      ).length
+    : 0
 
   const correctPct =
     totalPlayers > 0 ? Math.round((correctCount / totalPlayers) * 100) : 0
-
-  const maxAnswerCount = Math.max(
-    1,
-    ...questionResult.answers.map(
-      (_, ai) =>
-        questionResult.playerAnswers.filter((pa) => pa.answerId === ai).length,
-    ),
-  )
 
   const getPlayerPoints = (name: string) =>
     result.players.find((p) => p.username === name)?.points ?? 0
@@ -68,13 +74,13 @@ export const ResultModalProvider = ({ children, result, onClose }: Props) => {
       value={{
         result,
         questionResult,
+        roundResult,
         questionIndex,
         total,
         totalPlayers,
         answeredCount,
         correctCount,
         correctPct,
-        maxAnswerCount,
         getPlayerPoints,
         goNext,
         goPrev,

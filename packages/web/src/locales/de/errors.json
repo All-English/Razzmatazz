@@ -11,7 +11,9 @@
     "managerDisconnected": "Manager getrennt",
     "noPlayersConnected": "Keine Spieler verbunden",
     "notFound": "Spiel nicht gefunden",
-    "playerAlreadyConnected": "Spieler bereits verbunden"
+    "playerAlreadyConnected": "Spieler bereits verbunden",
+    "usernameTaken": "Benutzername ist bereits vergeben",
+    "invalidRange": "Ungültiger Fragenbereich konfiguriert"
   },
   "manager": {
     "failedToReadConfig": "Spielkonfiguration konnte nicht gelesen werden",
@@ -34,7 +36,8 @@
     "questionEmpty": "Die Frage darf nicht leer sein",
     "subjectEmpty": "Das Thema darf nicht leer sein",
     "tooFewAnswers": "Eine Frage muss mindestens 2 Antworten haben",
-    "tooManyAnswers": "Eine Frage darf nicht mehr als 4 Antworten haben"
+    "tooManyAnswers": "Eine Frage darf nicht mehr als 4 Antworten haben",
+    "invalidChunksOrder": "Die richtige Reihenfolge der Segmente ergibt nicht den korrekten Satz."
   },
   "route": {
     "back": "Zurück zur Startseite",

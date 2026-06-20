@@ -3,15 +3,16 @@ import { Globe } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 const LANGUAGES = [
-  { code: "de", label: "common:language.de" },
-  { code: "en", label: "common:language.en" },
-  { code: "es", label: "common:language.es" },
-  { code: "fr", label: "common:language.fr" },
-  { code: "it", label: "common:language.it" },
+  { code: "de", label: "Deutsch" },
+  { code: "en", label: "English" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "it", label: "Italiano" },
+  { code: "ko", label: "한국어" },
 ]
 
 const LanguageSwitcher = () => {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const normalizedLanguage = i18n.language.slice(0, 2)
 
   return (
@@ -37,7 +38,7 @@ const LanguageSwitcher = () => {
                 value={l.code}
                 className="flex cursor-pointer items-center rounded-sm px-3 py-1.5 text-sm text-gray-700 outline-none hover:bg-gray-100 focus:bg-gray-100 data-[state=checked]:font-semibold"
               >
-                <Select.ItemText>{t(l.label)}</Select.ItemText>
+                <Select.ItemText>{l.label}</Select.ItemText>
               </Select.Item>
             ))}
           </Select.Viewport>

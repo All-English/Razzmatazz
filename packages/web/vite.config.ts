@@ -3,6 +3,7 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite"
 import react from "@vitejs/plugin-react"
 import { fileURLToPath } from "url"
 import { defineConfig } from "vite"
+import { VitePWA } from "vite-plugin-pwa"
 import { version } from "../../package.json"
 
 export default defineConfig({
@@ -18,6 +19,63 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["icon.svg", "sounds/*.mp3"],
+      manifest: {
+        name: "Razzmatazz",
+        short_name: "Razzmatazz",
+        description: "A social deduction game",
+        theme_color: "#FF9900",
+        background_color: "#1a140b",
+        display: "standalone",
+        orientation: "any",
+        start_url: "/",
+        icons: [
+          {
+            src: "pwa-64x64.png",
+            sizes: "64x64",
+            type: "image/png",
+          },
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "maskable-icon-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
+      },
+      workbox: {
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,mp3,json,woff,woff2}"],
+        runtimeCaching: [
+          {
+            urlPattern: /.*/,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "razzmatazz-cache",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
+    }),
   ],
   resolve: {
     alias: {

@@ -1,21 +1,8 @@
 import { MEDIA_TYPES } from "@razzia/common/constants"
 import type { QuestionMedia } from "@razzia/common/types/game"
-import {
-  ANSWERS_COLORS,
-  ANSWERS_LABELS,
-} from "@razzia/web/features/game/utils/constants"
 import { useResultModal } from "@razzia/web/features/manager/contexts/result-modal-context"
-import clsx from "clsx"
-import { Check, Clock, ImageOff, Music, Video, X } from "lucide-react"
+import { Check, Clock, ImageOff, Music, Video, X, Trophy } from "lucide-react"
 import { useTranslation } from "react-i18next"
-
-interface AnswerRow {
-  label: string
-  count: number
-  isCorrect: boolean
-  color: string | null
-  answerLabel: string | null
-}
 
 const MediaPreview = ({ media }: { media?: QuestionMedia }) => {
   if (media?.type === MEDIA_TYPES.IMAGE) {
@@ -52,33 +39,58 @@ const MediaPreview = ({ media }: { media?: QuestionMedia }) => {
 }
 
 const ResultModalAnswers = () => {
-  const { questionResult, totalPlayers, answeredCount } = useResultModal()
+  const { result, questionResult, roundResult, totalPlayers, answeredCount } =
+    useResultModal()
   const { t } = useTranslation()
+
+  if (result.mode === "study") {
+    const completedCount = roundResult?.playerResults.length ?? 0
+    return (
+      <div className="flex flex-col border-b border-gray-100 md:flex-row">
+        <div className="flex shrink-0 flex-row items-center gap-4 border-b border-gray-100 bg-gray-50 p-4 md:w-66 md:flex-col md:justify-center md:border-r md:border-b-0">
+          <div className="flex h-16 w-24 items-center justify-center rounded-lg bg-gray-200 md:h-38 md:w-full">
+            <Trophy className="size-6 text-amber-500 md:size-10" />
+          </div>
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 overflow-hidden px-4 py-3 md:px-5 md:py-4">
+          <p className="text-xl font-bold text-gray-800">
+            {t("game:roundLabel", { round: roundResult?.round ?? 1 })}
+          </p>
+          <div className="flex gap-4 text-sm text-gray-600">
+            <span>
+              {t("manager:result.playerCount", { count: completedCount })}{" "}
+              {t("manager:result.paginationOf")} {totalPlayers}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!questionResult) {
+    return null
+  }
 
   const noAnswerCount = totalPlayers - answeredCount
 
-  const rows: AnswerRow[] = [
-    ...questionResult.answers.map((label, ai) => ({
-      label,
-      count: questionResult.playerAnswers.filter((pa) => pa.answerId === ai)
-        .length,
-      isCorrect: questionResult.solutions.includes(ai),
-      color: ANSWERS_COLORS[ai % 4],
-      answerLabel: ANSWERS_LABELS[ai % 4],
-    })),
-    {
-      label: t("manager:result.noAnswer"),
-      count: noAnswerCount,
-      isCorrect: false,
-      color: null,
-      answerLabel: null,
-    },
-  ]
+  const cleanStr = (s: string) =>
+    s.toLowerCase().replace(/[\p{P}\p{S}\s]/gu, "")
+  const correctCount = questionResult
+    ? questionResult.playerAnswers.filter(
+        (pa) =>
+          pa.submittedSentence !== null &&
+          cleanStr(pa.submittedSentence) ===
+            cleanStr(questionResult.correctSentence),
+      ).length
+    : 0
+
+  const incorrectCount = answeredCount - correctCount
 
   return (
     <div className="flex flex-col border-b border-gray-100 md:flex-row">
       <div className="flex shrink-0 flex-row items-center gap-4 border-b border-gray-100 bg-gray-50 p-4 md:w-66 md:flex-col md:justify-center md:border-r md:border-b-0">
-        <MediaPreview media={questionResult.media} />
+        <MediaPreview media={questionResult?.media} />
         <div className="flex items-center gap-1.5 text-xs text-gray-500">
           <Clock className="size-3.5" />
           <span>
@@ -88,56 +100,47 @@ const ResultModalAnswers = () => {
         </div>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5 overflow-hidden px-4 py-3 md:gap-2 md:px-5 md:py-4">
-        <p className="text-md mb-1 font-semibold text-gray-800">
-          {questionResult.question}
+      <div className="flex min-w-0 flex-1 flex-col gap-3 overflow-hidden px-4 py-3 md:px-5 md:py-4">
+        {/* Korean Prompt */}
+        <p className="text-md font-semibold text-gray-800">
+          {questionResult.koreanPrompt}
         </p>
 
-        {rows.map((row, i) => (
-          <div key={i} className="flex items-center gap-3">
-            {row.color && row.answerLabel ? (
-              <div
-                className={clsx(
-                  "flex size-6 shrink-0 items-center justify-center rounded-md text-xs font-bold text-white",
-                  row.color,
-                )}
-              >
-                {row.answerLabel}
-              </div>
-            ) : (
-              <div className="flex size-6 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-white">
-                <X className="size-3 text-gray-400" />
-              </div>
-            )}
+        {/* Correct Sentence */}
+        <div className="rounded-lg bg-emerald-50 px-3 py-2">
+          <p className="text-sm font-bold text-emerald-700">
+            ✅ {questionResult.correctSentence}
+          </p>
+        </div>
 
+        {/* Scrambled Chunks */}
+        <div className="flex flex-wrap gap-1">
+          {questionResult.scrambledChunks.map((chunk, i) => (
             <span
-              className={clsx("min-w-0 flex-1 truncate text-sm font-medium", {
-                "text-gray-400": !row.color,
-              })}
+              key={i}
+              className="rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600"
             >
-              {row.label}
+              {chunk}
             </span>
+          ))}
+        </div>
 
-            <div className="shrink-0">
-              {row.isCorrect ? (
-                <Check className="size-5 text-green-500" />
-              ) : (
-                <X
-                  className={clsx(
-                    "size-5",
-                    row.color ? "text-red-500" : "text-red-400",
-                  )}
-                />
-              )}
-            </div>
-
-            <div className="flex shrink-0 items-center gap-2">
-              <span className="text-center text-sm font-semibold text-gray-600">
-                {row.count}
-              </span>
-            </div>
-          </div>
-        ))}
+        {/* Summary */}
+        <div className="flex gap-4 text-sm">
+          <span className="flex items-center gap-1 text-green-600">
+            <Check className="size-3.5" />
+            {correctCount} {t("manager:result.table.correct")}
+          </span>
+          <span className="flex items-center gap-1 text-red-500">
+            <X className="size-3.5" />
+            {incorrectCount} {t("manager:result.table.incorrect")}
+          </span>
+          {noAnswerCount > 0 && (
+            <span className="text-gray-400">
+              {noAnswerCount} {t("manager:result.noAnswer")}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )
