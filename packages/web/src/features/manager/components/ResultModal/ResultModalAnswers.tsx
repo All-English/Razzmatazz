@@ -1,4 +1,4 @@
-import { MEDIA_TYPES } from "@razzia/common/constants"
+import { MEDIA_TYPES, NO_TIME_LIMIT } from "@razzia/common/constants"
 import type { QuestionMedia } from "@razzia/common/types/game"
 import { useResultModal } from "@razzia/web/features/manager/contexts/result-modal-context"
 import { Check, Clock, ImageOff, Music, Video, X, Trophy } from "lucide-react"
@@ -94,8 +94,9 @@ const ResultModalAnswers = () => {
         <div className="flex items-center gap-1.5 text-xs text-gray-500">
           <Clock className="size-3.5" />
           <span>
-            {questionResult.time}
-            {t("manager:result.timeLimitSuffix")}
+            {questionResult.time === NO_TIME_LIMIT
+              ? "∞"
+              : `${questionResult.time}${t("manager:result.timeLimitSuffix")}`}
           </span>
         </div>
       </div>

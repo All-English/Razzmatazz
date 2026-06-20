@@ -29,6 +29,8 @@
     "config": {
       "answerTime": "Build time",
       "answerTimeHint": "Time players have to build the sentence",
+      "noTimeLimit": "No time limit",
+      "noTimeLimitHint": "Points are awarded based on completion order. There is no time limit to build.",
       "questionDisplay": "Prompt display",
       "questionDisplayHint": "Duration before building starts",
       "timings": "Timings"

@@ -81,17 +81,14 @@ export const QuizzEditorProvider = ({
   }
 
   const removeQuestion = (index: number) => {
-    setQuestions((list) => {
-      const next = list.filter((_, i) => i !== index)
-      setCurrentIndex((current) =>
-        Math.min(
-          Math.max(0, current >= index ? current - 1 : current),
-          next.length - 1,
-        ),
-      )
-
-      return next
-    })
+    const next = questions.filter((_, i) => i !== index)
+    setQuestions(next)
+    setCurrentIndex((current) =>
+      Math.min(
+        Math.max(0, current >= index ? current - 1 : current),
+        next.length - 1,
+      ),
+    )
   }
 
   const reorderQuestions = (from: number, to: number) => {

@@ -19,7 +19,7 @@ const questionValidator = z.object({
   correctSentence: z.string().min(1, "errors:quizz.sentenceEmpty"),
   media: questionMediaValidator.optional(),
   cooldown: z.number().int().min(3).max(15),
-  time: z.number().int().min(5).max(120),
+  time: z.number().int().min(-1),
 })
 
 export const quizzValidator = z.object({
