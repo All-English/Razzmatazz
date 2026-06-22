@@ -82,6 +82,7 @@ export const EXAMPLE_QUIZZ = {
     {
       koreanPrompt: "그것은 큰 가스 덩어리야.",
       scrambledChunks: ["of gas.", "It", "a big ball", "is"],
+      correctChunks: ["It", "is", "a big ball", "of gas."],
       correctSentence: "It is a big ball of gas.",
       cooldown: 5,
       time: 30,
@@ -89,6 +90,7 @@ export const EXAMPLE_QUIZZ = {
     {
       koreanPrompt: "나는 학교에 갑니다.",
       scrambledChunks: ["go", "I", "school.", "to"],
+      correctChunks: ["I", "go", "to", "school."],
       correctSentence: "I go to school.",
       cooldown: 5,
       time: 30,
@@ -96,6 +98,7 @@ export const EXAMPLE_QUIZZ = {
     {
       koreanPrompt: "그녀는 빨간 사과를 좋아해요.",
       scrambledChunks: ["red apples.", "She", "likes"],
+      correctChunks: ["She", "likes", "red apples."],
       correctSentence: "She likes red apples.",
       cooldown: 5,
       time: 30,

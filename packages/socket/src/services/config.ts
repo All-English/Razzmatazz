@@ -105,8 +105,8 @@ export const getQuizzById = (id: string) => {
       if (
         q.correctSentence &&
         q.scrambledChunks &&
-        q.correctChunks &&
-        (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
+        (!q.correctChunks ||
+          !isValidChunksOrder(q.correctSentence, q.correctChunks) ||
           q.correctChunks.length !== q.scrambledChunks.length)
       ) {
         const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
@@ -157,8 +157,8 @@ export const getQuizz = () => {
           if (
             q.correctSentence &&
             q.scrambledChunks &&
-            q.correctChunks &&
-            (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
+            (!q.correctChunks ||
+              !isValidChunksOrder(q.correctSentence, q.correctChunks) ||
               q.correctChunks.length !== q.scrambledChunks.length)
           ) {
             const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
