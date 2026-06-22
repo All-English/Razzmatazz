@@ -8,7 +8,8 @@
     "format": "prettier --check . --log-level warn",
     "format:fix": "prettier --write . --log-level warn",
     "start": "vite preview",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check-locales": "node scripts/check-locales.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

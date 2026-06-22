@@ -12,7 +12,16 @@
     "notFound": "クイズが見つかりません",
     "pleaseCreate": "先にクイズを作成してください",
     "pleaseSelect": "クイズを選択してください",
-    "startGame": "ゲーム開始"
+    "startGame": "ゲーム開始",
+    "hasMismatchError": "一部の問題でチャンクと正解文が一致していないため、プレイできません",
+    "mismatchBadge": "不一致",
+    "mismatchTooltip": "シャッフルされたチャンクが正解文と一致しません",
+    "limitRange": "問題範囲を制限",
+    "fromQuestion": "開始問題",
+    "toQuestion": "終了問題",
+    "shuffle": "問題をシャッフル",
+    "questionsCount": "{{count}} 問",
+    "changeQuizz": "クイズを変更"
   },
   "result": {
     "delete": "結果を削除",

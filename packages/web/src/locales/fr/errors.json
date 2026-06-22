@@ -37,7 +37,12 @@
     "subjectEmpty": "Le sujet ne peut pas être vide",
     "tooFewAnswers": "Une question doit avoir au moins 2 réponses",
     "tooManyAnswers": "Une question ne peut pas avoir plus de 4 réponses",
-    "invalidChunksOrder": "L'ordre correct des segments ne reconstitue pas la phrase correcte."
+    "invalidChunksOrder": "L'ordre correct des segments ne reconstitue pas la phrase correcte.",
+    "duplicateTitle": "Un quiz avec ce titre existe déjà",
+    "chunkEmpty": "Le morceau ne peut pas être vide",
+    "promptEmpty": "L'invite en coréen ne peut pas être vide",
+    "sentenceEmpty": "La phrase correcte ne peut pas être vide",
+    "tooFewChunks": "La question doit avoir au moins 2 morceaux mélangés"
   },
   "route": {
     "back": "Retour à l'accueil",

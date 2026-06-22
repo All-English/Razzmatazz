@@ -37,7 +37,12 @@
     "subjectEmpty": "Il soggetto non può essere vuoto",
     "tooFewAnswers": "Una domanda deve avere almeno 2 risposte",
     "tooManyAnswers": "Una domanda non può avere più di 4 risposte",
-    "invalidChunksOrder": "L'ordine corretto dei segmenti non ricostruisce la frase corretta."
+    "invalidChunksOrder": "L'ordine corretto dei segmenti non ricostruisce la frase corretta.",
+    "duplicateTitle": "Esiste già un quiz con questo titolo",
+    "chunkEmpty": "Il frammento non può essere vuoto",
+    "promptEmpty": "Il prompt in coreano non può essere vuoto",
+    "sentenceEmpty": "La frase corretta non può essere vuota",
+    "tooFewChunks": "La domanda deve avere almeno 2 frammenti mischiati"
   },
   "route": {
     "back": "Torna alla home",

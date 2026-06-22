@@ -15,7 +15,9 @@
   },
   "loading": "Laden...",
   "next": "Weiter",
+  "ok": "OK",
   "save": "Speichern",
+  "saving": "Speichern...",
   "seconds": "Sek",
   "skip": "Überspringen",
   "submit": "Absenden"

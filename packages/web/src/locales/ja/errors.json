@@ -11,7 +11,9 @@
     "managerDisconnected": "管理者が切断されました",
     "noPlayersConnected": "接続中のプレイヤーがいません",
     "notFound": "ゲームが見つかりません",
-    "playerAlreadyConnected": "プレイヤーはすでに接続されています"
+    "playerAlreadyConnected": "プレイヤーはすでに接続されています",
+    "usernameTaken": "ユーザー名はすでに使用されています",
+    "invalidRange": "無効な問題の範囲が選択されました"
   },
   "manager": {
     "failedToReadConfig": "ゲーム設定の読み込みに失敗しました",
@@ -34,7 +36,13 @@
     "questionEmpty": "質問は空にできません",
     "subjectEmpty": "主題は空にできません",
     "tooFewAnswers": "質問には少なくとも2つの回答が必要です",
-    "tooManyAnswers": "質問に設定できる回答は4つまでです"
+    "tooManyAnswers": "質問に設定できる回答は4つまでです",
+    "duplicateTitle": "このタイトルのクイズは既に存在します",
+    "chunkEmpty": "チャンクを空にすることはできません",
+    "promptEmpty": "韓国語のプロンプトを空にすることはできません",
+    "sentenceEmpty": "正しい文を空にすることはできません",
+    "tooFewChunks": "問題には少なくとも2つのシャッフルされたチャンクが必要です",
+    "invalidChunksOrder": "シャッフルされたチャンクが正しい文と一致しません"
   },
   "route": {
     "back": "ホームに戻る",

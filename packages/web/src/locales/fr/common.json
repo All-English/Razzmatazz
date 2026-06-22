@@ -15,7 +15,9 @@
   },
   "loading": "Chargement...",
   "next": "Suivant",
+  "ok": "OK",
   "save": "Enregistrer",
+  "saving": "Enregistrement...",
   "seconds": "sec",
   "skip": "Passer",
   "submit": "Valider"

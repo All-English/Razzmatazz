@@ -15,7 +15,9 @@
   },
   "loading": "Cargando...",
   "next": "Siguiente",
+  "ok": "Aceptar",
   "save": "Guardar",
+  "saving": "Guardando...",
   "seconds": "seg",
   "skip": "Omitir",
   "submit": "Enviar"

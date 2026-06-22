@@ -37,7 +37,12 @@
     "subjectEmpty": "Das Thema darf nicht leer sein",
     "tooFewAnswers": "Eine Frage muss mindestens 2 Antworten haben",
     "tooManyAnswers": "Eine Frage darf nicht mehr als 4 Antworten haben",
-    "invalidChunksOrder": "Die richtige Reihenfolge der Segmente ergibt nicht den korrekten Satz."
+    "invalidChunksOrder": "Die richtige Reihenfolge der Segmente ergibt nicht den korrekten Satz.",
+    "duplicateTitle": "Ein Quiz mit diesem Titel existiert bereits",
+    "chunkEmpty": "Satzteil darf nicht leer sein",
+    "promptEmpty": "Koreanischer Prompt darf nicht leer sein",
+    "sentenceEmpty": "Richtiger Satz darf nicht leer sein",
+    "tooFewChunks": "Die Frage muss mindestens 2 gemischte Satzteile enthalten"
   },
   "route": {
     "back": "Zurück zur Startseite",

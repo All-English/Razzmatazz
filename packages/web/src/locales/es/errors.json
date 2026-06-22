@@ -37,7 +37,12 @@
     "subjectEmpty": "El tema no puede estar vacío",
     "tooFewAnswers": "Una pregunta debe tener al menos 2 respuestas",
     "tooManyAnswers": "Una pregunta no puede tener más de 4 respuestas",
-    "invalidChunksOrder": "El orden correcto de los fragmentos no reconstruye la oración correcta."
+    "invalidChunksOrder": "El orden correcto de los fragmentos no reconstruye la oración correcta.",
+    "duplicateTitle": "Ya existe un quiz con este título",
+    "chunkEmpty": "El fragmento no puede estar vacío",
+    "promptEmpty": "La indicación en coreano no puede estar vacía",
+    "sentenceEmpty": "La oración correcta no puede estar vacía",
+    "tooFewChunks": "La pregunta debe tener al menos 2 fragmentos mezclados"
   },
   "route": {
     "back": "Volver al inicio",
