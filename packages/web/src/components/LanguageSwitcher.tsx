@@ -3,13 +3,13 @@ import { Globe } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 const LANGUAGES = [
-  { code: "de", label: "common:language.de" },
-  { code: "en", label: "common:language.en" },
-  { code: "es", label: "common:language.es" },
-  { code: "fr", label: "common:language.fr" },
-  { code: "it", label: "common:language.it" },
-  { code: "ja", label: "common:language.ja" },
-  { code: "ko", label: "common:language.ko" },
+  { code: "de", label: "Deutsch" },
+  { code: "en", label: "English" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "it", label: "Italiano" },
+  { code: "ja", label: "日本語" },
+  { code: "ko", label: "한국어" },
 ]
 
 const LanguageSwitcher = () => {
