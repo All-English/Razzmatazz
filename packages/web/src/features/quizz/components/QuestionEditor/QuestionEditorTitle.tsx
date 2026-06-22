@@ -7,7 +7,7 @@ const QuestionEditorTitle = () => {
   const { t } = useTranslation()
 
   const handleChangePrompt = (e: ChangeEvent<HTMLInputElement>) => {
-    updateQuestion(currentIndex, { koreanPrompt: e.target.value })
+    updateQuestion(currentIndex, { prompt: e.target.value })
   }
 
   return (
@@ -15,7 +15,7 @@ const QuestionEditorTitle = () => {
       <input
         className="w-full resize-none p-4 text-center text-xl font-semibold text-gray-800 outline-none placeholder:text-gray-400"
         placeholder={t("quizz:promptPlaceholder")}
-        value={currentQuestion.koreanPrompt}
+        value={currentQuestion.prompt}
         onChange={handleChangePrompt}
       />
     </div>

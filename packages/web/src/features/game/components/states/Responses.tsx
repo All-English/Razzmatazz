@@ -12,7 +12,7 @@ interface Props {
 
 const Responses = ({
   data: {
-    koreanPrompt,
+    prompt,
     correctSentence,
     scrambledChunks,
     media,
@@ -37,12 +37,12 @@ const Responses = ({
   return (
     <div className="flex h-full flex-1 flex-col justify-between">
       <div className="mx-auto inline-flex h-full w-full max-w-7xl flex-1 flex-col items-center justify-center gap-10 px-4">
-        {/* Korean Prompt */}
+        {/* Prompt */}
         <h2 className="text-center text-2xl leading-tight font-black text-white drop-shadow-2xl md:text-4xl lg:text-5xl">
-          {koreanPrompt}
+          {prompt}
         </h2>
 
-        <QuestionMedia media={media} alt={koreanPrompt} />
+        <QuestionMedia media={media} alt={prompt} />
 
         {/* Correct Sentence Card */}
         <div className="rounded-[2.5rem] border-4 border-emerald-400/50 bg-emerald-500 p-1 shadow-2xl backdrop-blur-xl">

@@ -80,7 +80,7 @@ export const EXAMPLE_QUIZZ = {
   subject: "ESL Sentence Builder - Example",
   questions: [
     {
-      koreanPrompt: "그것은 큰 가스 덩어리야.",
+      prompt: "그것은 큰 가스 덩어리야.",
       scrambledChunks: ["of gas.", "It", "a big ball", "is"],
       correctChunks: ["It", "is", "a big ball", "of gas."],
       correctSentence: "It is a big ball of gas.",
@@ -88,7 +88,7 @@ export const EXAMPLE_QUIZZ = {
       time: 30,
     },
     {
-      koreanPrompt: "나는 학교에 갑니다.",
+      prompt: "나는 학교에 갑니다.",
       scrambledChunks: ["go", "I", "school.", "to"],
       correctChunks: ["I", "go", "to", "school."],
       correctSentence: "I go to school.",
@@ -96,7 +96,7 @@ export const EXAMPLE_QUIZZ = {
       time: 30,
     },
     {
-      koreanPrompt: "그녀는 빨간 사과를 좋아해요.",
+      prompt: "그녀는 빨간 사과를 좋아해요.",
       scrambledChunks: ["red apples.", "She", "likes"],
       correctChunks: ["She", "likes", "red apples."],
       correctSentence: "She likes red apples.",

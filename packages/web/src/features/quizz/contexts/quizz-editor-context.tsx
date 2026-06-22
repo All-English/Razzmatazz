@@ -34,7 +34,7 @@ const QuizzEditorContext = createContext<QuizzEditorContextType | null>(null)
 
 const defaultQuestion = (): QuestionWithId => ({
   id: uuid(),
-  koreanPrompt: "",
+  prompt: "",
   scrambledChunks: ["", ""],
   correctChunks: ["", ""],
   correctSentence: "",

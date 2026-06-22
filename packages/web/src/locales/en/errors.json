@@ -34,7 +34,7 @@
     "invalidMediaUrl": "Media URL must be a valid URL",
     "noQuestions": "A quiz must have at least one question",
     "notFound": "Quiz not found",
-    "promptEmpty": "Korean prompt cannot be empty",
+    "promptEmpty": "Prompt cannot be empty",
     "sentenceEmpty": "Correct sentence cannot be empty",
     "subjectEmpty": "Subject cannot be empty",
     "tooFewChunks": "A question must have at least 2 chunks",

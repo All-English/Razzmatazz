@@ -20,7 +20,7 @@ const CHUNK_PREVIEW_COLORS = [
 ]
 
 const Question = ({
-  data: { koreanPrompt, scrambledChunks, media, cooldown },
+  data: { prompt, scrambledChunks, media, cooldown },
 }: Props) => {
   const [sfxShow] = useSound(SFX.SHOW_SOUND, { volume: 0.5 })
 
@@ -31,12 +31,12 @@ const Question = ({
   return (
     <section className="relative mx-auto flex h-full w-full max-w-7xl flex-1 flex-col items-center px-6">
       <div className="flex flex-1 flex-col items-center justify-center gap-10">
-        {/* Korean Prompt */}
+        {/* Prompt */}
         <h2 className="anim-show text-center text-3xl leading-tight font-black text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] md:text-4xl lg:text-5xl">
-          {koreanPrompt}
+          {prompt}
         </h2>
 
-        <QuestionMedia media={media} alt={koreanPrompt} />
+        <QuestionMedia media={media} alt={prompt} />
 
         {/* Scrambled chunks preview */}
         <div className="flex flex-wrap items-center justify-center gap-4">

@@ -21,10 +21,11 @@
   "importMismatchWarning": "Avviso di importazione: I segmenti per la/le domanda/e {{questions}} non corrispondono alle frasi corrette. Si prega di verificarle.",
   "importStoryButton": "Importa frasi",
   "importedQuestions": "{{count}} domande importate con successo!",
+  "importSingleChunkWarning": "Alcune domande importate (numero/i: {{indices}}) hanno generato un solo frammento. È necessario dividerle manualmente nell'editor prima di salvare.",
   "mismatchWarning": "I segmenti mescolati non corrispondono alla frase corretta. Si prega di controllare l'ortografia, la punteggiatura o il testo.",
   "noQuestionYet": "Nessuna domanda ancora",
   "previewMismatchPlaceholder": "Impossibile mostrare l'anteprima: i segmenti mescolati non corrispondono alla frase corretta.",
-  "promptPlaceholder": "es. 그것은 큰 가스 덩어리야.",
+  "promptPlaceholder": "Prompt (es. traduzione o indizio)",
   "question": {
     "addMediaHint": "Aggiungi un'immagine, video o audio alla tua domanda",
     "config": {
@@ -50,9 +51,9 @@
   "quizzSaved": "Quiz salvato con successo",
   "quizzUpdated": "Quiz aggiornato con successo",
   "saveMismatchConfirm": "Attenzione: I segmenti per la/le domanda/e {{questions}} non corrispondono alle frasi corrette. Se salvi, i giocatori potrebbero essere valutati in modo errato.\n\nVuoi salvare comunque?",
-  "storyImport": "Importa storia",
-  "storyImportDescription": "Incolla una storia, un paragrafo o del testo normale. L'editor lo suddividerà automaticamente in frasi, genererà frammenti disordinati per ogni frase e li aggiungerà come nuove domande.",
+  "storyImport": "Importa testo",
+  "storyImportDescription": "Incolla una storia, un paragrafo o del testo normale. Questo testo verrà utilizzato per creare le frasi corrette che gli studenti devono costruire. Se la traduzione IA è abilitata, la traduzione di ciascuna frase verrà utilizzata come prompt.",
   "storyImportPlaceholder": "C'era una volta un piccolo uccellino...",
-  "storyImportTitle": "Importazione storia / testo",
+  "storyImportTitle": "Importazione testo",
   "titleQuizzPlaceholder": "Titolo del quiz..."
 }

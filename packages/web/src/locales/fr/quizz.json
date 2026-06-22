@@ -21,10 +21,11 @@
   "importMismatchWarning": "Avertissement d'importation : Les segments pour la/les question(s) {{questions}} ne correspondent pas à leurs phrases correctes. Veuillez les vérifier.",
   "importStoryButton": "Importer les phrases",
   "importedQuestions": "{{count}} questions importées avec succès !",
+  "importSingleChunkWarning": "Certaines questions importées (numéro(s) : {{indices}}) n'ont généré qu'un seul segment. Vous devez les diviser manuellement dans l'éditeur avant d'enregistrer.",
   "mismatchWarning": "Les segments brouillés ne correspondent pas à la phrase correcte. Veuillez vérifier l'orthographe, la ponctuation ou la formulation.",
   "noQuestionYet": "Aucune question pour l'instant",
   "previewMismatchPlaceholder": "Impossible d'afficher l'aperçu : les segments brouillés ne correspondent pas à la phrase correcte.",
-  "promptPlaceholder": "ex: 그것은 큰 가스 덩어리야.",
+  "promptPlaceholder": "Prompt (ex : traduction ou indice)",
   "question": {
     "addMediaHint": "Ajoutez une image, une vidéo ou un audio à votre question",
     "config": {
@@ -50,9 +51,9 @@
   "quizzSaved": "Quiz enregistré avec succès",
   "quizzUpdated": "Quiz mis à jour avec succès",
   "saveMismatchConfirm": "Attention : Les segments pour la/les question(s) {{questions}} ne correspondent pas à leurs phrases correctes. Si vous enregistrez, les joueurs risquent d'être mal notés.\n\nVoulez-vous enregistrer quand même ?",
-  "storyImport": "Importer une histoire",
-  "storyImportDescription": "Collez une histoire, un paragraphe ou un texte brut. L'éditeur le divisera automatiquement en phrases, générera des segments brouillés pour chaque phrase et les ajoutera comme nouvelles questions.",
+  "storyImport": "Importer du texte",
+  "storyImportDescription": "Collez une histoire, un paragraphe ou un texte brut. Ce texte sera utilisé pour créer les phrases correctes que les élèves doivent construire. Si la traduction par IA est activée, la traduction de chaque phrase sera utilisée comme prompt.",
   "storyImportPlaceholder": "Il était une fois, un petit oiseau...",
-  "storyImportTitle": "Importation d'histoire / texte",
+  "storyImportTitle": "Importation de texte",
   "titleQuizzPlaceholder": "Titre du quiz..."
 }

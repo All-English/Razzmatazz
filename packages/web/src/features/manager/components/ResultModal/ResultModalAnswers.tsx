@@ -102,9 +102,9 @@ const ResultModalAnswers = () => {
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-3 overflow-hidden px-4 py-3 md:px-5 md:py-4">
-        {/* Korean Prompt */}
+        {/* Prompt */}
         <p className="text-md font-semibold text-gray-800">
-          {questionResult.koreanPrompt}
+          {questionResult.prompt}
         </p>
 
         {/* Correct Sentence */}

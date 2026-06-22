@@ -40,7 +40,7 @@
     "invalidChunksOrder": "Die richtige Reihenfolge der Segmente ergibt nicht den korrekten Satz.",
     "duplicateTitle": "Ein Quiz mit diesem Titel existiert bereits",
     "chunkEmpty": "Satzteil darf nicht leer sein",
-    "promptEmpty": "Koreanischer Prompt darf nicht leer sein",
+    "promptEmpty": "Der Prompt darf nicht leer sein",
     "sentenceEmpty": "Richtiger Satz darf nicht leer sein",
     "tooFewChunks": "Die Frage muss mindestens 2 gemischte Satzteile enthalten"
   },

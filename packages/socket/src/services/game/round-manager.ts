@@ -202,7 +202,7 @@ export class RoundManager {
       question.media?.type === MEDIA_TYPES.IMAGE ? question.media : undefined
 
     this.opts.broadcast(STATUS.SHOW_QUESTION, {
-      koreanPrompt: question.koreanPrompt,
+      prompt: question.prompt,
       scrambledChunks: question.scrambledChunks,
       media: imageMedia,
       cooldown: question.cooldown,
@@ -217,7 +217,7 @@ export class RoundManager {
     this.startTime = Date.now()
 
     this.opts.broadcast(STATUS.BUILD_SENTENCE, {
-      koreanPrompt: question.koreanPrompt,
+      prompt: question.prompt,
       scrambledChunks: question.scrambledChunks,
       media: question.media,
       time: question.time,
@@ -304,7 +304,7 @@ export class RoundManager {
     })
 
     this.opts.send(this.opts.getManagerId(), STATUS.SHOW_RESPONSES, {
-      koreanPrompt: question.koreanPrompt,
+      prompt: question.prompt,
       correctSentence: question.correctSentence,
       scrambledChunks: question.scrambledChunks,
       media: question.media,
@@ -477,7 +477,7 @@ export class RoundManager {
     // Send BUILD_SENTENCE to all players (no timer in study mode, but we use a large value)
     for (const player of players) {
       this.opts.send(player.id, STATUS.BUILD_SENTENCE, {
-        koreanPrompt: firstQuestion.koreanPrompt,
+        prompt: firstQuestion.prompt,
         scrambledChunks: firstQuestion.scrambledChunks,
         media: firstQuestion.media,
         time: 9999,
@@ -524,7 +524,7 @@ export class RoundManager {
       })
 
       this.opts.send(socket.id, STATUS.BUILD_SENTENCE, {
-        koreanPrompt: firstQuestion.koreanPrompt,
+        prompt: firstQuestion.prompt,
         scrambledChunks: firstQuestion.scrambledChunks,
         media: firstQuestion.media,
         time: 9999,
@@ -601,7 +601,7 @@ export class RoundManager {
           })
 
           this.opts.send(socket.id, STATUS.BUILD_SENTENCE, {
-            koreanPrompt: nextQuestion.koreanPrompt,
+            prompt: nextQuestion.prompt,
             scrambledChunks: nextQuestion.scrambledChunks,
             media: nextQuestion.media,
             time: 9999,
@@ -674,7 +674,7 @@ export class RoundManager {
         })
 
         this.opts.send(socket.id, STATUS.BUILD_SENTENCE, {
-          koreanPrompt: firstQuestion.koreanPrompt,
+          prompt: firstQuestion.prompt,
           scrambledChunks: firstQuestion.scrambledChunks,
           media: firstQuestion.media,
           time: 9999,

@@ -94,7 +94,7 @@ const QuizzEditorHeader = () => {
     if (
       questions.length === 1 &&
       !questions[0].correctSentence.trim() &&
-      !questions[0].koreanPrompt.trim()
+      !questions[0].prompt.trim()
     ) {
       setQuestions(newQuestions)
     } else {

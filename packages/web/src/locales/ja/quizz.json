@@ -21,10 +21,11 @@
   "importMismatchWarning": "インポートされたいくつかの質問に不一致のエラーがあります。確認して修正してください。",
   "importStoryButton": "質問を生成",
   "importedQuestions": "{{count}} 件の質問が正常にインポートされました！",
+  "importSingleChunkWarning": "いくつかのインポートされた質問 (番号: {{indices}}) は1つのチャンクしか生成されませんでした。保存する前にエディタで手動で分割する必要があります。",
   "mismatchWarning": "⚠️ シャッフルされたチャンクが正しい文と一致しません。保存する前に修正してください。",
   "noQuestionYet": "まだ質問がありません",
   "previewMismatchPlaceholder": "プレビューを生成するには、シャッフルされたチャンクと正しい文を入力してください。",
-  "promptPlaceholder": "例: 그것은 큰 가스 덩어리야.",
+  "promptPlaceholder": "プロンプト (例: 翻訳、ヒント)",
   "question": {
     "addMediaHint": "質問に画像、動画、音声を追加できます",
     "config": {
@@ -50,9 +51,9 @@
   "quizzSaved": "クイズを保存しました",
   "quizzUpdated": "クイズを更新しました",
   "saveMismatchConfirm": "いくつかの質問に不一致のエラーがあります。それでも保存しますか？",
-  "storyImport": "ストーリーインポート",
-  "storyImportDescription": "英語の文章またはストーリーを貼り付けると、自動的に質問に分割されます。",
-  "storyImportPlaceholder": "ここにストーリーを入力または貼り付けてください...",
-  "storyImportTitle": "ストーリーをインポート",
+  "storyImport": "テキストインポート",
+  "storyImportDescription": "ストーリー、段落、または生のテキストを貼り付けます。このテキストは生徒が組み立てる正しい文を作成するために使用されます。AI翻訳が有効な場合、各文の翻訳がプロンプトとして使用されます。",
+  "storyImportPlaceholder": "ここにテキストを入力または貼り付けてください...",
+  "storyImportTitle": "テキストをインポート",
   "titleQuizzPlaceholder": "クイズのタイトル..."
 }

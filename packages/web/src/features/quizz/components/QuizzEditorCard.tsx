@@ -74,7 +74,7 @@ const QuizzEditorCard = ({
         {isMismatched && <AlertTriangle className="size-3.5 text-red-500" />}
       </div>
       <p className="truncate text-center text-xs font-semibold text-gray-700">
-        {question.koreanPrompt || t("quizz:noQuestionYet")}
+        {question.prompt || t("quizz:noQuestionYet")}
       </p>
 
       <SlideMedia media={question.media} />

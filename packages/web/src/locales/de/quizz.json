@@ -21,10 +21,11 @@
   "importMismatchWarning": "Importwarnung: Die Segmente für Frage(n) {{questions}} stimmen nicht mit den korrekten Sätzen überein. Bitte überprüfe sie.",
   "importStoryButton": "Sätze importieren",
   "importedQuestions": "Erfolgreich {{count}} Fragen importiert!",
+  "importSingleChunkWarning": "Einige importierte Fragen (Nummer(n): {{indices}}) haben nur einen Satzteil generiert. Sie müssen sie vor dem Speichern manuell im Editor aufteilen.",
   "mismatchWarning": "Die gemischten Teile passen nicht zum korrekten Satz. Bitte überprüfe Rechtschreibung, Zeichensetzung oder Wortwahl.",
   "noQuestionYet": "Noch keine Fragen",
   "previewMismatchPlaceholder": "Vorschau kann nicht angezeigt werden: Die gemischten Teile passen nicht zum korrekten Satz.",
-  "promptPlaceholder": "z.B. 그것은 큰 가스 덩어리야.",
+  "promptPlaceholder": "Prompt (z.B. Übersetzung oder Hinweis)",
   "question": {
     "addMediaHint": "Füge ein Bild, Video oder Audio zu deiner Frage hinzu",
     "config": {
@@ -50,9 +51,9 @@
   "quizzSaved": "Quiz erfolgreich gespeichert",
   "quizzUpdated": "Quiz erfolgreich aktualisiert",
   "saveMismatchConfirm": "Warnung: Die Segmente für Frage(n) {{questions}} stimmen nicht mit den korrekten Sätzen überein. Wenn du speicherst, werden Spieler möglicherweise falsch bewertet.\n\nMöchtest du trotzdem speichern?",
-  "storyImport": "Geschichte importieren",
-  "storyImportDescription": "Fügen Sie eine Geschichte, einen Absatz oder Rohtext ein. Der Editor teilt den Text automatisch in Sätze auf, generiert durcheinandergebrachte Textabschnitte für jeden Satz und fügt diese als neue Fragen hinzu.",
+  "storyImport": "Text importieren",
+  "storyImportDescription": "Fügen Sie eine Geschichte, einen Absatz oder Rohtext ein. Dieser Text wird verwendet, um die korrekten Sätze zu erstellen, die die Schüler bauen müssen. Wenn die KI-Übersetzung aktiviert ist, wird die Übersetzung jedes Satzes als Prompt verwendet.",
   "storyImportPlaceholder": "Es war einmal ein kleiner Vogel...",
-  "storyImportTitle": "Geschichts- / Textimport",
+  "storyImportTitle": "Textimport",
   "titleQuizzPlaceholder": "Quiz-Titel..."
 }

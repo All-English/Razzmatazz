@@ -39,7 +39,7 @@
     "tooManyAnswers": "質問に設定できる回答は4つまでです",
     "duplicateTitle": "このタイトルのクイズは既に存在します",
     "chunkEmpty": "チャンクを空にすることはできません",
-    "promptEmpty": "韓国語のプロンプトを空にすることはできません",
+    "promptEmpty": "プロンプトを空にすることはできません",
     "sentenceEmpty": "正しい文を空にすることはできません",
     "tooFewChunks": "問題には少なくとも2つのシャッフルされたチャンクが必要です",
     "invalidChunksOrder": "シャッフルされたチャンクが正しい文と一致しません"

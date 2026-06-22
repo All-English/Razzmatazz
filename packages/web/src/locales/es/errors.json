@@ -40,7 +40,7 @@
     "invalidChunksOrder": "El orden correcto de los fragmentos no reconstruye la oración correcta.",
     "duplicateTitle": "Ya existe un quiz con este título",
     "chunkEmpty": "El fragmento no puede estar vacío",
-    "promptEmpty": "La indicación en coreano no puede estar vacía",
+    "promptEmpty": "La indicación no puede estar vacía",
     "sentenceEmpty": "La oración correcta no puede estar vacía",
     "tooFewChunks": "La pregunta debe tener al menos 2 fragmentos mezclados"
   },

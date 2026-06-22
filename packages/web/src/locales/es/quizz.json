@@ -21,10 +21,11 @@
   "importMismatchWarning": "Advertencia de importación: Los fragmentos de la(s) pregunta(s) {{questions}} no coinciden con sus frases correctas. Por favor, revísalas.",
   "importStoryButton": "Importar oraciones",
   "importedQuestions": "¡Se importaron {{count}} preguntas con éxito!",
+  "importSingleChunkWarning": "Algunas preguntas importadas (número(s): {{indices}}) generaron un solo fragmento. Debes dividirlas manualmente en el editor antes de guardar.",
   "mismatchWarning": "Los fragmentos mezclados no coinciden con la frase correcta. Por favor, comprueba la ortografía, la puntuación o el redactado.",
   "noQuestionYet": "Aún no hay preguntas",
   "previewMismatchPlaceholder": "No se puede mostrar la vista previa: los fragmentos mezclados no coinciden con la frase correcta.",
-  "promptPlaceholder": "p. ej. 그것은 큰 가스 덩어리야.",
+  "promptPlaceholder": "Prompt (p. ej. traducción o pista)",
   "question": {
     "addMediaHint": "Añade una imagen, video o audio a tu pregunta",
     "config": {
@@ -50,9 +51,9 @@
   "quizzSaved": "Cuestionario guardado con éxito",
   "quizzUpdated": "Cuestionario actualizado con éxito",
   "saveMismatchConfirm": "Advertencia: Los fragmentos de la(s) pregunta(s) {{questions}} no coinciden con sus frases correctas. Si guardas, los jugadores podrían recibir puntuaciones incorrectas.\n\n¿Quieres guardar de todos modos?",
-  "storyImport": "Importar historia",
-  "storyImportDescription": "Pega una historia, párrafo o texto sin formato. El editor lo dividirá automáticamente en oraciones, generará segmentos desordenados para cada oración y los agregará como nuevas preguntas.",
+  "storyImport": "Importar texto",
+  "storyImportDescription": "Pega una historia, párrafo o texto sin formato. Este texto se utilizará para crear las oraciones correctas que los estudiantes deben construir. Si la traducción por IA está activada, la traducción de cada oración se utilizará como prompt.",
   "storyImportPlaceholder": "Había una vez, un pequeño pájaro...",
-  "storyImportTitle": "Importación de historia / texto",
+  "storyImportTitle": "Importación de texto",
   "titleQuizzPlaceholder": "Título del cuestionario..."
 }

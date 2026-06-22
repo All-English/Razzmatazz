@@ -95,7 +95,7 @@ const fetchWithRetry = async (
 }
 
 const StoryImportModal = ({ onImport }: Props) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const [text, setText] = useState("")
 
@@ -113,9 +113,21 @@ const StoryImportModal = ({ onImport }: Props) => {
   const [geminiKey, setGeminiKey] = useState<string>(
     () => localStorage.getItem("razzia_gemini_key") ?? "",
   )
-  const [langMode, setLangMode] = useState<"auto" | "en-to-ko" | "ko-to-en">(
-    "auto",
-  )
+  const [sourceLanguage, setSourceLanguage] = useState<string>("Auto-Detect")
+  const [targetLanguage, setTargetLanguage] = useState<string>(() => {
+    const code = i18n.language?.slice(0, 2)
+    switch (code) {
+      case "de": return "German"
+      case "es": return "Spanish"
+      case "fr": return "French"
+      case "it": return "Italian"
+      case "ja": return "Japanese"
+      case "ko": return "Korean"
+      case "en":
+      default:
+        return "English"
+    }
+  })
   const [isTranslating, setIsTranslating] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
@@ -445,10 +457,10 @@ const StoryImportModal = ({ onImport }: Props) => {
   // AI Translation API caller
   const translateSentences = async (
     sentences: string[],
-    direction: "en-to-ko" | "ko-to-en",
+    sourceLang: string,
+    targetLang: string,
   ): Promise<string[]> => {
-    const sourceLang = direction === "en-to-ko" ? "English" : "Korean"
-    const targetLang = direction === "en-to-ko" ? "Korean" : "English"
+    const sourceLangText = sourceLang === "Auto-Detect" ? "its detected language" : sourceLang
     const apiKey = provider === "chatgpt" ? openAiKey : geminiKey
 
     if (!apiKey) {
@@ -472,7 +484,7 @@ const StoryImportModal = ({ onImport }: Props) => {
             messages: [
               {
                 role: "system",
-                content: `You are a professional translator. Translate the input list of sentences from ${sourceLang} to ${targetLang}. Return a JSON object with a "translations" key containing the translated sentences array in the exact same order as the input list. Do not include any other keys in the JSON object.`,
+                content: `You are a professional translator. Translate the input list of sentences from ${sourceLangText} to ${targetLang}. Return a JSON object with a "translations" key containing the translated sentences array in the exact same order as the input list. Do not include any other keys in the JSON object.`,
               },
               {
                 role: "user",
@@ -523,7 +535,7 @@ const StoryImportModal = ({ onImport }: Props) => {
           {
             parts: [
               {
-                text: `You are a professional translator. Translate the following input list of sentences from ${sourceLang} to ${targetLang}. Return a JSON object with a "translations" key containing the translated sentences array in the exact same order. Do not include any other text.\n\nInput sentences:\n${JSON.stringify(sentences)}`,
+                text: `You are a professional translator. Translate the following input list of sentences from ${sourceLangText} to ${targetLang}. Return a JSON object with a "translations" key containing the translated sentences array in the exact same order. Do not include any other text.\n\nInput sentences:\n${JSON.stringify(sentences)}`,
               },
             ],
           },
@@ -576,22 +588,13 @@ const StoryImportModal = ({ onImport }: Props) => {
       return
     }
 
-    let direction: "en-to-ko" | "ko-to-en" = "en-to-ko"
-
-    if (langMode === "auto") {
-      const isKorean = detectIsKorean(text)
-      direction = isKorean ? "ko-to-en" : "en-to-ko"
-    } else {
-      direction = langMode
-    }
-
     let translations: string[] = []
 
     if (useAi) {
       try {
         setIsTranslating(true)
         setErrorMsg(null)
-        translations = await translateSentences(sentences, direction)
+        translations = await translateSentences(sentences, sourceLanguage, targetLanguage)
 
         if (translations.length !== sentences.length) {
           throw new Error(
@@ -607,22 +610,17 @@ const StoryImportModal = ({ onImport }: Props) => {
       }
     }
 
-    const newQuestions: QuestionWithId[] = sentences.map((sentence, idx) => {
-      let correctSentence = sentence
-      let koreanPrompt = ""
+    const singleChunkIndices: number[] = []
 
-      if (useAi && translations[idx]) {
-        if (direction === "en-to-ko") {
-          correctSentence = sentence
-          koreanPrompt = translations[idx]
-        } else {
-          // Korean to English
-          correctSentence = translations[idx]
-          koreanPrompt = sentence
-        }
-      }
+    const newQuestions: QuestionWithId[] = sentences.map((sentence, idx) => {
+      const correctSentence = sentence
+      const prompt = useAi && translations[idx] ? translations[idx] : ""
 
       const generatedChunks = autoGenerateChunks(correctSentence)
+      if (generatedChunks.length <= 1) {
+        singleChunkIndices.push(idx + 1)
+      }
+
       const correctChunks = deriveCorrectChunks(
         correctSentence,
         generatedChunks,
@@ -630,7 +628,7 @@ const StoryImportModal = ({ onImport }: Props) => {
 
       return {
         id: uuid(),
-        koreanPrompt,
+        prompt,
         scrambledChunks: generatedChunks,
         correctChunks,
         correctSentence,
@@ -645,6 +643,18 @@ const StoryImportModal = ({ onImport }: Props) => {
       setText("")
       setIsTranslating(false)
       setErrorMsg(null)
+
+      if (singleChunkIndices.length > 0) {
+        toast(
+          t("quizz:importSingleChunkWarning", {
+            indices: singleChunkIndices.join(", "),
+          }),
+          {
+            icon: "⚠️",
+            duration: 7000,
+          },
+        )
+      }
     }
   }
 
@@ -872,27 +882,47 @@ const StoryImportModal = ({ onImport }: Props) => {
                   )}
                 </div>
 
-                {/* Language Flow Selector */}
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase">
-                    Translation Flow
-                  </label>
-                  <select
-                    disabled={isTranslating}
-                    value={langMode}
-                    onChange={(e) =>
-                      setLangMode(
-                        e.target.value as "auto" | "en-to-ko" | "ko-to-en",
-                      )
-                    }
-                    className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
-                  >
-                    <option value="auto">
-                      Auto-detect (Korean ➜ English / English ➜ Korean)
-                    </option>
-                    <option value="en-to-ko">English ➜ Korean Prompt</option>
-                    <option value="ko-to-en">Korean ➜ English Sentence</option>
-                  </select>
+                {/* Source & Target Language Selectors */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase">
+                      Source Language
+                    </label>
+                    <select
+                      disabled={isTranslating}
+                      value={sourceLanguage}
+                      onChange={(e) => setSourceLanguage(e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                    >
+                      <option value="Auto-Detect">Auto-Detect</option>
+                      <option value="English">English</option>
+                      <option value="Korean">Korean</option>
+                      <option value="Spanish">Spanish</option>
+                      <option value="French">French</option>
+                      <option value="Italian">Italian</option>
+                      <option value="German">German</option>
+                      <option value="Japanese">Japanese</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase">
+                      Target Language
+                    </label>
+                    <select
+                      disabled={isTranslating}
+                      value={targetLanguage}
+                      onChange={(e) => setTargetLanguage(e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                    >
+                      <option value="English">English</option>
+                      <option value="Korean">Korean</option>
+                      <option value="Spanish">Spanish</option>
+                      <option value="French">French</option>
+                      <option value="Italian">Italian</option>
+                      <option value="German">German</option>
+                      <option value="Japanese">Japanese</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             )}

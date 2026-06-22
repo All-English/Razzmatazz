@@ -9,7 +9,7 @@ export const questionMediaValidator = z.object({
 })
 
 const questionValidator = z.object({
-  koreanPrompt: z.string().min(1, "errors:quizz.promptEmpty"),
+  prompt: z.string().min(1, "errors:quizz.promptEmpty"),
   scrambledChunks: z
     .array(z.string().min(1, "errors:quizz.chunkEmpty"))
     .min(2, "errors:quizz.tooFewChunks"),

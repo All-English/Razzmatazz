@@ -22,13 +22,13 @@ export type Status = (typeof STATUS)[keyof typeof STATUS]
 export interface CommonStatusDataMap {
   SHOW_START: { time: number; subject: string }
   SHOW_QUESTION: {
-    koreanPrompt: string
+    prompt: string
     scrambledChunks: string[]
     media?: QuestionMedia
     cooldown: number
   }
   BUILD_SENTENCE: {
-    koreanPrompt: string
+    prompt: string
     scrambledChunks: string[]
     media?: QuestionMedia
     time: number
@@ -58,7 +58,7 @@ export interface CommonStatusDataMap {
 interface ManagerExtraStatus {
   SHOW_ROOM: { text: string; inviteCode?: string }
   SHOW_RESPONSES: {
-    koreanPrompt: string
+    prompt: string
     correctSentence: string
     scrambledChunks: string[]
     media?: QuestionMedia

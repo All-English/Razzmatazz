@@ -27,7 +27,7 @@ export interface QuestionMedia {
 }
 
 export interface Question {
-  koreanPrompt: string
+  prompt: string
   scrambledChunks: string[]
   correctChunks: string[]
   correctSentence: string

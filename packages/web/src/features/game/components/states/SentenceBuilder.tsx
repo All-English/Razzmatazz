@@ -39,7 +39,7 @@ const DISABLED_MUSIC_MEDIA: QuestionMediaType[] = ["audio", "video"]
 
 const SentenceBuilder = ({
   data: {
-    koreanPrompt,
+    prompt,
     scrambledChunks,
     media,
     time,
@@ -230,12 +230,12 @@ const SentenceBuilder = ({
       )}
 
       <div className="mx-auto inline-flex h-full w-full max-w-7xl flex-1 flex-col items-center justify-center gap-8 px-4 py-6">
-        {/* Korean Prompt */}
+        {/* Prompt */}
         <h2 className="text-center text-3xl leading-tight font-bold text-white drop-shadow-2xl md:text-4xl lg:text-5xl">
-          {koreanPrompt}
+          {prompt}
         </h2>
 
-        <QuestionMedia media={media} alt={koreanPrompt} />
+        <QuestionMedia media={media} alt={prompt} />
 
         {/* Promoted Scrambled Chunks for Managers */}
         {manager && (
