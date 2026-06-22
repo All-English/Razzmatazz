@@ -9,11 +9,11 @@ const Background = ({ children }: PropsWithChildren) => (
       <div className="bg-primary/15 absolute right-[-10vmin] bottom-[-45vmin] min-h-[75vmin] min-w-[75vmin] rotate-20 rounded-4xl" />
     </div>
 
-    <img src={logo} className="mb-10 h-16" alt="logo" />
+    <img src={logo} className="mb-10 h-20" alt="logo" />
     {children}
 
     <a
-      href="https://github.com/Ralex91/Razzia"
+      href="https://github.com/All-English/Razzmatazz"
       target="_blank"
       rel="noopener noreferrer"
       className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 text-sm font-semibold text-white/50 transition-colors hover:text-white/80"

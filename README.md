@@ -2,7 +2,7 @@
   <img width="450" height="120" align="center" src=".github/logo.svg">
   <br>
   <div align="center">
-    <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/Ralex91/Razzia/edit/main/README.md&countColor=%23FF9900">
+    <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/All-English/Razzmatazz/edit/main/README.md&countColor=%23FF9900">
     <img src="https://img.shields.io/docker/pulls/ralex91/razzia?style=for-the-badge&color=FF9900" alt="Docker Pulls">
   </div>
 </p>
@@ -71,8 +71,8 @@ The application will be available at http://localhost:3000
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Ralex91/Razzia.git
-cd ./Razzia
+git clone https://github.com/All-English/Razzmatazz.git
+cd ./Razzmatazz
 ```
 
 2. Install dependencies:
@@ -179,8 +179,8 @@ Quiz Options:
 
 Contributions are welcome! Please read the [CONTRIBUTING.md](.github/CONTRIBUTING.md) guide before submitting a pull request.
 
-For bug reports or feature requests, please [create an issue](https://github.com/Ralex91/Razzia/issues).
+For bug reports or feature requests, please [create an issue](https://github.com/All-English/Razzmatazz/issues).
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Ralex91/Razzia&type=date&legend=bottom-right)](https://www.star-history.com/#Ralex91/Razzia&type=date&legend=bottom-right)
+[![Star History Chart](https://api.star-history.com/svg?repos=All-English/Razzmatazz&type=date&legend=bottom-right)](https://www.star-history.com/#All-English/Razzmatazz&type=date&legend=bottom-right)
