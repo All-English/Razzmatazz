@@ -408,6 +408,7 @@ class Game {
       this.sendStatus(player.id, STATUS.WAIT, {
         text: "game:waitingForNextGame",
       })
+      this.io.to(player.id).emit(EVENTS.PLAYER.UPDATE, player)
     }
 
     // Send the manager back to the lobby with the full fresh player list
