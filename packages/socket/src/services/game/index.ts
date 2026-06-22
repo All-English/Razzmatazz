@@ -388,6 +388,9 @@ class Game {
     // Stop any running cooldown (e.g. if called mid-study-mode)
     this.cooldown.abort()
 
+    // Save practice results if in study mode before resetting state
+    this.saveStudyResults()
+
     // Reset all round + player state
     this.round.reset()
     this.playerManager.resetScores()
