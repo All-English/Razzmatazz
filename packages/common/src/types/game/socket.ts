@@ -143,6 +143,18 @@ export interface ClientToServerEvents {
   [EVENTS.QUIZZ.SAVE]: (_quizz: unknown) => void
   [EVENTS.QUIZZ.UPDATE]: (_data: QuizzWithId) => void
   [EVENTS.QUIZZ.DELETE]: (_id: string) => void
+  [EVENTS.QUIZZ.MOVE]: (_data: { ids: string[]; folder: string }) => void
+  [EVENTS.QUIZZ.TOGGLE_FAVORITE]: (_ids: string[]) => void
+  [EVENTS.QUIZZ.SOFT_DELETE]: (_ids: string[]) => void
+  [EVENTS.QUIZZ.RESTORE]: (_ids: string[]) => void
+  [EVENTS.QUIZZ.PERMANENT_DELETE]: (_ids: string[]) => void
+  [EVENTS.QUIZZ.DUPLICATE]: (_id: string) => void
+  [EVENTS.QUIZZ.COMBINE]: (_data: { ids: string[]; subject: string; folder?: string }) => void
+
+  // Manager actions (Folders)
+  [EVENTS.MANAGER.CREATE_FOLDER]: (_name: string) => void
+  [EVENTS.MANAGER.DELETE_FOLDER]: (_name: string) => void
+  [EVENTS.MANAGER.RENAME_FOLDER]: (_data: { oldName: string; newName: string }) => void
 
   // Player actions
   [EVENTS.PLAYER.JOIN]: (_inviteCode: string) => void

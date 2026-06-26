@@ -82,5 +82,8 @@
     "아까워요!",
     "포기하지 마세요!",
     "할 수 있어요!"
-  ]
+  ],
+  "lobbySettings": "로비 설정",
+  "gameModeLabel": "게임 모드",
+  "waitingForPlayersToJoin": "플레이어 접속 대기 중..."
 }

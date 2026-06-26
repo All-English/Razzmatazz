@@ -2,6 +2,21 @@
   "configurationsTitle": "Konfigurationen",
   "logout": "Abmelden",
   "passwordPlaceholder": "Passwort",
+  "nav": {
+    "library": "Bibliothek",
+    "reports": "Berichte",
+    "settings": "Einstellungen"
+  },
+  "sidebar": {
+    "allQuizzes": "Alle Quizze",
+    "favorites": "Favoriten",
+    "yourFolders": "Deine Ordner",
+    "newFolder": "Neuer Ordner",
+    "trash": "Papierkorb",
+    "renameFolder": "Ordner umbenennen",
+    "deleteFolder": "Ordner löschen",
+    "deleteFolderConfirm": "Ordner \"{{name}}\" löschen? Alle Quizze in diesem Ordner werden in den Papierkorb verschoben."
+  },
   "quizz": {
     "create": "Quiz erstellen",
     "delete": "Quiz löschen",
@@ -21,7 +36,44 @@
     "toQuestion": "bis",
     "shuffle": "Fragen mischen",
     "questionsCount": "{{count}} Fragen",
-    "changeQuizz": "Quiz ändern"
+    "changeQuizz": "Quiz ändern",
+    "search": "Quizze suchen...",
+    "host": "Host",
+    "edit": "Bearbeiten",
+    "favorite": "Favorit",
+    "unfavorite": "Aus Favoriten entfernen",
+    "moveToFolder": "In Ordner verschieben...",
+    "duplicate": "Duplizieren",
+    "duplicated": "Quiz dupliziert",
+    "combine": "Kombinieren",
+    "combined": "Quizze kombiniert",
+    "combineTitle": "Neuer Quiz-Titel",
+    "selectedCount": "{{count}} ausgewählt",
+    "noFolder": "Stammverzeichnis (kein Ordner)",
+    "movedToFolder": "In \"{{folder}}\" verschoben",
+    "movedToRoot": "Ins Stammverzeichnis verschoben",
+    "importShort": "JSON importieren",
+    "title": "Titel",
+    "questions": "Fragen",
+    "lastModified": "Zuletzt geändert",
+    "actions": "Aktionen",
+    "selected": "Aktives Quiz",
+    "relativeTime": {
+      "justNow": "Gerade eben",
+      "minsAgo": "vor {{count}} Min.",
+      "hoursAgo": "vor {{count}} Std.",
+      "yesterday": "Gestern",
+      "daysAgo": "vor {{count}} Tagen"
+    }
+  },
+  "trash": {
+    "title": "Papierkorb",
+    "autoDeleteNotice": "Elemente im Papierkorb werden nach 30 Tagen unwiderruflich gelöscht",
+    "restore": "Wiederherstellen",
+    "restored": "Quiz wiederhergestellt",
+    "permanentDelete": "Endgültig löschen",
+    "permanentDeleteConfirm": "\"{{name}}\" endgültig löschen? Dies kann nicht rückgängig gemacht werden.",
+    "deletedOn": "Gelöscht am"
   },
   "result": {
     "delete": "Ergebnis löschen",
@@ -43,11 +95,25 @@
       "points": "Punkte"
     },
     "playerCount": "{{count}} Spieler",
-    "timeLimitSuffix": "s Zeitlimit"
+    "timeLimitSuffix": "s Zeitlimit",
+    "available_one": "{{count}} Bericht verfügbar",
+    "available_other": "{{count}} Berichte verfügbar",
+    "viewResults": "Ergebnisse anzeigen",
+    "studyMode": "Üben",
+    "liveMode": "Live"
   },
   "tabs": {
     "play": "Spielen",
     "quizz": "Quiz",
     "results": "Ergebnisse"
+  },
+  "settings": {
+    "subtitle": "Anwendungseinstellungen konfigurieren und Status anzeigen",
+    "selectLanguage": "Wählen Sie die Oberflächensprache für das Verwaltungsportal aus",
+    "systemInfo": "Systeminformationen",
+    "serverConnection": "Serververbindung",
+    "connected": "Verbunden",
+    "disconnected": "Getrennt",
+    "appVersion": "App-Version"
   }
 }

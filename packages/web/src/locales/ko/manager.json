@@ -2,6 +2,21 @@
   "configurationsTitle": "설정",
   "logout": "로그아웃",
   "passwordPlaceholder": "비밀번호",
+  "nav": {
+    "library": "보관함",
+    "reports": "리포트",
+    "settings": "설정"
+  },
+  "sidebar": {
+    "allQuizzes": "모든 퀴즈",
+    "favorites": "즐겨찾기",
+    "yourFolders": "내 폴더",
+    "newFolder": "새 폴더",
+    "trash": "휴지통",
+    "renameFolder": "폴더 이름 바꾸기",
+    "deleteFolder": "폴더 삭제",
+    "deleteFolderConfirm": "\"{{name}}\" 폴더를 삭제하시겠습니까? 이 폴더의 모든 퀴즈가 휴지통으로 이동합니다."
+  },
   "quizz": {
     "create": "퀴즈 만들기",
     "delete": "퀴즈 삭제",
@@ -21,7 +36,44 @@
     "toQuestion": "끝 질문",
     "shuffle": "질문 섞기",
     "questionsCount": "{{count}}개 질문",
-    "changeQuizz": "퀴즈 변경"
+    "changeQuizz": "퀴즈 변경",
+    "search": "퀴즈 검색...",
+    "host": "호스트",
+    "edit": "편집",
+    "favorite": "즐겨찾기 등록",
+    "unfavorite": "즐겨찾기 해제",
+    "moveToFolder": "폴더로 이동...",
+    "duplicate": "복사",
+    "duplicated": "퀴즈가 복사되었습니다",
+    "combine": "합치기",
+    "combined": "퀴즈가 합쳐졌습니다",
+    "combineTitle": "새 퀴즈 제목",
+    "selectedCount": "{{count}}개 선택됨",
+    "noFolder": "루트 (폴더 없음)",
+    "movedToFolder": "\"{{folder}}\" 폴더로 이동되었습니다",
+    "movedToRoot": "루트로 이동되었습니다",
+    "importShort": "JSON 가져오기",
+    "title": "제목",
+    "questions": "질문 수",
+    "lastModified": "최근 수정일",
+    "actions": "작업",
+    "selected": "선택된 퀴즈",
+    "relativeTime": {
+      "justNow": "방금 전",
+      "minsAgo": "{{count}}분 전",
+      "hoursAgo": "{{count}}시간 전",
+      "yesterday": "어제",
+      "daysAgo": "{{count}}일 전"
+    }
+  },
+  "trash": {
+    "title": "휴지통",
+    "autoDeleteNotice": "휴지통에 있는 항목은 30일 후에 영구 삭제됩니다",
+    "restore": "복원",
+    "restored": "퀴즈가 복원되었습니다",
+    "permanentDelete": "영구 삭제",
+    "permanentDeleteConfirm": "정말 \"{{name}}\" 퀴즈를 영구 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "deletedOn": "삭제된 날짜"
   },
   "result": {
     "delete": "결과 삭제",
@@ -43,11 +95,25 @@
       "points": "점수"
     },
     "playerCount": "{{count}}명 플레이어",
-    "timeLimitSuffix": "초 시간 제한"
+    "timeLimitSuffix": "초 시간 제한",
+    "available_one": "{{count}}개의 리포트가 있습니다",
+    "available_other": "{{count}}개의 리포트가 있습니다",
+    "viewResults": "결과 보기",
+    "studyMode": "연습 모드",
+    "liveMode": "대결 모드"
   },
   "tabs": {
     "play": "게임 진행",
     "quizz": "퀴즈 관리",
     "results": "결과 분석"
+  },
+  "settings": {
+    "subtitle": "애플리케이션 환경설정 및 상태 확인",
+    "selectLanguage": "관리자 패널의 인터페이스 언어를 선택하세요",
+    "systemInfo": "시스템 정보",
+    "serverConnection": "서버 연결",
+    "connected": "연결됨",
+    "disconnected": "연결 끊김",
+    "appVersion": "앱 버전"
   }
 }

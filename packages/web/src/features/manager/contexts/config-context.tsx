@@ -4,6 +4,8 @@ import { createContext, useContext, type ReactNode } from "react"
 const ConfigContext = createContext<ManagerConfig>({
   quizz: [],
   results: [],
+  folders: [],
+  trash: [],
 })
 
 interface Props {

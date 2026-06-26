@@ -82,5 +82,8 @@
     "Knapp daneben!",
     "Gib nicht auf!",
     "Du schaffst das!"
-  ]
+  ],
+  "lobbySettings": "Lobby-Einstellungen",
+  "gameModeLabel": "Spielmodus",
+  "waitingForPlayersToJoin": "Warten auf Verbindung der Spieler..."
 }

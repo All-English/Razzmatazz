@@ -12,7 +12,7 @@ import {
   type QuestionWithId,
 } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
 import { isDerivationSuccessful } from "@razzia/web/features/quizz/utils/chunks"
-import { useNavigate } from "@tanstack/react-router"
+import { useNavigate, useSearch } from "@tanstack/react-router"
 import type { ChangeEvent } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
@@ -23,6 +23,8 @@ const QuizzEditorHeader = () => {
   const { socket } = useSocket()
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const search = useSearch({ strict: false }) as { folder?: string }
+  const folder = search.folder
 
   const handleChangeSubject = (e: ChangeEvent<HTMLInputElement>) => {
     setSubject(e.target.value)
@@ -53,7 +55,7 @@ const QuizzEditorHeader = () => {
     if (quizzId) {
       socket.emit(EVENTS.QUIZZ.UPDATE, { id: quizzId, subject, questions })
     } else {
-      socket.emit(EVENTS.QUIZZ.SAVE, { subject, questions })
+      socket.emit(EVENTS.QUIZZ.SAVE, { subject, questions, folder })
     }
   }
 

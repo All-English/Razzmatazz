@@ -50,6 +50,9 @@ export const EVENTS = {
     END_GAME_EARLY: "manager:endGameEarly",
     PLAY_AGAIN: "manager:playAgain",
     CHANGE_QUIZ: "manager:changeQuiz",
+    CREATE_FOLDER: "manager:createFolder",
+    DELETE_FOLDER: "manager:deleteFolder",
+    RENAME_FOLDER: "manager:renameFolder",
   },
   QUIZZ: {
     GET: "quizz:get",
@@ -60,6 +63,13 @@ export const EVENTS = {
     UPDATE_SUCCESS: "quizz:updateSuccess",
     DELETE: "quizz:delete",
     ERROR: "quizz:error",
+    MOVE: "quizz:move",
+    TOGGLE_FAVORITE: "quizz:toggleFavorite",
+    SOFT_DELETE: "quizz:softDelete",
+    RESTORE: "quizz:restore",
+    PERMANENT_DELETE: "quizz:permanentDelete",
+    DUPLICATE: "quizz:duplicate",
+    COMBINE: "quizz:combine",
   },
   RESULTS: {
     GET: "results:get",

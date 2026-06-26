@@ -2,6 +2,21 @@
   "configurationsTitle": "設定",
   "logout": "ログアウト",
   "passwordPlaceholder": "パスワード",
+  "nav": {
+    "library": "ライブラリ",
+    "reports": "レポート",
+    "settings": "設定"
+  },
+  "sidebar": {
+    "allQuizzes": "すべてのクイズ",
+    "favorites": "お気に入り",
+    "yourFolders": "フォルダ一覧",
+    "newFolder": "新しいフォルダ",
+    "trash": "ゴミ箱",
+    "renameFolder": "フォルダ名の変更",
+    "deleteFolder": "フォルダの削除",
+    "deleteFolderConfirm": "フォルダ「{{name}}」を削除しますか？このフォルダ内のすべてのクイズはゴミ箱に移動されます。"
+  },
   "quizz": {
     "create": "クイズを作成",
     "delete": "クイズを削除",
@@ -21,7 +36,44 @@
     "toQuestion": "終了問題",
     "shuffle": "問題をシャッフル",
     "questionsCount": "{{count}} 問",
-    "changeQuizz": "クイズを変更"
+    "changeQuizz": "クイズを変更",
+    "search": "クイズを検索...",
+    "host": "ホスト",
+    "edit": "編集",
+    "favorite": "お気に入りに追加",
+    "unfavorite": "お気に入りから削除",
+    "moveToFolder": "フォルダに移動...",
+    "duplicate": "コピー",
+    "duplicated": "クイズをコピーしました",
+    "combine": "結合",
+    "combined": "クイズを結合しました",
+    "combineTitle": "新しいクイズのタイトル",
+    "selectedCount": "{{count}}個選択中",
+    "noFolder": "ルート (フォルダなし)",
+    "movedToFolder": "「{{folder}}」フォルダに移動しました",
+    "movedToRoot": "ルートに移動しました",
+    "importShort": "JSONインポート",
+    "title": "タイトル",
+    "questions": "問題数",
+    "lastModified": "最終更新日",
+    "actions": "操作",
+    "selected": "選択されたクイズ",
+    "relativeTime": {
+      "justNow": "たった今",
+      "minsAgo": "{{count}}分前",
+      "hoursAgo": "{{count}}時間前",
+      "yesterday": "昨日",
+      "daysAgo": "{{count}}日前"
+    }
+  },
+  "trash": {
+    "title": "ゴミ箱",
+    "autoDeleteNotice": "ゴミ箱の中のアイテムは30日後に自動的に完全に削除されます",
+    "restore": "復元",
+    "restored": "クイズを復元しました",
+    "permanentDelete": "完全に削除",
+    "permanentDeleteConfirm": "本当に「{{name}}」を完全に削除しますか？この操作は元に戻せません。",
+    "deletedOn": "削除日時"
   },
   "result": {
     "delete": "結果を削除",
@@ -43,11 +95,25 @@
       "points": "ポイント"
     },
     "playerCount": "{{count}}人",
-    "timeLimitSuffix": "秒制限"
+    "timeLimitSuffix": "秒制限",
+    "available_one": "{{count}}件のレポートがあります",
+    "available_other": "{{count}}件のレポートがあります",
+    "viewResults": "結果を表示",
+    "studyMode": "練習モード",
+    "liveMode": "対戦モード"
   },
   "tabs": {
     "play": "プレイ",
     "quizz": "クイズ",
     "results": "結果"
+  },
+  "settings": {
+    "subtitle": "アプリケーションの設定とステータ스의表示",
+    "selectLanguage": "管理パネルのインターフェース言語を選択します",
+    "systemInfo": "システム情報",
+    "serverConnection": "サーバー接続",
+    "connected": "接続済み",
+    "disconnected": "切断",
+    "appVersion": "アプリバージョン"
   }
 }

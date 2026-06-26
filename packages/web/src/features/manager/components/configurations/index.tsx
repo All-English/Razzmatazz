@@ -1,87 +1,85 @@
-import { EVENTS } from "@razzia/common/constants"
-import type { ManagerConfig } from "@razzia/common/types/manager"
-import Card from "@razzia/web/components/Card"
-import LanguageSwitcher from "@razzia/web/components/LanguageSwitcher"
-import { useSocket } from "@razzia/web/features/game/contexts/socket-context"
-import { useManagerStore } from "@razzia/web/features/game/stores/manager"
-import ConfigManageQuizz from "@razzia/web/features/manager/components/configurations/ConfigManageQuizz"
-import ConfigResults from "@razzia/web/features/manager/components/configurations/ConfigResults"
-import ConfigSelectQuizz from "@razzia/web/features/manager/components/configurations/ConfigSelectQuizz"
-import ConfigTabButton from "@razzia/web/features/manager/components/configurations/ConfigTabButton"
 import { ConfigProvider } from "@razzia/web/features/manager/contexts/config-context"
-import { LogOut } from "lucide-react"
-import { useState } from "react"
-import { useTranslation } from "react-i18next"
-
-const tabs = [
-  {
-    nameKey: "manager:tabs.play",
-    component: ConfigSelectQuizz,
-  },
-  {
-    nameKey: "manager:tabs.quizz",
-    component: ConfigManageQuizz,
-  },
-  {
-    nameKey: "manager:tabs.results",
-    component: ConfigResults,
-  },
-]
+import NavRail, { type SectionType } from "@razzia/web/features/manager/components/configurations/NavRail"
+import FolderSidebar, { type FolderSelection } from "@razzia/web/features/manager/components/configurations/FolderSidebar"
+import QuizListPanel from "@razzia/web/features/manager/components/configurations/QuizListPanel"
+import TrashPanel from "@razzia/web/features/manager/components/configurations/TrashPanel"
+import ReportsPanel from "@razzia/web/features/manager/components/configurations/ReportsPanel"
+import SettingsPanel from "@razzia/web/features/manager/components/configurations/SettingsPanel"
+import type { ManagerConfig } from "@razzia/common/types/manager"
+import { useEffect, useState } from "react"
 
 interface Props {
   data: ManagerConfig
 }
 
 const Configurations = ({ data }: Props) => {
-  const [selectedTab, setSelectedTab] = useState(0)
-  const { reset } = useManagerStore()
-  const { socket } = useSocket()
-  const { t } = useTranslation()
-  const TabComponent = tabs[selectedTab].component
+  const [section, setSection] = useState<SectionType>(() => {
+    const saved = localStorage.getItem("razzia_active_section") as SectionType
+    return ["library", "reports", "settings"].includes(saved) ? saved : "library"
+  })
 
-  const handleSelect = (index: number) => () => {
-    setSelectedTab(index)
+  const [selectedFolder, setSelectedFolder] = useState<FolderSelection>(() => {
+    const saved = localStorage.getItem("razzia_selected_folder")
+    if (saved === "all" || saved === "favorites" || saved === "trash") {
+      return saved
+    }
+    if (saved && data.folders.includes(saved)) {
+      return saved
+    }
+    return "all"
+  })
+
+  // Synchronously update localStorage on changes
+  const handleSectionChange = (sec: SectionType) => {
+    setSection(sec)
+    localStorage.setItem("razzia_active_section", sec)
   }
 
-  const handleLogout = () => {
-    socket.emit(EVENTS.MANAGER.LOGOUT)
-    reset()
+  const handleSelectFolder = (folder: FolderSelection) => {
+    setSelectedFolder(folder)
+    localStorage.setItem("razzia_selected_folder", folder)
   }
+
+  // Validate that the folder exists in data.folders
+  useEffect(() => {
+    if (selectedFolder !== "all" && selectedFolder !== "favorites" && selectedFolder !== "trash") {
+      if (!data.folders.includes(selectedFolder)) {
+        setSelectedFolder("all")
+        localStorage.setItem("razzia_selected_folder", "all")
+      }
+    }
+  }, [data.folders, selectedFolder])
 
   return (
     <ConfigProvider data={data}>
-      <Card className="max-h-[80svh] w-full max-w-md">
-        <div className="mb-4 flex items-center justify-between">
-          <p className="text-lg font-semibold">
-            {t("manager:configurationsTitle")}
-          </p>
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
-            <button
-              className="rounded-sm p-1.5 text-gray-400 hover:bg-gray-200 hover:text-gray-600"
-              onClick={handleLogout}
-              title={t("manager:logout")}
-            >
-              <LogOut className="size-4" />
-            </button>
-          </div>
-        </div>
-        <div className="flex shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-100">
-          {tabs.map((tab, index) => (
-            <ConfigTabButton
-              key={tab.nameKey}
-              active={index === selectedTab}
-              onClick={handleSelect(index)}
-            >
-              {t(tab.nameKey)}
-            </ConfigTabButton>
-          ))}
-        </div>
-        <hr className="my-4 text-gray-100" />
-        <div className="flex min-h-0 flex-1 flex-col">
-          <TabComponent />
-        </div>
-      </Card>
+      <div className="flex h-svh w-screen overflow-hidden bg-white font-display">
+        {/* Navigation Rail */}
+        <NavRail activeSection={section} onSectionChange={handleSectionChange} />
+
+        {/* Library Section */}
+        {section === "library" && (
+          <>
+            {/* Sidebar */}
+            <FolderSidebar
+              selectedFolder={selectedFolder}
+              onSelectFolder={handleSelectFolder}
+            />
+
+            {/* Main Content Area */}
+            {selectedFolder === "trash" ? (
+              <TrashPanel />
+            ) : (
+              <QuizListPanel selectedFolder={selectedFolder} />
+            )}
+          </>
+        )}
+
+        {/* Reports Section */}
+        {section === "reports" && <ReportsPanel />}
+
+        {/* Settings Section */}
+        {section === "settings" && <SettingsPanel />}
+      </div>
     </ConfigProvider>
   )
 }

@@ -43,11 +43,7 @@ const ManagerConfigPage = () => {
     return <Navigate to="/manager" />
   }
 
-  return (
-    <Background>
-      <Configurations data={config} />
-    </Background>
-  )
+  return <Configurations data={config} />
 }
 
 export const Route = createFileRoute("/manager/config")({

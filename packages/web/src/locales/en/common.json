@@ -18,5 +18,8 @@
   "save": "Save",
   "seconds": "sec",
   "skip": "Skip",
-  "submit": "Submit"
+  "submit": "Submit",
+  "change": "Change",
+  "active": "Active",
+  "close": "Close"
 }

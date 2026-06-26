@@ -19,6 +19,14 @@ Razzmatazz is a straightforward and open-source scrambled sentence builder game,
   <img width="30%" src=".github/previews/3.png" alt="Question Screen">
 </p>
 
+## 🆚 Razzmatazz vs. Razzia
+
+Razzmatazz is built on top of the open-source **Razzia** quiz platform (originally developed by [Ralex91](https://github.com/Ralex91/Razzia)). While it shares Razzia's robust real-time communication foundation, Razzmatazz has been heavily adapted and redesigned for language education:
+
+- **Specialized Question Format**: Instead of standard multiple-choice questions, Razzmatazz is custom-built for scrambled sentence building. Questions use `scrambledChunks`, `correctChunks`, and `correctSentence` properties to support sentence reconstruction.
+- **Premium Three-Column Manager Dashboard**: Features a completely redesigned full-screen admin control center.
+- **Practice Mode**: Supports a relaxed study mode configuration where timer restrictions are lifted (setting countdown to 9999) to let students learn at their own pace.
+
 ## ⚙️ Prerequisites
 
 Choose one of the following deployment methods:

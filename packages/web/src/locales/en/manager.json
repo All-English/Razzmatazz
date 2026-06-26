@@ -2,6 +2,21 @@
   "configurationsTitle": "Configurations",
   "logout": "Logout",
   "passwordPlaceholder": "Password",
+  "nav": {
+    "library": "Library",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "sidebar": {
+    "allQuizzes": "All Quizzes",
+    "favorites": "Favorites",
+    "yourFolders": "Your Folders",
+    "newFolder": "New folder",
+    "trash": "Trash",
+    "renameFolder": "Rename folder",
+    "deleteFolder": "Delete folder",
+    "deleteFolderConfirm": "Delete folder \"{{name}}\"? All quizzes in this folder will be moved to Trash."
+  },
   "quizz": {
     "create": "Create Quiz",
     "delete": "Delete quiz",
@@ -21,7 +36,44 @@
     "toQuestion": "to",
     "shuffle": "Shuffle questions",
     "questionsCount": "{{count}} questions",
-    "changeQuizz": "Change Quiz"
+    "changeQuizz": "Change Quiz",
+    "search": "Search quizzes...",
+    "host": "Host",
+    "edit": "Edit",
+    "favorite": "Favorite",
+    "unfavorite": "Unfavorite",
+    "moveToFolder": "Move to folder...",
+    "duplicate": "Duplicate",
+    "duplicated": "Quiz duplicated",
+    "combine": "Combine",
+    "combined": "Quizzes combined",
+    "combineTitle": "New quiz title",
+    "selectedCount": "{{count}} selected",
+    "noFolder": "Root (no folder)",
+    "movedToFolder": "Moved to \"{{folder}}\"",
+    "movedToRoot": "Moved to root",
+    "importShort": "Import JSON",
+    "title": "Title",
+    "questions": "Questions",
+    "lastModified": "Last Modified",
+    "actions": "Actions",
+    "selected": "Active Quiz",
+    "relativeTime": {
+      "justNow": "Just now",
+      "minsAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago",
+      "yesterday": "Yesterday",
+      "daysAgo": "{{count}}d ago"
+    }
+  },
+  "trash": {
+    "title": "Trash",
+    "autoDeleteNotice": "Items are permanently deleted after 30 days",
+    "restore": "Restore",
+    "restored": "Quiz restored",
+    "permanentDelete": "Permanently delete",
+    "permanentDeleteConfirm": "Permanently delete \"{{name}}\"? This cannot be undone.",
+    "deletedOn": "Deleted on"
   },
   "result": {
     "delete": "Delete result",
@@ -43,11 +95,25 @@
       "points": "Points"
     },
     "playerCount": "{{count}} player(s)",
-    "timeLimitSuffix": "s time limit"
+    "timeLimitSuffix": "s time limit",
+    "available_one": "{{count}} report available",
+    "available_other": "{{count}} reports available",
+    "viewResults": "View Results",
+    "studyMode": "Study",
+    "liveMode": "Live"
   },
   "tabs": {
     "play": "Play",
     "quizz": "Quiz",
     "results": "Results"
+  },
+  "settings": {
+    "subtitle": "Configure application preferences and view status",
+    "selectLanguage": "Select the interface language for the manager panel",
+    "systemInfo": "System Information",
+    "serverConnection": "Server Connection",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "appVersion": "App Version"
   }
 }

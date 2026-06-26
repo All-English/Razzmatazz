@@ -4,7 +4,7 @@ import { managerSocketHandlers } from "@razzia/socket/handlers/manager"
 import { quizzSocketHandlers } from "@razzia/socket/handlers/quizz"
 import { resultsSocketHandlers } from "@razzia/socket/handlers/results"
 import type { SocketHandler } from "@razzia/socket/handlers/types"
-import { initConfig } from "@razzia/socket/services/config"
+import { initConfig, purgeExpiredTrash } from "@razzia/socket/services/config"
 import Registry from "@razzia/socket/services/registry"
 import { Server as ServerIO } from "socket.io"
 
@@ -14,6 +14,16 @@ const io: Server = new ServerIO({
   path: "/ws",
 })
 initConfig()
+purgeExpiredTrash()
+
+// Run trash purge every hour
+setInterval(() => {
+  try {
+    purgeExpiredTrash()
+  } catch (error) {
+    console.error("Failed to run periodic trash purge:", error)
+  }
+}, 60 * 60 * 1000)
 
 console.log(`Socket server running on port ${WS_PORT}`)
 io.listen(WS_PORT)

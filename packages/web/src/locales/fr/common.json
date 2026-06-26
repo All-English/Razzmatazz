@@ -20,5 +20,8 @@
   "saving": "Enregistrement...",
   "seconds": "sec",
   "skip": "Passer",
-  "submit": "Valider"
+  "submit": "Valider",
+  "change": "Modifier",
+  "active": "Actif",
+  "close": "Fermer"
 }

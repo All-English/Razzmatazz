@@ -2,6 +2,21 @@
   "configurationsTitle": "Configuraciones",
   "logout": "Cerrar sesión",
   "passwordPlaceholder": "Contraseña",
+  "nav": {
+    "library": "Biblioteca",
+    "reports": "Informes",
+    "settings": "Configuración"
+  },
+  "sidebar": {
+    "allQuizzes": "Todos los cuestionarios",
+    "favorites": "Favoritos",
+    "yourFolders": "Tus carpetas",
+    "newFolder": "Nueva carpeta",
+    "trash": "Papelera",
+    "renameFolder": "Renombrar carpeta",
+    "deleteFolder": "Eliminar carpeta",
+    "deleteFolderConfirm": "¿Eliminar carpeta \"{{name}}\"? Todos los cuestionarios de esta carpeta se moverán a la Papelera."
+  },
   "quizz": {
     "create": "Crear cuestionario",
     "delete": "Eliminar cuestionario",
@@ -21,7 +36,44 @@
     "toQuestion": "hasta",
     "shuffle": "Barajar preguntas",
     "questionsCount": "{{count}} preguntas",
-    "changeQuizz": "Cambiar cuestionario"
+    "changeQuizz": "Cambiar cuestionario",
+    "search": "Buscar cuestionarios...",
+    "host": "Host",
+    "edit": "Editar",
+    "favorite": "Favorito",
+    "unfavorite": "Quitar de favoritos",
+    "moveToFolder": "Mover a la carpeta...",
+    "duplicate": "Duplicar",
+    "duplicated": "Cuestionario duplicado",
+    "combine": "Combinar",
+    "combined": "Cuestionarios combinados",
+    "combineTitle": "Nuevo título del cuestionario",
+    "selectedCount": "{{count}} seleccionado(s)",
+    "noFolder": "Raíz (sin carpeta)",
+    "movedToFolder": "Movido a \"{{folder}}\"",
+    "movedToRoot": "Movido a la raíz",
+    "importShort": "Importar JSON",
+    "title": "Título",
+    "questions": "Preguntas",
+    "lastModified": "Última modificación",
+    "actions": "Acciones",
+    "selected": "Cuestionario activo",
+    "relativeTime": {
+      "justNow": "Ahora mismo",
+      "minsAgo": "hace {{count}} min",
+      "hoursAgo": "hace {{count}} h",
+      "yesterday": "Ayer",
+      "daysAgo": "hace {{count}} d"
+    }
+  },
+  "trash": {
+    "title": "Papelera",
+    "autoDeleteNotice": "Los elementos de la papelera se eliminan permanentemente después de 30 días",
+    "restore": "Restaurar",
+    "restored": "Cuestionario restaurado",
+    "permanentDelete": "Eliminar permanentemente",
+    "permanentDeleteConfirm": "¿Eliminar permanentemente \"{{name}}\"? Esta acción no se puede deshacer.",
+    "deletedOn": "Eliminado el"
   },
   "result": {
     "delete": "Eliminar resultado",
@@ -43,11 +95,25 @@
       "points": "Puntos"
     },
     "playerCount": "{{count}} jugador(es)",
-    "timeLimitSuffix": "s de tiempo límite"
+    "timeLimitSuffix": "s de tiempo límite",
+    "available_one": "{{count}} informe disponible",
+    "available_other": "{{count}} informes disponibles",
+    "viewResults": "Ver resultados",
+    "studyMode": "Práctica",
+    "liveMode": "En vivo"
   },
   "tabs": {
     "play": "Jugar",
     "quizz": "Cuestionario",
     "results": "Resultados"
+  },
+  "settings": {
+    "subtitle": "Configurar las preferencias de la aplicación y ver el estado",
+    "selectLanguage": "Seleccione el idioma de la interfaz para el panel de administración",
+    "systemInfo": "Información del sistema",
+    "serverConnection": "Conexión del servidor",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "appVersion": "Versión de la aplicación"
   }
 }

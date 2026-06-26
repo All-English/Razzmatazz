@@ -18,5 +18,8 @@
   "save": "저장",
   "seconds": "초",
   "skip": "건너뛰기",
-  "submit": "제출"
+  "submit": "제출",
+  "change": "변경",
+  "active": "활성",
+  "close": "닫기"
 }

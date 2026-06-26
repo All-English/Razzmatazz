@@ -130,7 +130,7 @@ const ManagerGamePage = () => {
     return null
   }
 
-  const defaultMockConfig = { quizz: [], results: [] }
+  const defaultMockConfig = { quizz: [], results: [], folders: [], trash: [] }
 
   return (
     <ConfigProvider data={config ?? defaultMockConfig}>

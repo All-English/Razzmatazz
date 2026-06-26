@@ -82,5 +82,8 @@
     "Presque !",
     "N'abandonne pas !",
     "Tu peux le faire !"
-  ]
+  ],
+  "lobbySettings": "Paramètres du salon",
+  "gameModeLabel": "Mode de jeu",
+  "waitingForPlayersToJoin": "En attente de connexion des joueurs..."
 }

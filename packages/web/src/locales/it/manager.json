@@ -2,6 +2,21 @@
   "configurationsTitle": "Configurazioni",
   "logout": "Disconnetti",
   "passwordPlaceholder": "Password",
+  "nav": {
+    "library": "Libreria",
+    "reports": "Rapporti",
+    "settings": "Impostazioni"
+  },
+  "sidebar": {
+    "allQuizzes": "Tutti i quiz",
+    "favorites": "Preferiti",
+    "yourFolders": "Le tue cartelle",
+    "newFolder": "Nuova cartella",
+    "trash": "Cestino",
+    "renameFolder": "Rinomina cartella",
+    "deleteFolder": "Elimina cartella",
+    "deleteFolderConfirm": "Eliminare la cartella \"{{name}}\"? Tutti i quiz in questa cartella saranno spostati nel Cestino."
+  },
   "quizz": {
     "create": "Crea quiz",
     "delete": "Elimina quiz",
@@ -21,7 +36,44 @@
     "toQuestion": "a",
     "shuffle": "Mescola domande",
     "questionsCount": "{{count}} domande",
-    "changeQuizz": "Modifica quiz"
+    "changeQuizz": "Modifica quiz",
+    "search": "Cerca quiz...",
+    "host": "Host",
+    "edit": "Modifica",
+    "favorite": "Preferito",
+    "unfavorite": "Rimuovi dai preferiti",
+    "moveToFolder": "Sposta nella cartella...",
+    "duplicate": "Duplica",
+    "duplicated": "Quiz duplicato",
+    "combine": "Combina",
+    "combined": "Quiz combinati",
+    "combineTitle": "Nuovo titolo del quiz",
+    "selectedCount": "{{count}} selezionato/i",
+    "noFolder": "Radice (nessuna cartella)",
+    "movedToFolder": "Spostato in \"{{folder}}\"",
+    "movedToRoot": "Spostato nella radice",
+    "importShort": "Importa JSON",
+    "title": "Titolo",
+    "questions": "Domande",
+    "lastModified": "Ultima modifica",
+    "actions": "Azioni",
+    "selected": "Quiz attivo",
+    "relativeTime": {
+      "justNow": "Proprio ora",
+      "minsAgo": "{{count}} min fa",
+      "hoursAgo": "{{count}} h fa",
+      "yesterday": "Ieri",
+      "daysAgo": "{{count}} giorni fa"
+    }
+  },
+  "trash": {
+    "title": "Cestino",
+    "autoDeleteNotice": "Gli elementi nel cestino vengono eliminati definitivamente dopo 30 giorni",
+    "restore": "Ripristina",
+    "restored": "Quiz ripristinato",
+    "permanentDelete": "Elimina definitivamente",
+    "permanentDeleteConfirm": "Eliminare definitivamente \"{{name}}\"? Questa azione non può essere annullata.",
+    "deletedOn": "Eliminato il"
   },
   "result": {
     "delete": "Elimina risultato",
@@ -43,11 +95,25 @@
       "points": "Punti"
     },
     "playerCount": "{{count}} giocatore/i",
-    "timeLimitSuffix": "s limite di tempo"
+    "timeLimitSuffix": "s limite di tempo",
+    "available_one": "{{count}} rapporto disponibile",
+    "available_other": "{{count}} rapporti disponibili",
+    "viewResults": "Visualizza risultati",
+    "studyMode": "Pratica",
+    "liveMode": "Dal vivo"
   },
   "tabs": {
     "play": "Gioca",
     "quizz": "Quiz",
     "results": "Risultati"
+  },
+  "settings": {
+    "subtitle": "Configura le preferenze dell'applicazione e visualizza lo stato",
+    "selectLanguage": "Seleziona la lingua dell'interfaccia per il pannello di amministrazione",
+    "systemInfo": "Informazioni sul sistema",
+    "serverConnection": "Connessione server",
+    "connected": "Connesso",
+    "disconnected": "Disconnesso",
+    "appVersion": "Versione dell'applicazione"
   }
 }

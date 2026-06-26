@@ -82,5 +82,8 @@
   "progressHidden": "Progress: Hidden",
   "waitingForHost": "Waiting for the host…",
   "waitingForNextGame": "Waiting for the next game to start…",
-  "backToLobby": "Back to Lobby"
+  "backToLobby": "Back to Lobby",
+  "lobbySettings": "Lobby Settings",
+  "gameModeLabel": "Game Mode",
+  "waitingForPlayersToJoin": "Waiting for players to connect..."
 }

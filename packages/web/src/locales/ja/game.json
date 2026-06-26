@@ -81,5 +81,8 @@
     "あきらめないで！",
     "もう一息！",
     "がんばって！"
-  ]
+  ],
+  "lobbySettings": "ロビー設定",
+  "gameModeLabel": "ゲームモード",
+  "waitingForPlayersToJoin": "プレイヤーの接続を待っています..."
 }

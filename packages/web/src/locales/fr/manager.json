@@ -2,6 +2,21 @@
   "configurationsTitle": "Configurations",
   "logout": "Déconnexion",
   "passwordPlaceholder": "Mot de passe",
+  "nav": {
+    "library": "Bibliothèque",
+    "reports": "Rapports",
+    "settings": "Paramètres"
+  },
+  "sidebar": {
+    "allQuizzes": "Tous les quiz",
+    "favorites": "Favoris",
+    "yourFolders": "Vos dossiers",
+    "newFolder": "Nouveau dossier",
+    "trash": "Corbeille",
+    "renameFolder": "Renommer le dossier",
+    "deleteFolder": "Supprimer le dossier",
+    "deleteFolderConfirm": "Supprimer le dossier \"{{name}}\" ? Tous les quiz de ce dossier seront déplacés vers la Corbeille."
+  },
   "quizz": {
     "create": "Créer un quiz",
     "delete": "Supprimer le quiz",
@@ -21,7 +36,44 @@
     "toQuestion": "à",
     "shuffle": "Mélanger les questions",
     "questionsCount": "{{count}} questions",
-    "changeQuizz": "Modifier le questionnaire"
+    "changeQuizz": "Modifier le questionnaire",
+    "search": "Rechercher des quiz...",
+    "host": "Lancer",
+    "edit": "Modifier",
+    "favorite": "Favori",
+    "unfavorite": "Retirer des favoris",
+    "moveToFolder": "Déplacer vers le dossier...",
+    "duplicate": "Dupliquer",
+    "duplicated": "Quiz dupliqué",
+    "combine": "Combiner",
+    "combined": "Quiz combinés",
+    "combineTitle": "Nouveau titre du quiz",
+    "selectedCount": "{{count}} sélectionné(s)",
+    "noFolder": "Racine (aucun dossier)",
+    "movedToFolder": "Déplacé dans \"{{folder}}\"",
+    "movedToRoot": "Déplacé à la racine",
+    "importShort": "Importer JSON",
+    "title": "Titre",
+    "questions": "Questions",
+    "lastModified": "Modifié le",
+    "actions": "Actions",
+    "selected": "Quiz actif",
+    "relativeTime": {
+      "justNow": "À l'instant",
+      "minsAgo": "il y a {{count}} min",
+      "hoursAgo": "il y a {{count}} h",
+      "yesterday": "Hier",
+      "daysAgo": "il y a {{count}} j"
+    }
+  },
+  "trash": {
+    "title": "Corbeille",
+    "autoDeleteNotice": "Les éléments de la corbeille sont définitivement supprimés après 30 jours",
+    "restore": "Restaurer",
+    "restored": "Quiz restauré",
+    "permanentDelete": "Supprimer définitivement",
+    "permanentDeleteConfirm": "Supprimer définitivement \"{{name}}\" ? Cette action est irréversible.",
+    "deletedOn": "Supprimé le"
   },
   "result": {
     "delete": "Supprimer le résultat",
@@ -43,11 +95,25 @@
       "points": "Points"
     },
     "playerCount": "{{count}} joueur(s)",
-    "timeLimitSuffix": "s limite"
+    "timeLimitSuffix": "s limite",
+    "available_one": "{{count}} rapport disponible",
+    "available_other": "{{count}} rapports disponibles",
+    "viewResults": "Voir les résultats",
+    "studyMode": "Pratique",
+    "liveMode": "En direct"
   },
   "tabs": {
     "play": "Jouer",
     "quizz": "Quiz",
     "results": "Résultats"
+  },
+  "settings": {
+    "subtitle": "Configurer les préférences de l'application et afficher l'état",
+    "selectLanguage": "Sélectionnez la langue de l'interface pour le panneau d'administration",
+    "systemInfo": "Informations système",
+    "serverConnection": "Connexion serveur",
+    "connected": "Connecté",
+    "disconnected": "Déconnecté",
+    "appVersion": "Version de l'application"
   }
 }

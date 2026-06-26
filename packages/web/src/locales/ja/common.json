@@ -20,5 +20,8 @@
   "saving": "保存中...",
   "seconds": "秒",
   "skip": "スキップ",
-  "submit": "送信"
+  "submit": "送信",
+  "change": "変更",
+  "active": "アクティブ",
+  "close": "閉じる"
 }

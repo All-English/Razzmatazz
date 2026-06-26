@@ -20,5 +20,8 @@
   "saving": "Guardando...",
   "seconds": "seg",
   "skip": "Omitir",
-  "submit": "Enviar"
+  "submit": "Enviar",
+  "change": "Cambiar",
+  "active": "Activo",
+  "close": "Cerrar"
 }

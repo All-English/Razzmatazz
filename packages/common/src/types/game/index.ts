@@ -48,6 +48,10 @@ export interface QuizzMeta {
   subject: string
   hasMismatch?: boolean
   questionCount?: number
+  lastModified?: string    // ISO date string from file mtime
+  folder?: string          // folder name, "" = root
+  favorite?: boolean       // default false
+  deletedAt?: string       // ISO string, set when soft-deleted (null = not deleted)
 }
 
 export interface GameUpdateQuestion {

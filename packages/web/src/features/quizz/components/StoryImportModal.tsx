@@ -218,8 +218,8 @@ const StoryImportModal = ({ onImport }: Props) => {
   }
 
   // Auto-detection logic checking for Hangul characters
-  const detectIsKorean = (input: string) =>
-    /[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/u.test(input)
+  // const detectIsKorean = (input: string) =>
+  //   /[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/u.test(input)
 
   const testApiKeyAndFetchModels = async () => {
     const apiKey = provider === "chatgpt" ? openAiKey : geminiKey

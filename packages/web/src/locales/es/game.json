@@ -82,5 +82,8 @@
     "¡Casi!",
     "¡No te rindas!",
     "¡Tú puedes hacerlo!"
-  ]
+  ],
+  "lobbySettings": "Ajustes de la sala",
+  "gameModeLabel": "Modo de juego",
+  "waitingForPlayersToJoin": "Esperando a que los jugadores se conecten..."
 }

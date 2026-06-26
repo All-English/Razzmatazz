@@ -32,7 +32,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
   const [qrOpen, setQrOpen] = useState(false)
   const { mode: gameMode, setMode: setGameMode } = useGameModeStore()
   const qrContentRef = useRef<HTMLDivElement>(null)
-  const { t } = useTranslation()
+  const { t } = useTranslation(["game", "manager", "common", "errors"])
 
   // Configuration options state
   const { quizz: quizzList } = useConfig()
@@ -270,7 +270,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 onClick={() => setChangeQuizOpen(true)}
                 className="w-full sm:w-auto rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-1.5 transition-all active:scale-95 border border-white/10 shrink-0"
               >
-                🔄 {t("manager:changeQuizz", "Change")}
+                🔄 {t("common:change", "Change")}
               </button>
             </div>
 
@@ -427,7 +427,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
           >
             <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
               <AlertDialog.Title className="text-2xl font-bold text-gray-900">
-                📚 {t("manager:changeQuizz", "Change Quizz")}
+                📚 {t("manager:quizz.changeQuizz", "Change Quiz")}
               </AlertDialog.Title>
               <button
                 onClick={() => setChangeQuizOpen(false)}
@@ -469,7 +469,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                           </span>
                           {isCurrentActive && (
                             <span className="text-[10px] font-bold bg-primary text-white px-2 py-0.5 rounded-full uppercase tracking-wider">
-                              {t("common:current", "Active")}
+                              {t("common:active", "Active")}
                             </span>
                           )}
                         </div>

@@ -82,5 +82,8 @@
     "Quasi!",
     "Non mollare!",
     "Ce la puoi fare!"
-  ]
+  ],
+  "lobbySettings": "Impostazioni sala d'attesa",
+  "gameModeLabel": "Modalità di gioco",
+  "waitingForPlayersToJoin": "In attesa di connessione dei giocatori..."
 }
