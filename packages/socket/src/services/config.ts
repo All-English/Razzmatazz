@@ -188,7 +188,7 @@ export const getQuizz = () => {
       return [{ id, ...result.data }]
     })
 
-    return quizz.sort((a, b) => a.subject.localeCompare(b.subject))
+    return quizz.sort((a, b) => a.subject.localeCompare(b.subject, undefined, { numeric: true, sensitivity: "base" }))
   } catch (error) {
     console.error("Failed to read quizz config:", error)
 

@@ -53,7 +53,7 @@ const ConfigSelectQuizz = () => {
       )}
       <div className="min-h-0 flex-1 space-y-2 overflow-auto p-0.5">
         {[...quizzList]
-          .sort((a, b) => a.subject.localeCompare(b.subject))
+          .sort((a, b) => a.subject.localeCompare(b.subject, undefined, { numeric: true, sensitivity: "base" }))
           .map((quizz) => {
             const hasMismatch = Boolean(quizz.hasMismatch)
             const isCurrentSelected = selected === quizz.id

@@ -3,15 +3,15 @@
   <br>
   <div align="center">
     <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/All-English/Razzmatazz/edit/main/README.md&countColor=%23FF9900">
-    <img src="https://img.shields.io/docker/pulls/ralex91/razzia?style=for-the-badge&color=FF9900" alt="Docker Pulls">
+    <img src="https://img.shields.io/docker/pulls/all-english/razzmatazz?style=for-the-badge&color=FF9900" alt="Docker Pulls">
   </div>
 </p>
 
 ## 🧩 What is this project?
 
-Razzia is a straightforward and open-source quiz platform, allowing users to host it on their own server for smaller events.
+Razzmatazz is a straightforward and open-source scrambled sentence builder game, allowing teachers and hosts to run interactive multiplayer quizzes for language learning and events.
 
-> **Disclaimer**: Razzia is an independent, open-source software project. It is not affiliated with, endorsed by, or sponsored by any third-party quiz platform or service. Any resemblance to other quiz platforms is purely incidental.
+> **Disclaimer**: Razzmatazz is an independent, open-source software project. It is not affiliated with, endorsed by, or sponsored by any third-party quiz platform or service. Any resemblance to other quiz platforms is purely incidental.
 
 <p align="center">
   <img width="30%" src=".github/previews/1.png" alt="Login">
@@ -52,7 +52,7 @@ Or using Docker directly:
 docker run -d \
   -p 3000:3000 \
   -v ./config:/app/config \
-  ralex91/razzia:latest
+  all-english/razzmatazz:latest
 ```
 
 **Configuration Volume:**
@@ -126,29 +126,32 @@ Example quiz configuration (`config/quizz/example.json`):
   "subject": "Example Quiz",
   "questions": [
     {
-      "question": "What is the correct answer?",
-      "answers": ["No", "Yes", "No", "No"],
-      "solutions": [1],
+      "prompt": "그것은 큰 가스 덩어리야.",
+      "scrambledChunks": ["of gas.", "It", "a big ball", "is"],
+      "correctChunks": ["It", "is", "a big ball", "of gas."],
+      "correctSentence": "It is a big ball of gas.",
       "cooldown": 5,
-      "time": 15
+      "time": 30
     },
     {
-      "question": "Which of these are primary colors?",
-      "answers": ["Red", "Green", "Blue", "Yellow"],
-      "solutions": [0, 2, 3],
+      "prompt": "나는 학교에 갑니다.",
+      "scrambledChunks": ["go", "I", "school.", "to"],
+      "correctChunks": ["I", "go", "to", "school."],
+      "correctSentence": "I go to school.",
       "cooldown": 5,
-      "time": 20
+      "time": 30
     },
     {
-      "question": "What is the correct answer with an image?",
-      "answers": ["No", "Yes", "No", "No"],
+      "prompt": "그녀는 빨간 사과를 좋아해요.",
+      "scrambledChunks": ["red apples.", "She", "likes"],
+      "correctChunks": ["She", "likes", "red apples."],
+      "correctSentence": "She likes red apples.",
       "media": {
         "type": "image",
         "url": "https://placehold.co/600x400.png"
       },
-      "solutions": [1],
       "cooldown": 5,
-      "time": 20
+      "time": 30
     }
   ]
 }
@@ -158,14 +161,15 @@ Quiz Options:
 
 - `subject`: Title/topic of the quiz
 - `questions`: Array of question objects containing:
-  - `question`: The question text
-  - `answers`: Array of possible answers (2-4 options)
+  - `prompt`: The prompt, clue, or translation shown to the players
+  - `scrambledChunks`: Array of scrambled word/phrase chunks presented to players to build the sentence
+  - `correctChunks`: Array of the chunks in the correct sequence
+  - `correctSentence`: The full correct sentence reconstructed by the chunks
   - `media`: Optional media object displayed with the question:
     - `type`: `"image"`, `"video"`, or `"audio"`
     - `url`: URL of the media
-  - `solutions`: Array of correct answer indices (0-based). Use multiple indices for multi-answer questions
-  - `cooldown`: Time in seconds before answers are revealed (3-15)
-  - `time`: Time in seconds allowed to answer (5-120)
+  - `cooldown`: Time in seconds before players can start building the sentence (3-15)
+  - `time`: Time in seconds allowed to build the sentence (5-120, or 9999 for Study Mode/no time limit)
 
 ## 🎮 How to Play
 
