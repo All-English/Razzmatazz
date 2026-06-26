@@ -46,21 +46,27 @@ Choose your deployment method:
 
 ### 🐳 Using Docker (Recommended)
 
+To run the application with your latest local updates, you will need to build the Docker image locally.
+
 Using Docker Compose (recommended):
 You can find the docker compose configuration in the repository:
 [docker-compose.yml](/compose.yml)
 
 ```bash
-docker compose up -d
+docker compose up --build -d
 ```
 
 Or using Docker directly:
 
 ```bash
+# Build the image locally
+docker build -t razzmatazz:latest .
+
+# Run the container
 docker run -d \
   -p 3000:3000 \
   -v ./config:/app/config \
-  all-english/razzmatazz:latest
+  razzmatazz:latest
 ```
 
 **Configuration Volume:**
