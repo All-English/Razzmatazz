@@ -167,12 +167,16 @@ class Game {
   reconnectManager(socket: Socket) {
     if (this._manager.connected) {
       if (this._manager.id === socket.id) {
-        const status = this.managerStatus ??
+        const status =
+          this.managerStatus ??
           this.lastBroadcastStatus ??
           (!this.started
             ? {
                 name: STATUS.SHOW_ROOM,
-                data: { text: "game:waitingForPlayers", inviteCode: this.inviteCode },
+                data: {
+                  text: "game:waitingForPlayers",
+                  inviteCode: this.inviteCode,
+                },
               }
             : {
                 name: STATUS.WAIT,
@@ -203,12 +207,16 @@ class Game {
     this._manager.id = socket.id
     this._manager.connected = true
 
-    const status = this.managerStatus ??
+    const status =
+      this.managerStatus ??
       this.lastBroadcastStatus ??
       (!this.started
         ? {
             name: STATUS.SHOW_ROOM,
-            data: { text: "game:waitingForPlayers", inviteCode: this.inviteCode },
+            data: {
+              text: "game:waitingForPlayers",
+              inviteCode: this.inviteCode,
+            },
           }
         : {
             name: STATUS.WAIT,

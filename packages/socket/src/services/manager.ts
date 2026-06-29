@@ -1,7 +1,12 @@
 import { EVENTS } from "@razzia/common/constants"
 import type { Socket } from "@razzia/common/types/game/socket"
 import type { SocketContext } from "@razzia/socket/handlers/types"
-import { getQuizzMeta, getResultsMeta, getFolders, getTrashMeta } from "@razzia/socket/services/config"
+import {
+  getQuizzMeta,
+  getResultsMeta,
+  getFolders,
+  getTrashMeta,
+} from "@razzia/socket/services/config"
 
 const getClientId = (socket: SocketContext["socket"]) =>
   socket.handshake.auth.clientId as string

@@ -55,5 +55,6 @@
   "storyImportDescription": "Collez une histoire, un paragraphe ou un texte brut. Ce texte sera utilisé pour créer les phrases correctes que les élèves doivent construire. Si la traduction par IA est activée, la traduction de chaque phrase sera utilisée comme prompt.",
   "storyImportPlaceholder": "Il était une fois, un petit oiseau...",
   "storyImportTitle": "Importation de texte",
-  "titleQuizzPlaceholder": "Titre du quiz..."
+  "titleQuizzPlaceholder": "Titre du quiz...",
+  "unsavedChangesConfirm": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir quitter ?"
 }

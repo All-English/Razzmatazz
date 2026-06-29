@@ -47,12 +47,26 @@ const formatRelativeTime = (isoString?: string, t?: any) => {
   if (!t) return "-"
 
   if (diffMins < 1) return t("manager:quizz.relativeTime.justNow", "Just now")
-  if (diffMins < 60) return t("manager:quizz.relativeTime.minsAgo", "{{count}}m ago", { count: diffMins })
-  if (diffHours < 24) return t("manager:quizz.relativeTime.hoursAgo", "{{count}}h ago", { count: diffHours })
-  if (diffDays === 1) return t("manager:quizz.relativeTime.yesterday", "Yesterday")
-  if (diffDays < 30) return t("manager:quizz.relativeTime.daysAgo", "{{count}}d ago", { count: diffDays })
-  
-  return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })
+  if (diffMins < 60)
+    return t("manager:quizz.relativeTime.minsAgo", "{{count}}m ago", {
+      count: diffMins,
+    })
+  if (diffHours < 24)
+    return t("manager:quizz.relativeTime.hoursAgo", "{{count}}h ago", {
+      count: diffHours,
+    })
+  if (diffDays === 1)
+    return t("manager:quizz.relativeTime.yesterday", "Yesterday")
+  if (diffDays < 30)
+    return t("manager:quizz.relativeTime.daysAgo", "{{count}}d ago", {
+      count: diffDays,
+    })
+
+  return date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })
 }
 
 const QuizListPanel = ({ selectedFolder }: Props) => {
@@ -63,7 +77,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const pendingMismatchedSubjects = useRef<string[]>([])
-  
+
   // Search & Selection State
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -72,7 +86,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
   useEffect(() => {
     setSelectedIds([])
   }, [selectedFolder])
-  
+
   // Modals state
   const [moveModalOpen, setMoveModalOpen] = useState(false)
   const [bulkMoveModalOpen, setBulkMoveModalOpen] = useState(false)
@@ -168,7 +182,11 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
   const handleMoveSingle = (folder: string) => {
     if (activeMoveQuizId) {
       socket.emit(EVENTS.QUIZZ.MOVE, { ids: [activeMoveQuizId], folder })
-      toast.success(folder ? t("manager:quizz.movedToFolder", { folder }) : t("manager:quizz.movedToRoot"))
+      toast.success(
+        folder
+          ? t("manager:quizz.movedToFolder", { folder })
+          : t("manager:quizz.movedToRoot"),
+      )
       setActiveMoveQuizId(null)
     }
   }
@@ -182,7 +200,11 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
   // Bulk operations
   const handleBulkMove = (folder: string) => {
     socket.emit(EVENTS.QUIZZ.MOVE, { ids: selectedIds, folder })
-    toast.success(folder ? t("manager:quizz.movedToFolder", { folder }) : t("manager:quizz.movedToRoot"))
+    toast.success(
+      folder
+        ? t("manager:quizz.movedToFolder", { folder })
+        : t("manager:quizz.movedToRoot"),
+    )
     setSelectedIds([])
   }
 
@@ -204,10 +226,17 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
   }
 
   const handleBulkCombine = (subject: string) => {
-    const activeFolder = (selectedFolder !== "all" && selectedFolder !== "favorites" && selectedFolder !== "trash")
-      ? selectedFolder
-      : undefined
-    socket.emit(EVENTS.QUIZZ.COMBINE, { ids: selectedIds, subject, folder: activeFolder })
+    const activeFolder =
+      selectedFolder !== "all" &&
+      selectedFolder !== "favorites" &&
+      selectedFolder !== "trash"
+        ? selectedFolder
+        : undefined
+    socket.emit(EVENTS.QUIZZ.COMBINE, {
+      ids: selectedIds,
+      subject,
+      folder: activeFolder,
+    })
     toast.success(t("manager:quizz.combined"))
     setSelectedIds([])
   }
@@ -221,7 +250,10 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
       const reader = new FileReader()
       reader.onload = (event) => {
         try {
-          const parsed = JSON.parse(event.target?.result as string) as { questions?: Array<Partial<Question>>; subject?: string }
+          const parsed = JSON.parse(event.target?.result as string) as {
+            questions?: Array<Partial<Question>>
+            subject?: string
+          }
 
           // Auto-heal correctChunks
           if (parsed.questions && Array.isArray(parsed.questions)) {
@@ -233,7 +265,10 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                 (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
                   q.correctChunks.length !== q.scrambledChunks.length)
               ) {
-                const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
+                const healed = deriveCorrectChunks(
+                  q.correctSentence,
+                  q.scrambledChunks,
+                )
                 if (healed.length > 0) {
                   return { ...q, correctChunks: healed }
                 }
@@ -269,10 +304,16 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
             )
           }
 
-          const activeFolder = (selectedFolder !== "all" && selectedFolder !== "favorites" && selectedFolder !== "trash")
-            ? selectedFolder
-            : undefined
-          socket.emit(EVENTS.QUIZZ.SAVE, { ...result.data, folder: activeFolder })
+          const activeFolder =
+            selectedFolder !== "all" &&
+            selectedFolder !== "favorites" &&
+            selectedFolder !== "trash"
+              ? selectedFolder
+              : undefined
+          socket.emit(EVENTS.QUIZZ.SAVE, {
+            ...result.data,
+            folder: activeFolder,
+          })
 
           if (mismatchedIndices.length > 0) {
             setTimeout(() => {
@@ -294,12 +335,13 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
     e.target.value = ""
   }
 
-  const isAllSelected = filteredQuizzes.length > 0 && selectedIds.length === filteredQuizzes.length
+  const isAllSelected =
+    filteredQuizzes.length > 0 && selectedIds.length === filteredQuizzes.length
 
   return (
-    <div className="flex h-full flex-1 flex-col bg-white p-8 overflow-y-auto select-none relative">
+    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-white p-8 select-none">
       {/* Top Action Bar */}
-      <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-5">
+      <div className="mb-6 flex flex-col justify-between gap-4 border-b border-gray-100 pb-5 md:flex-row md:items-center">
         {/* Search */}
         <div className="relative w-full max-w-sm">
           <Search className="absolute top-2.5 left-3 size-4.5 text-gray-400" />
@@ -308,7 +350,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
             placeholder={t("manager:quizz.search")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border border-gray-200 pl-10 pr-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-gray-50/50"
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-200 bg-gray-50/50 py-2 pr-4 pl-10 text-sm outline-none focus:ring-1"
           />
         </div>
 
@@ -316,9 +358,12 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
         <div className="flex items-center gap-2">
           <Button
             onClick={() => {
-              const activeFolder = (selectedFolder !== "all" && selectedFolder !== "favorites" && selectedFolder !== "trash")
-                ? selectedFolder
-                : undefined
+              const activeFolder =
+                selectedFolder !== "all" &&
+                selectedFolder !== "favorites" &&
+                selectedFolder !== "trash"
+                  ? selectedFolder
+                  : undefined
               navigate({
                 to: "/manager/quizz",
                 search: activeFolder ? { folder: activeFolder } : undefined,
@@ -332,7 +377,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
 
           <Button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 border border-gray-200"
+            className="flex items-center gap-1.5 border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200"
             title={t("manager:quizz.import")}
           >
             <Upload className="size-4" />
@@ -351,32 +396,34 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
       </div>
 
       {/* Quiz Table */}
-      <div className="flex-1 min-w-full">
-        <table className="w-full text-left text-sm border-collapse">
+      <div className="min-w-full flex-1">
+        <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-gray-150 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-              <th className="py-3 px-4 w-12">
+            <tr className="border-gray-150 border-b text-xs font-semibold tracking-wider text-gray-400 uppercase">
+              <th className="w-12 px-4 py-3">
                 <input
                   type="checkbox"
                   checked={isAllSelected}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="rounded-sm border-gray-300 text-primary focus:ring-primary size-4"
+                  className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300"
                 />
               </th>
-              <th className="py-3 px-4">{t("manager:quizz.title")}</th>
-              <th className="py-3 px-4 w-32">
+              <th className="px-4 py-3">{t("manager:quizz.title")}</th>
+              <th className="w-32 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Hash className="size-3.5" />
                   <span>{t("manager:quizz.questions")}</span>
                 </div>
               </th>
-              <th className="py-3 px-4 w-44">
+              <th className="w-44 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-3.5" />
                   <span>{t("manager:quizz.lastModified")}</span>
                 </div>
               </th>
-              <th className="py-3 px-4 w-40 text-right">{t("manager:quizz.actions")}</th>
+              <th className="w-40 px-4 py-3 text-right">
+                {t("manager:quizz.actions")}
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -389,38 +436,38 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                     isChecked ? "bg-primary/5" : ""
                   }`}
                 >
-                  <td className="py-3.5 px-4">
+                  <td className="px-4 py-3.5">
                     <input
                       type="checkbox"
                       checked={isChecked}
                       onChange={(e) => handleSelectOne(q.id, e.target.checked)}
-                      className="rounded-sm border-gray-300 text-primary focus:ring-primary size-4"
+                      className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300"
                     />
                   </td>
-                  <td className="py-3.5 px-4 font-medium text-gray-900">
+                  <td className="px-4 py-3.5 font-medium text-gray-900">
                     <div className="flex items-center gap-2">
-                      <span className="truncate max-w-[300px] md:max-w-[400px]">
+                      <span className="max-w-[300px] truncate md:max-w-[400px]">
                         {q.subject}
                       </span>
                       {q.favorite && (
-                        <Star className="size-4 fill-primary text-primary shrink-0" />
+                        <Star className="fill-primary text-primary size-4 shrink-0" />
                       )}
                     </div>
                   </td>
-                  <td className="py-3.5 px-4 text-gray-500">
+                  <td className="px-4 py-3.5 text-gray-500">
                     <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
                       {q.questionCount ?? 0}
                     </span>
                   </td>
-                  <td className="py-3.5 px-4 text-gray-500 text-xs">
+                  <td className="px-4 py-3.5 text-xs text-gray-500">
                     {formatRelativeTime(q.lastModified, t)}
                   </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="px-4 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-1.5">
                       {/* Host */}
                       <button
                         onClick={() => handleHostGame(q.id)}
-                        className="flex items-center gap-1 rounded-lg bg-primary hover:bg-primary/95 text-white px-2.5 py-1.5 text-xs font-semibold shadow-xs whitespace-nowrap"
+                        className="bg-primary hover:bg-primary/95 flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold whitespace-nowrap text-white shadow-xs"
                       >
                         <Rocket className="size-3.5" />
                         <span>{t("manager:quizz.host")}</span>
@@ -434,7 +481,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                             params: { quizzId: q.id },
                           })
                         }
-                        className="rounded-lg border border-gray-200 bg-white p-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors shadow-xs"
+                        className="rounded-lg border border-gray-200 bg-white p-1.5 text-gray-500 shadow-xs transition-colors hover:bg-gray-50 hover:text-gray-700"
                         title={t("manager:quizz.edit")}
                       >
                         <Pencil className="size-3.5" />
@@ -459,7 +506,10 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
 
             {filteredQuizzes.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-12 text-center text-gray-500 italic">
+                <td
+                  colSpan={5}
+                  className="py-12 text-center text-gray-500 italic"
+                >
                   {t("manager:quizz.none")}
                 </td>
               </tr>

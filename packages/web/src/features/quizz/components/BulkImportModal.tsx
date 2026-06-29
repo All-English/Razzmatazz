@@ -46,7 +46,10 @@ const BulkImportModal = ({ onImport }: Props) => {
     for (const file of fileList) {
       try {
         const text = await file.text()
-        const parsed = JSON.parse(text) as { questions?: Array<Partial<Question>>; subject?: string }
+        const parsed = JSON.parse(text) as {
+          questions?: Array<Partial<Question>>
+          subject?: string
+        }
 
         // Auto-heal incorrect correctChunks
         if (parsed.questions && Array.isArray(parsed.questions)) {
@@ -58,7 +61,10 @@ const BulkImportModal = ({ onImport }: Props) => {
               (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
                 q.correctChunks.length !== q.scrambledChunks.length)
             ) {
-              const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
+              const healed = deriveCorrectChunks(
+                q.correctSentence,
+                q.scrambledChunks,
+              )
               if (healed.length > 0) {
                 return { ...q, correctChunks: healed }
               }

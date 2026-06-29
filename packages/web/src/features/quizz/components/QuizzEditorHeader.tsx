@@ -13,13 +13,20 @@ import {
 } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
 import { isDerivationSuccessful } from "@razzia/web/features/quizz/utils/chunks"
 import { useNavigate, useSearch } from "@tanstack/react-router"
-import type { ChangeEvent } from "react"
+import { type ChangeEvent, useEffect } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 
 const QuizzEditorHeader = () => {
-  const { quizzId, subject, setSubject, questions, setQuestions } =
-    useQuizzEditor()
+  const {
+    quizzId,
+    subject,
+    setSubject,
+    questions,
+    setQuestions,
+    hasSaved,
+    setHasSaved,
+  } = useQuizzEditor()
   const { socket } = useSocket()
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -118,7 +125,8 @@ const QuizzEditorHeader = () => {
     const url = URL.createObjectURL(blob)
     const link = document.createElement("a")
     link.href = url
-    const safeSubject = subject.toLowerCase().replace(/[^a-z0-9]+/gu, "-") || "quizz"
+    const safeSubject =
+      subject.toLowerCase().replace(/[^a-z0-9]+/gu, "-") || "quizz"
     link.download = `${safeSubject}.json`
     document.body.appendChild(link)
     link.click()
@@ -126,14 +134,20 @@ const QuizzEditorHeader = () => {
     URL.revokeObjectURL(url)
   }
 
+  useEffect(() => {
+    if (hasSaved) {
+      navigate({ to: "/manager/config" })
+    }
+  }, [hasSaved, navigate])
+
   useEvent(EVENTS.QUIZZ.SAVE_SUCCESS, () => {
     toast.success(t("quizz:quizzSaved"))
-    navigate({ to: "/manager/config" })
+    setHasSaved(true)
   })
 
   useEvent(EVENTS.QUIZZ.UPDATE_SUCCESS, (_data) => {
     toast.success(t("quizz:quizzUpdated"))
-    navigate({ to: "/manager/config" })
+    setHasSaved(true)
   })
 
   useEvent(EVENTS.QUIZZ.ERROR, (message) => {

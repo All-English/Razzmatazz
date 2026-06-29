@@ -53,5 +53,6 @@
   "mismatchWarning": "The scrambled chunks do not match the correct sentence. Please check spelling, punctuation, or wording.",
   "saveMismatchConfirm": "Warning: The chunks for question(s) {{questions}} do not match their correct sentences. If you save, players may be graded incorrectly on those questions.\n\nDo you want to save anyway?",
   "importMismatchWarning": "Import Warning: The chunks for question(s) {{questions}} do not match their correct sentences. Please check them.",
-  "previewMismatchPlaceholder": "Cannot display preview: scrambled chunks do not align with the correct sentence."
+  "previewMismatchPlaceholder": "Cannot display preview: scrambled chunks do not align with the correct sentence.",
+  "unsavedChangesConfirm": "You have unsaved changes. Are you sure you want to leave?"
 }

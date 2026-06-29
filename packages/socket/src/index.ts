@@ -17,13 +17,16 @@ initConfig()
 purgeExpiredTrash()
 
 // Run trash purge every hour
-setInterval(() => {
-  try {
-    purgeExpiredTrash()
-  } catch (error) {
-    console.error("Failed to run periodic trash purge:", error)
-  }
-}, 60 * 60 * 1000)
+setInterval(
+  () => {
+    try {
+      purgeExpiredTrash()
+    } catch (error) {
+      console.error("Failed to run periodic trash purge:", error)
+    }
+  },
+  60 * 60 * 1000,
+)
 
 console.log(`Socket server running on port ${WS_PORT}`)
 io.listen(WS_PORT)

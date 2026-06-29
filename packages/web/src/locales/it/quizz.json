@@ -55,5 +55,6 @@
   "storyImportDescription": "Incolla una storia, un paragrafo o del testo normale. Questo testo verrà utilizzato per creare le frasi corrette che gli studenti devono costruire. Se la traduzione IA è abilitata, la traduzione di ciascuna frase verrà utilizzata come prompt.",
   "storyImportPlaceholder": "C'era una volta un piccolo uccellino...",
   "storyImportTitle": "Importazione testo",
-  "titleQuizzPlaceholder": "Titolo del quiz..."
+  "titleQuizzPlaceholder": "Titolo del quiz...",
+  "unsavedChangesConfirm": "Hai delle modifiche non salvate. Sei sicuro di voler uscire?"
 }

@@ -55,5 +55,6 @@
   "storyImportDescription": "Fügen Sie eine Geschichte, einen Absatz oder Rohtext ein. Dieser Text wird verwendet, um die korrekten Sätze zu erstellen, die die Schüler bauen müssen. Wenn die KI-Übersetzung aktiviert ist, wird die Übersetzung jedes Satzes als Prompt verwendet.",
   "storyImportPlaceholder": "Es war einmal ein kleiner Vogel...",
   "storyImportTitle": "Textimport",
-  "titleQuizzPlaceholder": "Quiz-Titel..."
+  "titleQuizzPlaceholder": "Quiz-Titel...",
+  "unsavedChangesConfirm": "Sie haben ungespeicherte Änderungen. Möchten Sie die Seite wirklich verlassen?"
 }

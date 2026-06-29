@@ -58,7 +58,10 @@ export const managerSocketHandlers = ({ socket }: SocketContext) => {
         emitConfig(socket)
       } catch (error) {
         console.error("Failed to create folder:", error)
-        socket.emit(EVENTS.MANAGER.ERROR_MESSAGE, "errors:manager.failedToCreateFolder")
+        socket.emit(
+          EVENTS.MANAGER.ERROR_MESSAGE,
+          "errors:manager.failedToCreateFolder",
+        )
       }
     }),
   )
@@ -71,7 +74,10 @@ export const managerSocketHandlers = ({ socket }: SocketContext) => {
         emitConfig(socket)
       } catch (error) {
         console.error("Failed to delete folder:", error)
-        socket.emit(EVENTS.MANAGER.ERROR_MESSAGE, "errors:manager.failedToDeleteFolder")
+        socket.emit(
+          EVENTS.MANAGER.ERROR_MESSAGE,
+          "errors:manager.failedToDeleteFolder",
+        )
       }
     }),
   )
@@ -84,7 +90,10 @@ export const managerSocketHandlers = ({ socket }: SocketContext) => {
         emitConfig(socket)
       } catch (error) {
         console.error("Failed to rename folder:", error)
-        socket.emit(EVENTS.MANAGER.ERROR_MESSAGE, "errors:manager.failedToRenameFolder")
+        socket.emit(
+          EVENTS.MANAGER.ERROR_MESSAGE,
+          "errors:manager.failedToRenameFolder",
+        )
       }
     }),
   )

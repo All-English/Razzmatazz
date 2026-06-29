@@ -117,12 +117,18 @@ const StoryImportModal = ({ onImport }: Props) => {
   const [targetLanguage, setTargetLanguage] = useState<string>(() => {
     const code = i18n.language?.slice(0, 2)
     switch (code) {
-      case "de": return "German"
-      case "es": return "Spanish"
-      case "fr": return "French"
-      case "it": return "Italian"
-      case "ja": return "Japanese"
-      case "ko": return "Korean"
+      case "de":
+        return "German"
+      case "es":
+        return "Spanish"
+      case "fr":
+        return "French"
+      case "it":
+        return "Italian"
+      case "ja":
+        return "Japanese"
+      case "ko":
+        return "Korean"
       case "en":
       default:
         return "English"
@@ -146,7 +152,9 @@ const StoryImportModal = ({ onImport }: Props) => {
     try {
       const saved = localStorage.getItem("razzia_gemini_models")
 
-      return saved ? (JSON.parse(saved) as Array<{ name: string; displayName: string }>) : []
+      return saved
+        ? (JSON.parse(saved) as Array<{ name: string; displayName: string }>)
+        : []
     } catch {
       return []
     }
@@ -387,19 +395,24 @@ const StoryImportModal = ({ onImport }: Props) => {
 
         const filtered = data.models
           .filter((m) => {
-            const name = m.name.startsWith("models/") ? m.name.substring(7) : m.name
+            const name = m.name.startsWith("models/")
+              ? m.name.substring(7)
+              : m.name
             const nameLower = name.toLowerCase()
 
             return (
               (nameLower.includes("flash") || nameLower.includes("pro")) &&
-              (!nameLower.includes("preview") || nameLower === "gemini-3.1-pro-preview") &&
+              (!nameLower.includes("preview") ||
+                nameLower === "gemini-3.1-pro-preview") &&
               !nameLower.includes("image") &&
               !nameLower.includes("2.0")
             )
           })
           .map((m) => ({
             name: m.name.startsWith("models/") ? m.name.substring(7) : m.name,
-            displayName: m.displayName || (m.name.startsWith("models/") ? m.name.substring(7) : m.name),
+            displayName:
+              m.displayName ||
+              (m.name.startsWith("models/") ? m.name.substring(7) : m.name),
           }))
 
         if (filtered.length === 0) {
@@ -460,7 +473,8 @@ const StoryImportModal = ({ onImport }: Props) => {
     sourceLang: string,
     targetLang: string,
   ): Promise<string[]> => {
-    const sourceLangText = sourceLang === "Auto-Detect" ? "its detected language" : sourceLang
+    const sourceLangText =
+      sourceLang === "Auto-Detect" ? "its detected language" : sourceLang
     const apiKey = provider === "chatgpt" ? openAiKey : geminiKey
 
     if (!apiKey) {
@@ -594,7 +608,11 @@ const StoryImportModal = ({ onImport }: Props) => {
       try {
         setIsTranslating(true)
         setErrorMsg(null)
-        translations = await translateSentences(sentences, sourceLanguage, targetLanguage)
+        translations = await translateSentences(
+          sentences,
+          sourceLanguage,
+          targetLanguage,
+        )
 
         if (translations.length !== sentences.length) {
           throw new Error(

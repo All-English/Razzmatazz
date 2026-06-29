@@ -55,5 +55,6 @@
   "storyImportDescription": "Pega una historia, párrafo o texto sin formato. Este texto se utilizará para crear las oraciones correctas que los estudiantes deben construir. Si la traducción por IA está activada, la traducción de cada oración se utilizará como prompt.",
   "storyImportPlaceholder": "Había una vez, un pequeño pájaro...",
   "storyImportTitle": "Importación de texto",
-  "titleQuizzPlaceholder": "Título del cuestionario..."
+  "titleQuizzPlaceholder": "Título del cuestionario...",
+  "unsavedChangesConfirm": "Tienes cambios sin guardar. ¿Estás seguro de que quieres salir?"
 }

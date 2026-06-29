@@ -151,7 +151,10 @@ export const quizzSocketHandlers = ({ socket }: SocketContext) => {
         emitConfig(socket)
       } catch (error) {
         console.error("Failed to duplicate quiz:", error)
-        const message = error instanceof Error ? error.message : "errors:quizz.failedToDuplicate"
+        const message =
+          error instanceof Error
+            ? error.message
+            : "errors:quizz.failedToDuplicate"
         socket.emit(EVENTS.QUIZZ.ERROR, message)
       }
     }),
@@ -165,7 +168,10 @@ export const quizzSocketHandlers = ({ socket }: SocketContext) => {
         emitConfig(socket)
       } catch (error) {
         console.error("Failed to combine quizzes:", error)
-        const message = error instanceof Error ? error.message : "errors:quizz.failedToCombine"
+        const message =
+          error instanceof Error
+            ? error.message
+            : "errors:quizz.failedToCombine"
         socket.emit(EVENTS.QUIZZ.ERROR, message)
       }
     }),

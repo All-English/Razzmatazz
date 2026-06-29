@@ -157,17 +157,17 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
 
   return (
     <section className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-4 py-6">
-      <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl items-start justify-center">
-        
+      <div className="flex w-full max-w-6xl flex-col items-start justify-center gap-6 lg:flex-row">
         {/* Left Column: Connection Instructions & Joined Players List */}
-        <div className="flex flex-col gap-6 flex-1 w-full self-stretch">
-          
+        <div className="flex w-full flex-1 flex-col gap-6 self-stretch">
           {/* Join Connection Panel */}
-          <div className="flex flex-col-reverse items-stretch gap-4 sm:flex-row justify-center w-full max-w-2xl mx-auto">
-            <div className="flex flex-col justify-center items-center text-center rounded-2xl bg-white/95 px-6 py-4 shadow-xl backdrop-blur-md flex-1">
+          <div className="mx-auto flex w-full max-w-2xl flex-col-reverse items-stretch justify-center gap-4 sm:flex-row">
+            <div className="flex flex-1 flex-col items-center justify-center rounded-2xl bg-white/95 px-6 py-4 text-center shadow-xl backdrop-blur-md">
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("game:joinInstruction")}</p>
-                <p className="text-lg font-bold text-gray-800 break-all mt-0.5">
+                <p className="text-xs font-semibold tracking-wider text-gray-500 uppercase">
+                  {t("game:joinInstruction")}
+                </p>
+                <p className="mt-0.5 text-lg font-bold break-all text-gray-800">
                   {webUrl}
                 </p>
               </div>
@@ -175,19 +175,23 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
               <div className="my-3 h-0.5 w-full bg-gray-200" />
 
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("game:gamePinLabel")}</p>
-                <p className="text-6xl md:text-7xl font-black text-primary tracking-widest mt-1 drop-shadow-sm">{inviteCode}</p>
+                <p className="text-xs font-semibold tracking-wider text-gray-500 uppercase">
+                  {t("game:gamePinLabel")}
+                </p>
+                <p className="text-primary mt-1 text-6xl font-black tracking-widest drop-shadow-sm md:text-7xl">
+                  {inviteCode}
+                </p>
               </div>
             </div>
 
             <AlertDialog.Root open={qrOpen} onOpenChange={setQrOpen}>
               <AlertDialog.Trigger asChild>
-                <div className="group relative flex aspect-square shrink-0 cursor-pointer rounded-2xl bg-white/95 p-3.5 shadow-xl backdrop-blur-md transition-all hover:scale-105 justify-center items-center">
+                <div className="group relative flex aspect-square shrink-0 cursor-pointer items-center justify-center rounded-2xl bg-white/95 p-3.5 shadow-xl backdrop-blur-md transition-all hover:scale-105">
                   <QRCodeSVG
                     className="h-full w-full"
                     value={`${webUrl}?pin=${inviteCode}`}
                   />
-                  <div className="absolute inset-0 flex items-center justify-center rounded-2xl opacity-0 transition-opacity bg-black/45 group-hover:opacity-100">
+                  <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/45 opacity-0 transition-opacity group-hover:opacity-100">
                     <div className="rounded-xl bg-black/80 p-2 shadow-lg">
                       <Maximize2 className="size-5 text-white" />
                     </div>
@@ -196,14 +200,14 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
               </AlertDialog.Trigger>
 
               <AlertDialog.Portal>
-                <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm animate-fade-in" />
+                <AlertDialog.Overlay className="animate-fade-in fixed inset-0 z-50 bg-black/70 backdrop-blur-sm" />
                 <AlertDialog.Content
                   ref={qrContentRef}
-                  className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-8 shadow-2xl animate-scale-in"
+                  className="animate-scale-in fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-8 shadow-2xl"
                 >
                   <button
                     onClick={handleCloseQrCode}
-                    className="absolute -top-3 -right-3 rounded-full bg-white p-2 shadow-lg hover:bg-gray-100 transition-colors"
+                    className="absolute -top-3 -right-3 rounded-full bg-white p-2 shadow-lg transition-colors hover:bg-gray-100"
                   >
                     <X className="size-6 text-gray-700" />
                   </button>
@@ -217,23 +221,26 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
           </div>
 
           {/* Joined Players Monitor Box */}
-          <div className="flex flex-col items-center rounded-2xl border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md w-full flex-1 min-h-[350px]">
+          <div className="flex min-h-[350px] w-full flex-1 flex-col items-center rounded-2xl border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur-md">
             <h2 className="mb-3 text-2xl font-bold text-white drop-shadow-lg">
               {t(text)}
             </h2>
 
-            <div className="mb-4 flex items-center justify-center rounded-xl bg-black/40 px-4 py-2 border border-white/5 shadow-inner">
+            <div className="mb-4 flex items-center justify-center rounded-xl border border-white/5 bg-black/40 px-4 py-2 shadow-inner">
               <span className="text-base font-bold text-white drop-shadow-md">
-                {t("game:playersJoined")} <span className="text-primary font-extrabold ml-1">{totalPlayers}</span>
+                {t("game:playersJoined")}{" "}
+                <span className="text-primary ml-1 font-extrabold">
+                  {totalPlayers}
+                </span>
               </span>
             </div>
 
             {/* Players Grid with Scrollbar */}
-            <div className="flex flex-wrap gap-2.5 justify-center w-full overflow-y-auto max-h-[320px] p-3 bg-black/10 rounded-xl border border-white/5 scrollbar-thin">
+            <div className="flex max-h-[320px] w-full scrollbar-thin flex-wrap justify-center gap-2.5 overflow-y-auto rounded-xl border border-white/5 bg-black/10 p-3">
               {playerList.map((player) => (
                 <div
                   key={player.id}
-                  className="bg-primary rounded-xl px-4 py-2 font-bold text-white shadow-md hover:bg-rose-500 hover:scale-95 transition-all cursor-pointer group"
+                  className="bg-primary group cursor-pointer rounded-xl px-4 py-2 font-bold text-white shadow-md transition-all hover:scale-95 hover:bg-rose-500"
                   onClick={handleKick(player.id)}
                   title={t("game:clickToKick", "Click to kick player")}
                 >
@@ -243,8 +250,11 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 </div>
               ))}
               {playerList.length === 0 && (
-                <p className="text-white/40 text-sm py-8 font-medium animate-pulse">
-                  {t("game:waitingForPlayersToJoin", "Waiting for players to connect...")}
+                <p className="animate-pulse py-8 text-sm font-medium text-white/40">
+                  {t(
+                    "game:waitingForPlayersToJoin",
+                    "Waiting for players to connect...",
+                  )}
                 </p>
               )}
             </div>
@@ -252,23 +262,28 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
         </div>
 
         {/* Right Column: Compact Settings Dashboard */}
-        <div className="w-full lg:w-96 shrink-0 rounded-2xl border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur-md flex flex-col gap-4 self-stretch lg:self-start">
-          <h3 className="text-lg font-bold text-white text-center flex items-center justify-center gap-1.5 border-b border-white/10 pb-2">
+        <div className="flex w-full shrink-0 flex-col gap-4 self-stretch rounded-2xl border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur-md lg:w-96 lg:self-start">
+          <h3 className="flex items-center justify-center gap-1.5 border-b border-white/10 pb-2 text-center text-lg font-bold text-white">
             ⚙️ {t("game:lobbySettings", "Lobby Settings")}
           </h3>
 
           <div className="flex flex-col gap-4">
             {/* Active Quiz and Change Quiz Button */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-xl bg-white/5 p-3 border border-white/10">
-              <div className="text-center sm:text-left min-w-0 flex-1">
-                <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wider">{t("manager:quizz.selected", "Active Quiz")}</p>
-                <p className="text-sm font-bold text-white mt-0.5 leading-snug truncate" title={activeQuizName}>
+            <div className="flex flex-col items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-3 sm:flex-row">
+              <div className="min-w-0 flex-1 text-center sm:text-left">
+                <p className="text-[10px] font-semibold tracking-wider text-white/50 uppercase">
+                  {t("manager:quizz.selected", "Active Quiz")}
+                </p>
+                <p
+                  className="mt-0.5 truncate text-sm leading-snug font-bold text-white"
+                  title={activeQuizName}
+                >
                   {activeQuizName || t("manager:quizz.none")}
                 </p>
               </div>
               <button
                 onClick={() => setChangeQuizOpen(true)}
-                className="w-full sm:w-auto rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-1.5 transition-all active:scale-95 border border-white/10 shrink-0"
+                className="w-full shrink-0 rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-xs font-bold text-white transition-all hover:bg-white/30 active:scale-95 sm:w-auto"
               >
                 🔄 {t("common:change", "Change")}
               </button>
@@ -276,13 +291,15 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
 
             {/* Game Mode Choice */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">{t("game:gameModeLabel", "Game Mode")}</span>
+              <span className="text-xs font-semibold tracking-wider text-white/60 uppercase">
+                {t("game:gameModeLabel", "Game Mode")}
+              </span>
               <div className="grid grid-cols-2 gap-2.5">
                 <button
                   onClick={() => setGameMode("competitive")}
                   className={`rounded-xl py-2.5 text-sm font-bold transition-all ${
                     gameMode === "competitive"
-                      ? "bg-primary scale-[1.02] text-white shadow-lg shadow-primary/20"
+                      ? "bg-primary shadow-primary/20 scale-[1.02] text-white shadow-lg"
                       : "bg-white/10 text-white/70 hover:bg-white/15"
                   }`}
                 >
@@ -331,7 +348,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 </label>
 
                 {isLimitEnabled && (
-                  <div className="flex items-center gap-1.5 pl-7 text-xs font-semibold text-white/95 animate-in fade-in slide-in-from-top-1 duration-200">
+                  <div className="animate-in fade-in slide-in-from-top-1 flex items-center gap-1.5 pl-7 text-xs font-semibold text-white/95 duration-200">
                     <span>{t("manager:quizz.fromQuestion")}</span>
                     <input
                       type="number"
@@ -353,7 +370,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                         }
                         setStartIndex(start)
                       }}
-                      className="w-14 rounded-lg border border-white/20 bg-white/10 p-1 text-center text-white focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="focus:ring-primary w-14 rounded-lg border border-white/20 bg-white/10 p-1 text-center text-white focus:ring-1 focus:outline-none"
                       min={1}
                       max={activeQuizQuestionCount || 1}
                     />
@@ -378,7 +395,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                         }
                         setEndIndex(end)
                       }}
-                      className="w-14 rounded-lg border border-white/20 bg-white/10 p-1 text-center text-white focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="focus:ring-primary w-14 rounded-lg border border-white/20 bg-white/10 p-1 text-center text-white focus:ring-1 focus:outline-none"
                       min={1}
                       max={activeQuizQuestionCount || 1}
                     />
@@ -396,17 +413,17 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
             </div>
 
             {/* Start Game Action */}
-            <div className="border-t border-white/10 pt-4 flex flex-col items-center">
+            <div className="flex flex-col items-center border-t border-white/10 pt-4">
               <button
                 onClick={handleStartGame}
                 disabled={isRangeInvalid}
                 className={clsx(
-                  "w-full py-3.5 text-lg font-extrabold text-white rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-1.5",
+                  "flex w-full items-center justify-center gap-1.5 rounded-xl py-3.5 text-lg font-extrabold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] active:scale-95",
                   isRangeInvalid
-                    ? "bg-white/10 text-white/30 cursor-not-allowed shadow-none"
+                    ? "cursor-not-allowed bg-white/10 text-white/30 shadow-none"
                     : gameMode === "study"
-                    ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20"
-                    : "bg-primary hover:brightness-110 shadow-primary/20",
+                      ? "bg-emerald-500 shadow-emerald-500/20 hover:bg-emerald-600"
+                      : "bg-primary shadow-primary/20 hover:brightness-110",
                 )}
               >
                 🚀 {t("manager:quizz.startGame")}
@@ -414,32 +431,36 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
             </div>
           </div>
         </div>
-
       </div>
 
       {/* Change Quiz Modal */}
       <AlertDialog.Root open={changeQuizOpen} onOpenChange={setChangeQuizOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-all animate-fade-in" />
+          <AlertDialog.Overlay className="animate-fade-in fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-all" />
           <AlertDialog.Content
             ref={modalRef}
-            className="fixed top-1/2 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white p-6 shadow-2xl border border-gray-100 max-h-[85vh] flex flex-col animate-scale-in"
+            className="animate-scale-in fixed top-1/2 left-1/2 z-50 flex max-h-[85vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-2xl"
           >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+            <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-3">
               <AlertDialog.Title className="text-2xl font-bold text-gray-900">
                 📚 {t("manager:quizz.changeQuizz", "Change Quiz")}
               </AlertDialog.Title>
               <button
                 onClick={() => setChangeQuizOpen(false)}
-                className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                className="rounded-full p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
               >
                 <X className="size-6" />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto pr-1 space-y-2.5">
+            <div className="flex-1 space-y-2.5 overflow-y-auto pr-1">
               {[...quizzList]
-                .sort((a, b) => a.subject.localeCompare(b.subject, undefined, { numeric: true, sensitivity: "base" }))
+                .sort((a, b) =>
+                  a.subject.localeCompare(b.subject, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                  }),
+                )
                 .map((quizz) => {
                   const hasMismatch = Boolean(quizz.hasMismatch)
                   const isCurrentActive = quizz.id === activeQuizzId
@@ -449,40 +470,41 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                       key={quizz.id}
                       onClick={() => handleQuizChange(quizz.id)}
                       className={clsx(
-                        "flex items-center justify-between rounded-xl p-4 border transition-all duration-200 cursor-pointer select-none",
+                        "flex cursor-pointer items-center justify-between rounded-xl border p-4 transition-all duration-200 select-none",
                         hasMismatch
-                          ? "bg-rose-50/50 border-rose-100 opacity-75 hover:opacity-100 hover:border-rose-300"
+                          ? "border-rose-100 bg-rose-50/50 opacity-75 hover:border-rose-300 hover:opacity-100"
                           : isCurrentActive
-                          ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
-                          : "border-gray-200 bg-white hover:border-primary/50 hover:bg-gray-50",
+                            ? "border-primary bg-primary/5 ring-primary shadow-sm ring-1"
+                            : "hover:border-primary/50 border-gray-200 bg-white hover:bg-gray-50",
                       )}
                     >
                       <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2 flex-wrap">
+                        <div className="flex flex-wrap items-center gap-2">
                           <span className="font-semibold text-gray-900">
                             {quizz.subject}
                           </span>
-                          <span className="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-full">
+                          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
                             {t("manager:quizz.questionsCount", {
                               count: quizz.questionCount ?? 0,
                             })}
                           </span>
                           {isCurrentActive && (
-                            <span className="text-[10px] font-bold bg-primary text-white px-2 py-0.5 rounded-full uppercase tracking-wider">
+                            <span className="bg-primary rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
                               {t("common:active", "Active")}
                             </span>
                           )}
                         </div>
                         {hasMismatch && (
-                          <span className="text-xs text-rose-600 font-medium mt-1">
-                            ⚠️ {t("manager:quizz.mismatchBadge")} — {t("manager:quizz.mismatchTooltip")}
+                          <span className="mt-1 text-xs font-medium text-rose-600">
+                            ⚠️ {t("manager:quizz.mismatchBadge")} —{" "}
+                            {t("manager:quizz.mismatchTooltip")}
                           </span>
                         )}
                       </div>
 
                       <div
                         className={clsx(
-                          "size-6 rounded-full flex items-center justify-center border transition-all duration-200",
+                          "flex size-6 items-center justify-center rounded-full border transition-all duration-200",
                           isCurrentActive
                             ? "bg-primary border-primary"
                             : "border-gray-300",
@@ -497,17 +519,17 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 })}
 
               {quizzList.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="py-8 text-center text-gray-500">
                   <p>{t("manager:quizz.notFound")}</p>
                 </div>
               )}
             </div>
 
-            <div className="border-t border-gray-100 pt-4 mt-4 flex justify-end">
+            <div className="mt-4 flex justify-end border-t border-gray-100 pt-4">
               <AlertDialog.Cancel asChild>
                 <button
                   onClick={() => setChangeQuizOpen(false)}
-                  className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
                 >
                   {t("common:close", "Close")}
                 </button>

@@ -32,13 +32,17 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
   const createInputRef = useRef<HTMLInputElement>(null)
 
   // Folder renaming state
-  const [editingFolderName, setEditingFolderName] = useState<string | null>(null)
+  const [editingFolderName, setEditingFolderName] = useState<string | null>(
+    null,
+  )
   const [renameValue, setRenameValue] = useState("")
   const renameInputRef = useRef<HTMLInputElement>(null)
 
   // Menu popover state
   const [openMenuFolder, setOpenMenuFolder] = useState<string | null>(null)
-  const [folderMenuPlacement, setFolderMenuPlacement] = useState<"bottom" | "top">("bottom")
+  const [folderMenuPlacement, setFolderMenuPlacement] = useState<
+    "bottom" | "top"
+  >("bottom")
   const menuRef = useRef<HTMLDivElement>(null)
 
   // Folder to delete state
@@ -116,7 +120,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
 
   return (
     <div className="flex h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 bg-gray-100 p-4 select-none">
-      <div className="flex flex-col gap-6 flex-1 overflow-y-auto min-h-0 pr-1">
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto pr-1">
         {/* Section Title */}
         <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 uppercase">
           <span>{t("manager:nav.library")}</span>
@@ -129,11 +133,13 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             onClick={() => onSelectFolder("all")}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
               selectedFolder === "all"
-                ? "bg-white text-gray-900 font-semibold shadow-xs border border-gray-200/50"
+                ? "border border-gray-200/50 bg-white font-semibold text-gray-900 shadow-xs"
                 : "text-gray-700 hover:bg-gray-200/55"
             }`}
           >
-            <FolderOpen className={`size-4 shrink-0 ${selectedFolder === "all" ? "text-primary" : "text-gray-500"}`} />
+            <FolderOpen
+              className={`size-4 shrink-0 ${selectedFolder === "all" ? "text-primary" : "text-gray-500"}`}
+            />
             <span className="truncate">{t("manager:sidebar.allQuizzes")}</span>
           </button>
 
@@ -142,11 +148,13 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             onClick={() => onSelectFolder("favorites")}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
               selectedFolder === "favorites"
-                ? "bg-white text-gray-900 font-semibold shadow-xs border border-gray-200/50"
+                ? "border border-gray-200/50 bg-white font-semibold text-gray-900 shadow-xs"
                 : "text-gray-700 hover:bg-gray-200/55"
             }`}
           >
-            <FolderHeart className={`size-4 shrink-0 ${selectedFolder === "favorites" ? "text-primary" : "text-gray-500"}`} />
+            <FolderHeart
+              className={`size-4 shrink-0 ${selectedFolder === "favorites" ? "text-primary" : "text-gray-500"}`}
+            />
             <span className="truncate">{t("manager:sidebar.favorites")}</span>
           </button>
         </div>
@@ -157,7 +165,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             <span>{t("manager:sidebar.yourFolders")}</span>
             <button
               onClick={() => setIsCreating(true)}
-              className="rounded-md p-1 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors"
+              className="rounded-md p-1 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
               title={t("manager:sidebar.newFolder")}
             >
               <FolderPlus className="size-4" />
@@ -179,7 +187,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                       if (!newFolderName.trim()) setIsCreating(false)
                     }, 200)
                   }}
-                  className="w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                  className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm outline-none focus:ring-1"
                 />
               </form>
             )}
@@ -201,7 +209,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                       value={renameValue}
                       onChange={(e) => setRenameValue(e.target.value)}
                       onBlur={() => setEditingFolderName(null)}
-                      className="w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                      className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm outline-none focus:ring-1"
                     />
                   </form>
                 )
@@ -212,23 +220,29 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                   key={folder}
                   className={`group relative flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
                     isSelected
-                      ? "bg-white text-gray-900 font-semibold shadow-xs border border-gray-200/50"
+                      ? "border border-gray-200/50 bg-white font-semibold text-gray-900 shadow-xs"
                       : "text-gray-700 hover:bg-gray-200/55"
                   }`}
                 >
                   <button
                     onClick={() => onSelectFolder(folder)}
-                    className="flex flex-1 items-center gap-3 min-w-0"
+                    className="flex min-w-0 flex-1 items-center gap-3"
                   >
-                    <Folder className={`size-4 shrink-0 ${isSelected ? "text-primary" : "text-gray-500"}`} />
+                    <Folder
+                      className={`size-4 shrink-0 ${isSelected ? "text-primary" : "text-gray-500"}`}
+                    />
                     <span className="truncate pr-4 text-left">{folder}</span>
                   </button>
 
                   {/* Kebab Options */}
-                  <div className="absolute right-2 top-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-1.5 right-2 opacity-0 transition-opacity group-hover:opacity-100">
                     <button
-                      onClick={() => setOpenMenuFolder(openMenuFolder === folder ? null : folder)}
-                      className="rounded-md p-0.5 hover:bg-gray-200 text-gray-500 hover:text-gray-700"
+                      onClick={() =>
+                        setOpenMenuFolder(
+                          openMenuFolder === folder ? null : folder,
+                        )
+                      }
+                      className="rounded-md p-0.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
                     >
                       <MoreVertical className="size-4" />
                     </button>
@@ -236,7 +250,9 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                       <div
                         ref={menuRef}
                         className={`absolute right-0 z-20 w-32 rounded-lg border border-gray-200 bg-white py-1 shadow-lg ${
-                          folderMenuPlacement === "top" ? "bottom-full mb-1" : "top-full mt-1"
+                          folderMenuPlacement === "top"
+                            ? "bottom-full mb-1"
+                            : "top-full mt-1"
                         }`}
                       >
                         <button
@@ -250,7 +266,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                           <Pencil className="size-3.5" />
                           <span>{t("manager:sidebar.renameFolder")}</span>
                         </button>
-                        <hr className="border-gray-100 my-1" />
+                        <hr className="my-1 border-gray-100" />
                         <button
                           onClick={() => {
                             setFolderToDelete(folder)
@@ -278,16 +294,18 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
       </div>
 
       {/* Bottom: Trash */}
-      <div className="pt-4 border-t border-gray-200/60 shrink-0 mt-4">
+      <div className="mt-4 shrink-0 border-t border-gray-200/60 pt-4">
         <button
           onClick={() => onSelectFolder("trash")}
           className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
             selectedFolder === "trash"
-              ? "bg-red-50 text-red-700 font-semibold shadow-xs border border-red-100"
+              ? "border border-red-100 bg-red-50 font-semibold text-red-700 shadow-xs"
               : "text-gray-700 hover:bg-red-50/50 hover:text-red-600"
           }`}
         >
-          <Trash2 className={`size-4 shrink-0 ${selectedFolder === "trash" ? "text-red-500" : "text-gray-500"}`} />
+          <Trash2
+            className={`size-4 shrink-0 ${selectedFolder === "trash" ? "text-red-500" : "text-gray-500"}`}
+          />
           <span className="truncate">{t("manager:sidebar.trash")}</span>
         </button>
       </div>
@@ -299,7 +317,9 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             if (!open) setFolderToDelete(null)
           }}
           title={t("manager:sidebar.deleteFolder")}
-          description={t("manager:sidebar.deleteFolderConfirm", { name: folderToDelete })}
+          description={t("manager:sidebar.deleteFolderConfirm", {
+            name: folderToDelete,
+          })}
           confirmLabel={t("common:delete")}
           onConfirm={() => {
             handleDeleteFolder(folderToDelete)

@@ -1,6 +1,10 @@
 import { ConfigProvider } from "@razzia/web/features/manager/contexts/config-context"
-import NavRail, { type SectionType } from "@razzia/web/features/manager/components/configurations/NavRail"
-import FolderSidebar, { type FolderSelection } from "@razzia/web/features/manager/components/configurations/FolderSidebar"
+import NavRail, {
+  type SectionType,
+} from "@razzia/web/features/manager/components/configurations/NavRail"
+import FolderSidebar, {
+  type FolderSelection,
+} from "@razzia/web/features/manager/components/configurations/FolderSidebar"
 import QuizListPanel from "@razzia/web/features/manager/components/configurations/QuizListPanel"
 import TrashPanel from "@razzia/web/features/manager/components/configurations/TrashPanel"
 import ReportsPanel from "@razzia/web/features/manager/components/configurations/ReportsPanel"
@@ -15,7 +19,9 @@ interface Props {
 const Configurations = ({ data }: Props) => {
   const [section, setSection] = useState<SectionType>(() => {
     const saved = localStorage.getItem("razzia_active_section") as SectionType
-    return ["library", "reports", "settings"].includes(saved) ? saved : "library"
+    return ["library", "reports", "settings"].includes(saved)
+      ? saved
+      : "library"
   })
 
   const [selectedFolder, setSelectedFolder] = useState<FolderSelection>(() => {
@@ -42,7 +48,11 @@ const Configurations = ({ data }: Props) => {
 
   // Validate that the folder exists in data.folders
   useEffect(() => {
-    if (selectedFolder !== "all" && selectedFolder !== "favorites" && selectedFolder !== "trash") {
+    if (
+      selectedFolder !== "all" &&
+      selectedFolder !== "favorites" &&
+      selectedFolder !== "trash"
+    ) {
       if (!data.folders.includes(selectedFolder)) {
         setSelectedFolder("all")
         localStorage.setItem("razzia_selected_folder", "all")
@@ -52,9 +62,12 @@ const Configurations = ({ data }: Props) => {
 
   return (
     <ConfigProvider data={data}>
-      <div className="flex h-svh w-screen overflow-hidden bg-white font-display">
+      <div className="font-display flex h-svh w-screen overflow-hidden bg-white">
         {/* Navigation Rail */}
-        <NavRail activeSection={section} onSectionChange={handleSectionChange} />
+        <NavRail
+          activeSection={section}
+          onSectionChange={handleSectionChange}
+        />
 
         {/* Library Section */}
         {section === "library" && (

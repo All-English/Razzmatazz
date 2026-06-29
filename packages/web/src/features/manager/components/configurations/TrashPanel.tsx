@@ -70,37 +70,39 @@ const TrashPanel = () => {
   const isAllSelected = trash.length > 0 && selectedIds.length === trash.length
 
   return (
-    <div className="flex h-full flex-1 flex-col bg-white p-8 overflow-y-auto select-none relative">
+    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-white p-8 select-none">
       {/* Header */}
-      <div className="mb-6 border-b border-gray-150 pb-5">
-        <h1 className="text-2xl font-bold text-gray-900">{t("manager:trash.title")}</h1>
-        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 border border-amber-100 font-medium inline-block mt-2">
+      <div className="border-gray-150 mb-6 border-b pb-5">
+        <h1 className="text-2xl font-bold text-gray-900">
+          {t("manager:trash.title")}
+        </h1>
+        <p className="mt-2 inline-block rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-600">
           ⚠️ {t("manager:trash.autoDeleteNotice")}
         </p>
       </div>
 
       {/* Trash Table */}
-      <div className="flex-1 min-w-full">
-        <table className="w-full text-left text-sm border-collapse">
+      <div className="min-w-full flex-1">
+        <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-gray-150 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-              <th className="py-3 px-4 w-12">
+            <tr className="border-gray-150 border-b text-xs font-semibold tracking-wider text-gray-400 uppercase">
+              <th className="w-12 px-4 py-3">
                 <input
                   type="checkbox"
                   checked={isAllSelected}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="rounded-sm border-gray-300 text-primary focus:ring-primary size-4"
+                  className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300"
                 />
               </th>
-              <th className="py-3 px-4">Title</th>
-              <th className="py-3 px-4 w-32">Questions</th>
-              <th className="py-3 px-4 w-52">
+              <th className="px-4 py-3">Title</th>
+              <th className="w-32 px-4 py-3">Questions</th>
+              <th className="w-52 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-3.5" />
                   <span>{t("manager:trash.deletedOn")}</span>
                 </div>
               </th>
-              <th className="py-3 px-4 w-44 text-right">Actions</th>
+              <th className="w-44 px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -113,33 +115,33 @@ const TrashPanel = () => {
                     isChecked ? "bg-red-50/20" : ""
                   }`}
                 >
-                  <td className="py-3.5 px-4">
+                  <td className="px-4 py-3.5">
                     <input
                       type="checkbox"
                       checked={isChecked}
                       onChange={(e) => handleSelectOne(q.id, e.target.checked)}
-                      className="rounded-sm border-gray-300 text-primary focus:ring-primary size-4"
+                      className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300"
                     />
                   </td>
-                  <td className="py-3.5 px-4 font-medium text-gray-900 truncate max-w-[300px]">
+                  <td className="max-w-[300px] truncate px-4 py-3.5 font-medium text-gray-900">
                     {q.subject}
                   </td>
-                  <td className="py-3.5 px-4 text-gray-500">
+                  <td className="px-4 py-3.5 text-gray-500">
                     <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
                       {q.questionCount ?? 0}
                     </span>
                   </td>
-                  <td className="py-3.5 px-4 text-gray-400 text-xs">
+                  <td className="px-4 py-3.5 text-xs text-gray-400">
                     {formatDate(q.deletedAt)}
                   </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="px-4 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-1.5">
                       {/* Restore */}
                       <button
                         onClick={() => handleRestore(q.id)}
-                        className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-xs"
+                        className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:bg-gray-50 hover:text-gray-900"
                       >
-                        <Undo2 className="size-3.5 text-primary" />
+                        <Undo2 className="text-primary size-3.5" />
                         <span>{t("manager:trash.restore")}</span>
                       </button>
 
@@ -147,14 +149,16 @@ const TrashPanel = () => {
                       <AlertDialog
                         trigger={
                           <button
-                            className="rounded-lg border border-gray-250 bg-white p-1.5 text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors shadow-xs"
+                            className="border-gray-250 rounded-lg border bg-white p-1.5 text-red-500 shadow-xs transition-colors hover:border-red-200 hover:bg-red-50"
                             title={t("manager:trash.permanentDelete")}
                           >
                             <Trash2 className="size-3.5" />
                           </button>
                         }
                         title={t("manager:trash.permanentDelete")}
-                        description={t("manager:trash.permanentDeleteConfirm", { name: q.subject })}
+                        description={t("manager:trash.permanentDeleteConfirm", {
+                          name: q.subject,
+                        })}
                         confirmLabel={t("manager:trash.permanentDelete")}
                         onConfirm={() => handlePermanentDelete(q.id)}
                       />
@@ -166,7 +170,10 @@ const TrashPanel = () => {
 
             {trash.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-12 text-center text-gray-500 italic">
+                <td
+                  colSpan={5}
+                  className="py-12 text-center text-gray-500 italic"
+                >
                   {t("manager:quizz.none")}
                 </td>
               </tr>
@@ -177,11 +184,11 @@ const TrashPanel = () => {
 
       {/* Bulk actions bar for Trash */}
       {selectedIds.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 z-40 flex -translate-x-1/2 items-center gap-6 rounded-full border border-gray-150 bg-secondary px-6 py-3 shadow-2xl animate-fade-in text-white select-none">
+        <div className="border-gray-150 bg-secondary animate-fade-in fixed bottom-6 left-1/2 z-40 flex -translate-x-1/2 items-center gap-6 rounded-full border px-6 py-3 text-white shadow-2xl select-none">
           <div className="flex items-center gap-2 border-r border-white/10 pr-6">
             <button
               onClick={() => setSelectedIds([])}
-              className="rounded-full p-1 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+              className="rounded-full p-1 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
             >
               <X className="size-4" />
             </button>
@@ -194,7 +201,7 @@ const TrashPanel = () => {
             {/* Restore selected */}
             <button
               onClick={handleBulkRestore}
-              className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold bg-white/10 hover:bg-white/15 text-white transition-colors"
+              className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/15"
             >
               <Undo2 className="size-4" />
               <span>{t("manager:trash.restore")}</span>
@@ -204,7 +211,7 @@ const TrashPanel = () => {
             <AlertDialog
               trigger={
                 <button
-                  className="flex items-center gap-2 rounded-full bg-red-600 hover:bg-red-500 px-4 py-2 text-xs font-semibold text-white transition-colors"
+                  className="flex items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-red-500"
                   title={t("manager:trash.permanentDelete")}
                 >
                   <Trash2 className="size-4" />
@@ -212,7 +219,9 @@ const TrashPanel = () => {
                 </button>
               }
               title={t("manager:trash.permanentDelete")}
-              description={t("manager:trash.permanentDeleteConfirm", { name: `${selectedIds.length} selected quizzes` })}
+              description={t("manager:trash.permanentDeleteConfirm", {
+                name: `${selectedIds.length} selected quizzes`,
+              })}
               confirmLabel={t("manager:trash.permanentDelete")}
               onConfirm={handleBulkPermanentDelete}
             />

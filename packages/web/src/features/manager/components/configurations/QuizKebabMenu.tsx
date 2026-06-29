@@ -30,7 +30,7 @@ const QuizKebabMenu = ({
     }
     if (isOpen) {
       document.addEventListener("mousedown", handleOutsideClick)
-      
+
       // Auto-flipping calculation
       if (menuRef.current) {
         const rect = menuRef.current.getBoundingClientRect()
@@ -53,14 +53,14 @@ const QuizKebabMenu = ({
           e.stopPropagation()
           setIsOpen(!isOpen)
         }}
-        className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+        className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
       >
         <MoreVertical className="size-4 shrink-0" />
       </button>
 
       {isOpen && (
         <div
-          className={`absolute right-0 z-30 w-44 rounded-xl border border-gray-100 bg-white py-1.5 shadow-xl animate-fade-in divide-y divide-gray-50 ${
+          className={`animate-fade-in absolute right-0 z-30 w-44 divide-y divide-gray-50 rounded-xl border border-gray-100 bg-white py-1.5 shadow-xl ${
             placement === "top" ? "bottom-full mb-1" : "top-full mt-1"
           }`}
           onClick={(e) => {
@@ -72,16 +72,22 @@ const QuizKebabMenu = ({
             {/* Favorite / Unfavorite */}
             <button
               onClick={onFavorite}
-              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 transition-colors"
             >
-              <Star className={`size-4 shrink-0 ${isFavorite ? "fill-primary text-primary" : "text-gray-400"}`} />
-              <span>{isFavorite ? t("manager:quizz.unfavorite") : t("manager:quizz.favorite")}</span>
+              <Star
+                className={`size-4 shrink-0 ${isFavorite ? "fill-primary text-primary" : "text-gray-400"}`}
+              />
+              <span>
+                {isFavorite
+                  ? t("manager:quizz.unfavorite")
+                  : t("manager:quizz.favorite")}
+              </span>
             </button>
 
             {/* Move to folder */}
             <button
               onClick={onMove}
-              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 transition-colors"
             >
               <FolderInput className="size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.moveToFolder")}</span>
@@ -90,7 +96,7 @@ const QuizKebabMenu = ({
             {/* Duplicate */}
             <button
               onClick={onDuplicate}
-              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 transition-colors"
             >
               <Copy className="size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.duplicate")}</span>
@@ -101,7 +107,7 @@ const QuizKebabMenu = ({
           <div className="py-1">
             <button
               onClick={onDelete}
-              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
+              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-red-500 transition-colors hover:bg-red-50"
             >
               <Trash2 className="size-4 shrink-0 text-red-400" />
               <span>{t("common:delete")}</span>

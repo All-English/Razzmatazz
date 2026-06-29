@@ -73,7 +73,11 @@ const GameWrapper = ({
     if (!manager || !next) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space" || e.code === "ArrowRight" || e.code === "ArrowDown") {
+      if (
+        e.code === "Space" ||
+        e.code === "ArrowRight" ||
+        e.code === "ArrowDown"
+      ) {
         // Don't fire if the user is typing in an input/textarea
         const tag = (e.target as HTMLElement).tagName
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return

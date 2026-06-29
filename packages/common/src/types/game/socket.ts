@@ -47,10 +47,12 @@ export interface ServerToClientEvents {
   [EVENTS.GAME.START_COOLDOWN]: () => void
   [EVENTS.GAME.COOLDOWN]: (_count: number) => void
   [EVENTS.GAME.RESET]: (_message: string) => void
-  [EVENTS.GAME.UPDATE_QUESTION]: (_data: {
-    current: number
-    total: number
-  } | null) => void
+  [EVENTS.GAME.UPDATE_QUESTION]: (
+    _data: {
+      current: number
+      total: number
+    } | null,
+  ) => void
   [EVENTS.GAME.PLAYER_ANSWER]: (_count: number) => void
   [EVENTS.GAME.STUDY_WRONG]: () => void
 
@@ -106,9 +108,7 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   // Manager actions
-  [EVENTS.GAME.CREATE]: (
-    _quizzId: string,
-  ) => void
+  [EVENTS.GAME.CREATE]: (_quizzId: string) => void
   [EVENTS.MANAGER.AUTH]: (_password: string) => void
   [EVENTS.MANAGER.RECONNECT]: (_message: { gameId: string }) => void
   [EVENTS.MANAGER.LEAVE]: (_message: { gameId: string }) => void
@@ -149,12 +149,19 @@ export interface ClientToServerEvents {
   [EVENTS.QUIZZ.RESTORE]: (_ids: string[]) => void
   [EVENTS.QUIZZ.PERMANENT_DELETE]: (_ids: string[]) => void
   [EVENTS.QUIZZ.DUPLICATE]: (_id: string) => void
-  [EVENTS.QUIZZ.COMBINE]: (_data: { ids: string[]; subject: string; folder?: string }) => void
+  [EVENTS.QUIZZ.COMBINE]: (_data: {
+    ids: string[]
+    subject: string
+    folder?: string
+  }) => void
 
   // Manager actions (Folders)
   [EVENTS.MANAGER.CREATE_FOLDER]: (_name: string) => void
   [EVENTS.MANAGER.DELETE_FOLDER]: (_name: string) => void
-  [EVENTS.MANAGER.RENAME_FOLDER]: (_data: { oldName: string; newName: string }) => void
+  [EVENTS.MANAGER.RENAME_FOLDER]: (_data: {
+    oldName: string
+    newName: string
+  }) => void
 
   // Player actions
   [EVENTS.PLAYER.JOIN]: (_inviteCode: string) => void

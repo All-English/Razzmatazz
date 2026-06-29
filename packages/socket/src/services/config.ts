@@ -77,7 +77,10 @@ export const initConfig = () => {
 
   const isFoldersExists = fs.existsSync(getPath("folders.json"))
   if (!isFoldersExists) {
-    fs.writeFileSync(getPath("folders.json"), JSON.stringify({ folders: [] }, null, 2))
+    fs.writeFileSync(
+      getPath("folders.json"),
+      JSON.stringify({ folders: [] }, null, 2),
+    )
   }
 }
 
@@ -161,7 +164,9 @@ export const getQuizzById = (id: string) => {
 
   const data = fs.readFileSync(filePath, "utf-8")
   const parsed = JSON.parse(data) as { questions?: Array<Partial<Question>> }
-  const questionsBefore = parsed.questions ? JSON.stringify(parsed.questions) : ""
+  const questionsBefore = parsed.questions
+    ? JSON.stringify(parsed.questions)
+    : ""
 
   if (parsed.questions && Array.isArray(parsed.questions)) {
     parsed.questions = parsed.questions.map((q) => {
@@ -181,11 +186,15 @@ export const getQuizzById = (id: string) => {
     })
   }
 
-  const modified = parsed.questions ? JSON.stringify(parsed.questions) !== questionsBefore : false
+  const modified = parsed.questions
+    ? JSON.stringify(parsed.questions) !== questionsBefore
+    : false
 
   if (modified) {
     fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2))
-    console.info(`Auto-healed invalid correctChunks in quizz config "${id}.json"`)
+    console.info(
+      `Auto-healed invalid correctChunks in quizz config "${id}.json"`,
+    )
   }
 
   const result = quizzValidator.safeParse(parsed)
@@ -219,8 +228,12 @@ export const getQuizz = (includeDeleted = false) => {
       }
 
       const data = fs.readFileSync(getPath(`quizz/${file}`), "utf-8")
-      const parsed = JSON.parse(data) as { questions?: Array<Partial<Question>> }
-      const questionsBefore = parsed.questions ? JSON.stringify(parsed.questions) : ""
+      const parsed = JSON.parse(data) as {
+        questions?: Array<Partial<Question>>
+      }
+      const questionsBefore = parsed.questions
+        ? JSON.stringify(parsed.questions)
+        : ""
 
       if (parsed.questions && Array.isArray(parsed.questions)) {
         parsed.questions = parsed.questions.map((q) => {
@@ -231,7 +244,10 @@ export const getQuizz = (includeDeleted = false) => {
               !isValidChunksOrder(q.correctSentence, q.correctChunks) ||
               q.correctChunks.length !== q.scrambledChunks.length)
           ) {
-            const healed = deriveCorrectChunks(q.correctSentence, q.scrambledChunks)
+            const healed = deriveCorrectChunks(
+              q.correctSentence,
+              q.scrambledChunks,
+            )
             if (healed.length > 0) {
               return { ...q, correctChunks: healed }
             }
@@ -240,11 +256,18 @@ export const getQuizz = (includeDeleted = false) => {
         })
       }
 
-      const modified = parsed.questions ? JSON.stringify(parsed.questions) !== questionsBefore : false
+      const modified = parsed.questions
+        ? JSON.stringify(parsed.questions) !== questionsBefore
+        : false
 
       if (modified) {
-        fs.writeFileSync(getPath(`quizz/${file}`), JSON.stringify(parsed, null, 2))
-        console.info(`Auto-healed invalid correctChunks in quizz config "${file}"`)
+        fs.writeFileSync(
+          getPath(`quizz/${file}`),
+          JSON.stringify(parsed, null, 2),
+        )
+        console.info(
+          `Auto-healed invalid correctChunks in quizz config "${file}"`,
+        )
       }
 
       const result = quizzValidator.safeParse(parsed)
@@ -258,7 +281,12 @@ export const getQuizz = (includeDeleted = false) => {
       return [{ id, ...result.data }]
     })
 
-    return quizz.sort((a, b) => a.subject.localeCompare(b.subject, undefined, { numeric: true, sensitivity: "base" }))
+    return quizz.sort((a, b) =>
+      a.subject.localeCompare(b.subject, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      }),
+    )
   } catch (error) {
     console.error("Failed to read quizz config:", error)
 
@@ -408,7 +436,12 @@ export const saveQuizz = (data: unknown): { id: string } => {
 
   // Extract folder from raw data if present
   let folder = ""
-  if (data && typeof data === "object" && "folder" in data && typeof data.folder === "string") {
+  if (
+    data &&
+    typeof data === "object" &&
+    "folder" in data &&
+    typeof data.folder === "string"
+  ) {
     folder = data.folder
   }
 
@@ -463,7 +496,10 @@ export const getFolders = (): string[] => {
 
 export const saveFolders = (folders: string[]): void => {
   try {
-    fs.writeFileSync(getPath("folders.json"), JSON.stringify({ folders }, null, 2))
+    fs.writeFileSync(
+      getPath("folders.json"),
+      JSON.stringify({ folders }, null, 2),
+    )
   } catch (error) {
     console.error("Failed to save folders.json:", error)
   }
@@ -581,23 +617,27 @@ export const duplicateQuizz = (id: string): { id: string } => {
   }
   const data = fs.readFileSync(filePath, "utf-8")
   const parsed = JSON.parse(data)
-  
+
   const baseSubject = parsed.subject || "Untitled"
   let newSubject = `Copy of ${baseSubject}`
-  
+
   const existing = getQuizz(true) // check all including soft deleted to avoid duplicate filename/id issues
   let count = 1
-  while (existing.some((q) => q.subject.toLowerCase().trim() === newSubject.toLowerCase().trim())) {
+  while (
+    existing.some(
+      (q) => q.subject.toLowerCase().trim() === newSubject.toLowerCase().trim(),
+    )
+  ) {
     newSubject = `Copy of ${baseSubject} (${count})`
     count++
   }
-  
+
   parsed.subject = newSubject
-  
+
   const newId = normalizeFilename(newSubject)
   const newFilePath = getPath(`quizz/${newId}.json`)
   fs.writeFileSync(newFilePath, JSON.stringify(parsed, null, 2))
-  
+
   const store = getQuizzMetaStore()
   const oldEntry = store[id] || {}
   store[newId] = {
@@ -606,11 +646,15 @@ export const duplicateQuizz = (id: string): { id: string } => {
     deletedAt: null,
   }
   saveQuizzMetaStore(store)
-  
+
   return { id: newId }
 }
 
-export const combineQuizzes = (ids: string[], subject: string, folder?: string): { id: string } => {
+export const combineQuizzes = (
+  ids: string[],
+  subject: string,
+  folder?: string,
+): { id: string } => {
   const existing = getQuizz(true)
   const isDuplicate = existing.some(
     (q) => q.subject.toLowerCase().trim() === subject.toLowerCase().trim(),
@@ -618,7 +662,7 @@ export const combineQuizzes = (ids: string[], subject: string, folder?: string):
   if (isDuplicate) {
     throw new Error("errors:quizz.duplicateTitle")
   }
-  
+
   const questions: Question[] = []
   for (const id of ids) {
     try {
@@ -630,24 +674,26 @@ export const combineQuizzes = (ids: string[], subject: string, folder?: string):
       console.error(`Failed to load quiz ${id} for combining:`, err)
     }
   }
-  
+
   const combinedData = {
     subject,
     questions,
   }
-  
+
   const newId = normalizeFilename(subject)
   const filePath = getPath(`quizz/${newId}.json`)
   fs.writeFileSync(filePath, JSON.stringify(combinedData, null, 2))
-  
+
   const store = getQuizzMetaStore()
-  
+
   // Determine if a folder is explicitly provided, or if all source quizzes are in the same folder
   let targetFolder = folder || ""
   if (!targetFolder && ids.length > 0) {
     const firstId = ids[0]
     const firstFolder = store[firstId]?.folder || ""
-    const allSameFolder = ids.every((id) => (store[id]?.folder || "") === firstFolder)
+    const allSameFolder = ids.every(
+      (id) => (store[id]?.folder || "") === firstFolder,
+    )
     if (allSameFolder) {
       targetFolder = firstFolder
     }
@@ -655,7 +701,7 @@ export const combineQuizzes = (ids: string[], subject: string, folder?: string):
 
   store[newId] = { folder: targetFolder, favorite: false, deletedAt: null }
   saveQuizzMetaStore(store)
-  
+
   return { id: newId }
 }
 
@@ -663,7 +709,7 @@ export const purgeExpiredTrash = (): void => {
   const store = getQuizzMetaStore()
   const now = new Date()
   const expiredIds: string[] = []
-  
+
   for (const [id, entry] of Object.entries(store)) {
     if (entry.deletedAt) {
       const deletedDate = new Date(entry.deletedAt)
@@ -674,9 +720,12 @@ export const purgeExpiredTrash = (): void => {
       }
     }
   }
-  
+
   if (expiredIds.length > 0) {
-    console.info(`Purging ${expiredIds.length} expired quizzes from Trash:`, expiredIds)
+    console.info(
+      `Purging ${expiredIds.length} expired quizzes from Trash:`,
+      expiredIds,
+    )
     permanentDeleteQuizz(expiredIds)
   }
 }

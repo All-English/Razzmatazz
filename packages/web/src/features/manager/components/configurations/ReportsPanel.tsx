@@ -42,11 +42,13 @@ const ReportsPanel = () => {
   }
 
   return (
-    <div className="flex h-full flex-1 flex-col bg-white p-8 overflow-y-auto select-none">
+    <div className="flex h-full flex-1 flex-col overflow-y-auto bg-white p-8 select-none">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t("manager:nav.reports")}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {t("manager:nav.reports")}
+          </h1>
           <p className="text-sm text-gray-500">
             {t("manager:result.available", { count: results.length })}
           </p>
@@ -58,19 +60,21 @@ const ReportsPanel = () => {
         {results.map((r) => (
           <div
             key={r.id}
-            className="group flex w-full items-center justify-between rounded-xl border border-gray-150 bg-gray-50/30 px-6 py-4 transition-all duration-200 hover:border-primary/20 hover:bg-primary/5 hover:shadow-xs"
+            className="group border-gray-150 hover:border-primary/20 hover:bg-primary/5 flex w-full items-center justify-between rounded-xl border bg-gray-50/30 px-6 py-4 transition-all duration-200 hover:shadow-xs"
           >
             <button
               className="min-w-0 flex-1 text-left"
               onClick={handleOpen(r.id)}
             >
               <div className="flex items-center gap-3">
-                <p className="truncate font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                <p className="group-hover:text-primary truncate font-semibold text-gray-900 transition-colors">
                   {r.subject}
                 </p>
                 {r.mode && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
-                    {r.mode === "study" ? t("manager:result.studyMode") : t("manager:result.liveMode")}
+                  <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-gray-600 uppercase">
+                    {r.mode === "study"
+                      ? t("manager:result.studyMode")
+                      : t("manager:result.liveMode")}
                   </span>
                 )}
               </div>
@@ -88,14 +92,14 @@ const ReportsPanel = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={handleOpen(r.id)}
-                className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-xs"
+                className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:bg-gray-50 hover:text-gray-900"
               >
-                <Trophy className="size-3.5 text-primary" />
+                <Trophy className="text-primary size-3.5" />
                 <span>{t("manager:result.viewResults")}</span>
               </button>
               <AlertDialog
                 trigger={
-                  <button className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors">
+                  <button className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500">
                     <Trash2 className="size-4" />
                   </button>
                 }
@@ -112,8 +116,8 @@ const ReportsPanel = () => {
 
         {results.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <Trophy className="size-12 text-gray-300 stroke-[1.5]" />
-            <p className="mt-3 text-sm text-gray-500 font-medium">
+            <Trophy className="size-12 stroke-[1.5] text-gray-300" />
+            <p className="mt-3 text-sm font-medium text-gray-500">
               {t("manager:result.none")}
             </p>
             <p className="mt-1 text-xs text-gray-400">

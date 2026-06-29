@@ -55,5 +55,6 @@
   "storyImportDescription": "ストーリー、段落、または生のテキストを貼り付けます。このテキストは生徒が組み立てる正しい文を作成するために使用されます。AI翻訳が有効な場合、各文の翻訳がプロンプトとして使用されます。",
   "storyImportPlaceholder": "ここにテキストを入力または貼り付けてください...",
   "storyImportTitle": "テキストをインポート",
-  "titleQuizzPlaceholder": "クイズのタイトル..."
+  "titleQuizzPlaceholder": "クイズのタイトル...",
+  "unsavedChangesConfirm": "保存されていない変更があります。本当に移動しますか？"
 }

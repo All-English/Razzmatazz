@@ -22,15 +22,23 @@ const NavRail = ({ activeSection, onSectionChange }: Props) => {
   }
 
   const items = [
-    { id: "library" as SectionType, label: t("manager:nav.library"), icon: Library },
-    { id: "reports" as SectionType, label: t("manager:nav.reports"), icon: BarChart3 },
+    {
+      id: "library" as SectionType,
+      label: t("manager:nav.library"),
+      icon: Library,
+    },
+    {
+      id: "reports" as SectionType,
+      label: t("manager:nav.reports"),
+      icon: BarChart3,
+    },
   ]
 
   return (
-    <div className="flex h-full w-[72px] flex-col items-center justify-between border-r border-gray-200 bg-secondary py-4 text-gray-400 select-none">
+    <div className="bg-secondary flex h-full w-[72px] flex-col items-center justify-between border-r border-gray-200 py-4 text-gray-400 select-none">
       {/* Top: Logo & Navigation Items */}
       <div className="flex w-full flex-col items-center gap-6">
-        <div className="flex size-10 items-center justify-center rounded-xl bg-primary font-display text-2xl font-bold text-white shadow-lg shadow-primary/20">
+        <div className="bg-primary font-display shadow-primary/20 flex size-10 items-center justify-center rounded-xl text-2xl font-bold text-white shadow-lg">
           R
         </div>
 
@@ -44,12 +52,18 @@ const NavRail = ({ activeSection, onSectionChange }: Props) => {
                 key={item.id}
                 onClick={() => onSectionChange(item.id)}
                 className={`group flex w-full flex-col items-center justify-center rounded-xl py-2.5 transition-all duration-200 hover:text-white ${
-                  isActive ? "bg-white/10 text-primary font-medium" : "hover:bg-white/5"
+                  isActive
+                    ? "text-primary bg-white/10 font-medium"
+                    : "hover:bg-white/5"
                 }`}
                 title={item.label}
               >
-                <Icon className={`size-5 transition-transform duration-200 group-hover:scale-105 ${isActive ? "text-primary" : ""}`} />
-                <span className="mt-1 text-[10px] tracking-wide leading-none">{item.label}</span>
+                <Icon
+                  className={`size-5 transition-transform duration-200 group-hover:scale-105 ${isActive ? "text-primary" : ""}`}
+                />
+                <span className="mt-1 text-[10px] leading-none tracking-wide">
+                  {item.label}
+                </span>
               </button>
             )
           })}
@@ -61,12 +75,18 @@ const NavRail = ({ activeSection, onSectionChange }: Props) => {
         <button
           onClick={() => onSectionChange("settings")}
           className={`group flex w-full flex-col items-center justify-center rounded-xl py-2.5 transition-all duration-200 hover:text-white ${
-            activeSection === "settings" ? "bg-white/10 text-primary font-medium" : "hover:bg-white/5"
+            activeSection === "settings"
+              ? "text-primary bg-white/10 font-medium"
+              : "hover:bg-white/5"
           }`}
           title={t("manager:nav.settings")}
         >
-          <Settings className={`size-5 transition-transform duration-200 group-hover:scale-105 ${activeSection === "settings" ? "text-primary" : ""}`} />
-          <span className="mt-1 text-[10px] tracking-wide leading-none">{t("manager:nav.settings")}</span>
+          <Settings
+            className={`size-5 transition-transform duration-200 group-hover:scale-105 ${activeSection === "settings" ? "text-primary" : ""}`}
+          />
+          <span className="mt-1 text-[10px] leading-none tracking-wide">
+            {t("manager:nav.settings")}
+          </span>
         </button>
 
         <button
@@ -75,7 +95,9 @@ const NavRail = ({ activeSection, onSectionChange }: Props) => {
           title={t("manager:logout")}
         >
           <LogOut className="size-5 transition-transform duration-200 group-hover:scale-105" />
-          <span className="mt-1 text-[10px] tracking-wide leading-none">{t("manager:logout")}</span>
+          <span className="mt-1 text-[10px] leading-none tracking-wide">
+            {t("manager:logout")}
+          </span>
         </button>
       </div>
     </div>

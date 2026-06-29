@@ -7,6 +7,7 @@ import {
   createContext,
   useContext,
   useState,
+  useMemo,
   type PropsWithChildren,
 } from "react"
 import { v7 as uuid } from "uuid"
@@ -28,6 +29,9 @@ interface QuizzEditorContextType {
   reorderQuestions: (_from: number, _to: number) => void
   updateQuestion: (_index: number, _updates: Partial<QuestionWithId>) => void
   setQuestions: (_questions: QuestionWithId[]) => void
+  isDirty: boolean
+  hasSaved: boolean
+  setHasSaved: (_val: boolean) => void
 }
 
 const QuizzEditorContext = createContext<QuizzEditorContextType | null>(null)
@@ -74,6 +78,63 @@ export const QuizzEditorProvider = ({
   )
   const [currentIndex, setCurrentIndex] = useState(0)
   const currentQuestion = questions[currentIndex]
+  const [hasSaved, setHasSaved] = useState(false)
+
+  // Track the initial normalized state to determine if the editor is dirty
+  const initialNormalizedSubject = useMemo(() => {
+    return initialData?.subject ?? "Untitled Quizz"
+  }, [initialData])
+
+  const initialNormalizedQuestions = useMemo(() => {
+    const sourceQuestions = initialData
+      ? initialData.questions
+      : [
+          {
+            prompt: "",
+            scrambledChunks: ["", ""],
+            correctChunks: ["", ""],
+            correctSentence: "",
+            cooldown: 5,
+            time: 30,
+          },
+        ]
+
+    return sourceQuestions.map((q) => ({
+      prompt: q.prompt,
+      scrambledChunks: q.scrambledChunks,
+      correctChunks: q.correctChunks,
+      correctSentence: q.correctSentence,
+      cooldown: q.cooldown,
+      time: q.time,
+      media: q.media,
+    }))
+  }, [initialData])
+
+  const isDirty = useMemo(() => {
+    if (subject !== initialNormalizedSubject) return true
+    if (questions.length !== initialNormalizedQuestions.length) return true
+
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i]
+      const initQ = initialNormalizedQuestions[i]
+
+      if (
+        q.prompt !== initQ.prompt ||
+        q.correctSentence !== initQ.correctSentence ||
+        q.cooldown !== initQ.cooldown ||
+        q.time !== initQ.time ||
+        JSON.stringify(q.scrambledChunks) !==
+          JSON.stringify(initQ.scrambledChunks) ||
+        JSON.stringify(q.correctChunks) !==
+          JSON.stringify(initQ.correctChunks) ||
+        JSON.stringify(q.media) !== JSON.stringify(initQ.media)
+      ) {
+        return true
+      }
+    }
+
+    return false
+  }, [subject, initialNormalizedSubject, questions, initialNormalizedQuestions])
 
   const addQuestion = () => {
     setQuestions((prev) => [...prev, defaultQuestion()])
@@ -140,6 +201,9 @@ export const QuizzEditorProvider = ({
         reorderQuestions,
         updateQuestion,
         setQuestions,
+        isDirty,
+        hasSaved,
+        setHasSaved,
       }}
     >
       {children}
