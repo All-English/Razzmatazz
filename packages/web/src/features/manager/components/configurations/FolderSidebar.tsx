@@ -26,6 +26,10 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
   const { socket } = useSocket()
   const { t } = useTranslation()
 
+  const sortedFolders = [...folders].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
+  )
+
   // Folder creation state
   const [isCreating, setIsCreating] = useState(false)
   const [newFolderName, setNewFolderName] = useState("")
@@ -192,7 +196,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
               </form>
             )}
 
-            {folders.map((folder) => {
+            {sortedFolders.map((folder) => {
               const isSelected = selectedFolder === folder
               const isEditing = editingFolderName === folder
 

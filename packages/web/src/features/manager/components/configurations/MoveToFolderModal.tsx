@@ -14,6 +14,10 @@ const MoveToFolderModal = ({ isOpen, onClose, onMove }: Props) => {
   const { folders } = useConfig()
   const { t } = useTranslation()
 
+  const sortedFolders = [...folders].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
+  )
+
   const handleSelect = (folderName: string) => {
     onMove(folderName)
     onClose()
@@ -50,7 +54,7 @@ const MoveToFolderModal = ({ isOpen, onClose, onMove }: Props) => {
               <span>{t("manager:quizz.noFolder")}</span>
             </button>
 
-            {folders.map((folder) => (
+            {sortedFolders.map((folder) => (
               <button
                 key={folder}
                 onClick={() => handleSelect(folder)}
