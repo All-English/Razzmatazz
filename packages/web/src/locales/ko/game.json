@@ -40,6 +40,7 @@
   "personalBests": "개인 최고 기록",
   "pinLabel": "PIN 코드",
   "playAgain": "다시 도전하기",
+  "startRoundN": "라운드 {{round}} 시작",
   "playersJoined": "참여한 플레이어: ",
   "progressHidden": "진행 상황: 숨김",
   "progressVisible": "진행 상황: 표시",

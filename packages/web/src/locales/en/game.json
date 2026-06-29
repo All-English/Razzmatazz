@@ -63,6 +63,7 @@
   "newPersonalBest": "🎉 New Personal Best!",
   "tryToBeatBest": "Can you beat your best time?",
   "playAgain": "Play Again",
+  "startRoundN": "Start Round {{round}}",
   "studyScoreLabel": "Your Score: {{score}} pts",
   "bestScoreLabel": "Best Score: {{score}} pts",
   "newPersonalBestScore": "🎉 New Personal Best Score!",

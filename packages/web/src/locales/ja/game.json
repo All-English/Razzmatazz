@@ -40,6 +40,7 @@
   "personalBests": "自己ベスト",
   "pinLabel": "PINコード",
   "playAgain": "もう一度プレイ",
+  "startRoundN": "ラウンド {{round}} を開始",
   "playersJoined": "参加プレイヤー数: ",
   "progressHidden": "進捗: 非表示",
   "progressVisible": "進捗: 表示",

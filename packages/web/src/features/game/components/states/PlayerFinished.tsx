@@ -181,7 +181,7 @@ const PlayerFinished = ({ data: { rank, subject, studyTime } }: Props) => {
             onClick={handleRestart}
             className="w-full rounded-xl border-b-4 border-gray-300 bg-white px-10 py-3.5 text-xl font-extrabold text-black shadow-2xl transition-all hover:bg-gray-200 active:mt-1 active:border-b-0 sm:w-auto"
           >
-            {t("game:playAgain")}
+            {t("game:startRoundN", { round: (player?.studyRound ?? 1) + 1 })}
           </Button>
         </div>
       ) : (

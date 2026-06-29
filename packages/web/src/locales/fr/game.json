@@ -40,6 +40,7 @@
   "personalBests": "Records personnels",
   "pinLabel": "Code PIN",
   "playAgain": "Rejouer",
+  "startRoundN": "Commencer le round {{round}}",
   "playersJoined": "Joueurs connectés : ",
   "progressHidden": "Progression : Masquée",
   "progressVisible": "Progression : Visible",
