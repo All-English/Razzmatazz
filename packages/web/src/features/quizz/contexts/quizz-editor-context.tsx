@@ -69,7 +69,7 @@ export const QuizzEditorProvider = ({
   initialData,
 }: QuizzEditorProviderProps) => {
   const [subject, setSubject] = useState(
-    initialData?.subject ?? "Untitled Quizz",
+    initialData?.subject ?? "Untitled Quiz",
   )
   const [questions, setQuestions] = useState<QuestionWithId[]>(
     initialData
@@ -82,7 +82,7 @@ export const QuizzEditorProvider = ({
 
   // Track the initial normalized state to determine if the editor is dirty
   const initialNormalizedSubject = useMemo(() => {
-    return initialData?.subject ?? "Untitled Quizz"
+    return initialData?.subject ?? "Untitled Quiz"
   }, [initialData])
 
   const initialNormalizedQuestions = useMemo(() => {

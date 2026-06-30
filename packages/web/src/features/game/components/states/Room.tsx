@@ -10,7 +10,7 @@ import { useGameModeStore } from "@razzia/web/features/game/stores/gameMode"
 import { useManagerStore } from "@razzia/web/features/game/stores/manager"
 import { useOnClickOutside } from "@razzia/web/hooks/useOnClickOutside"
 import { useConfig } from "@razzia/web/features/manager/contexts/config-context"
-import { Maximize2, X, Check } from "lucide-react"
+import { Maximize2, X, Check, Folder, FolderHeart, FolderOpen, Search } from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -35,13 +35,47 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
   const { t } = useTranslation(["game", "manager", "common", "errors"])
 
   // Configuration options state
-  const { quizz: quizzList } = useConfig()
+  const { quizz: quizzList, folders } = useConfig()
   const [shuffle, setShuffle] = useState(false)
   const [isLimitEnabled, setIsLimitEnabled] = useState(false)
   const [startIndex, setStartIndex] = useState(1)
   const [endIndex, setEndIndex] = useState(1)
   const [changeQuizOpen, setChangeQuizOpen] = useState(false)
+  const [selectedFolder, setSelectedFolder] = useState<string>("all")
+  const [searchQuery, setSearchQuery] = useState("")
   const modalRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!changeQuizOpen) {
+      setSearchQuery("")
+      setSelectedFolder("all")
+    }
+  }, [changeQuizOpen])
+
+  const sortedFolders = [...folders].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
+  )
+
+  const filteredQuizzes = [...quizzList]
+    .filter((q) => {
+      if (selectedFolder === "favorites") {
+        if (!q.favorite) return false
+      } else if (selectedFolder !== "all") {
+        if (q.folder !== selectedFolder) return false
+      }
+
+      if (searchQuery.trim()) {
+        return q.subject.toLowerCase().includes(searchQuery.toLowerCase())
+      }
+
+      return true
+    })
+    .sort((a, b) =>
+      a.subject.localeCompare(b.subject, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      }),
+    )
 
   const activeQuiz = quizzList.find((q) => q.id === activeQuizzId)
   const activeQuizName = activeQuiz?.subject ?? ""
@@ -439,7 +473,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
           <AlertDialog.Overlay className="animate-fade-in fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-all" />
           <AlertDialog.Content
             ref={modalRef}
-            className="animate-scale-in fixed top-1/2 left-1/2 z-50 flex max-h-[85vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-2xl"
+            className="animate-scale-in fixed top-1/2 left-1/2 z-50 flex h-[600px] max-h-[85vh] w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-2xl"
           >
             <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-3">
               <AlertDialog.Title className="text-2xl font-bold text-gray-900">
@@ -453,76 +487,154 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
               </button>
             </div>
 
-            <div className="flex-1 space-y-2.5 overflow-y-auto pr-1">
-              {[...quizzList]
-                .sort((a, b) =>
-                  a.subject.localeCompare(b.subject, undefined, {
-                    numeric: true,
-                    sensitivity: "base",
-                  }),
-                )
-                .map((quizz) => {
-                  const hasMismatch = Boolean(quizz.hasMismatch)
-                  const isCurrentActive = quizz.id === activeQuizzId
+            <div className="flex flex-1 gap-6 overflow-hidden min-h-0">
+              {/* Folder Sidebar */}
+              <div className="flex w-52 shrink-0 flex-col gap-4 border-r border-gray-100 pr-4 select-none overflow-y-auto">
+                <div className="flex flex-col gap-1.5">
+                  <button
+                    onClick={() => setSelectedFolder("all")}
+                    className={clsx(
+                      "flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200",
+                      selectedFolder === "all"
+                        ? "border-primary bg-primary/5 text-primary font-bold"
+                        : "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                    )}
+                  >
+                    <FolderOpen className="size-4 shrink-0" />
+                    <span className="truncate">{t("manager:sidebar.allQuizzes")}</span>
+                  </button>
 
-                  return (
-                    <div
-                      key={quizz.id}
-                      onClick={() => handleQuizChange(quizz.id)}
-                      className={clsx(
-                        "flex cursor-pointer items-center justify-between rounded-xl border p-4 transition-all duration-200 select-none",
-                        hasMismatch
-                          ? "border-rose-100 bg-rose-50/50 opacity-75 hover:border-rose-300 hover:opacity-100"
-                          : isCurrentActive
-                            ? "border-primary bg-primary/5 ring-primary shadow-sm ring-1"
-                            : "hover:border-primary/50 border-gray-200 bg-white hover:bg-gray-50",
-                      )}
+                  <button
+                    onClick={() => setSelectedFolder("favorites")}
+                    className={clsx(
+                      "flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200",
+                      selectedFolder === "favorites"
+                        ? "border-primary bg-primary/5 text-primary font-bold"
+                        : "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                    )}
+                  >
+                    <FolderHeart className="size-4 shrink-0" />
+                    <span className="truncate">{t("manager:sidebar.favorites")}</span>
+                  </button>
+                </div>
+
+                {sortedFolders.length > 0 && (
+                  <div className="flex flex-col gap-2">
+                    <div className="px-3 text-[10px] font-bold tracking-wider text-gray-400 uppercase">
+                      {t("manager:sidebar.yourFolders")}
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      {sortedFolders.map((folder) => {
+                        const isSelected = selectedFolder === folder
+                        return (
+                          <button
+                            key={folder}
+                            onClick={() => setSelectedFolder(folder)}
+                            className={clsx(
+                              "flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200",
+                              isSelected
+                                ? "border-primary bg-primary/5 text-primary font-bold"
+                                : "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                            )}
+                          >
+                            <Folder className="size-4 shrink-0" />
+                            <span className="truncate text-left">{folder}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Quiz List & Search */}
+              <div className="flex flex-1 flex-col min-w-0 min-h-0">
+                {/* Search Bar */}
+                <div className="relative mb-3">
+                  <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder={t("manager:quizz.search")}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 bg-white py-2 pr-10 pl-9.5 text-sm placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full p-0.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                     >
-                      <div className="flex flex-col gap-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-semibold text-gray-900">
-                            {quizz.subject}
-                          </span>
-                          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
-                            {t("manager:quizz.questionsCount", {
-                              count: quizz.questionCount ?? 0,
-                            })}
-                          </span>
-                          {isCurrentActive && (
-                            <span className="bg-primary rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
-                              {t("common:active", "Active")}
+                      <X className="size-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Quizzes List */}
+                <div className="flex-1 space-y-2.5 overflow-y-auto pr-1 min-h-0">
+                  {filteredQuizzes.map((quizz) => {
+                    const hasMismatch = Boolean(quizz.hasMismatch)
+                    const isCurrentActive = quizz.id === activeQuizzId
+
+                    return (
+                      <div
+                        key={quizz.id}
+                        onClick={() => handleQuizChange(quizz.id)}
+                        className={clsx(
+                          "flex cursor-pointer items-center justify-between rounded-xl border p-4 transition-all duration-200 select-none",
+                          hasMismatch
+                            ? "border-rose-100 bg-rose-50/50 opacity-75 hover:border-rose-300 hover:opacity-100"
+                            : isCurrentActive
+                              ? "border-primary bg-primary/5 ring-primary shadow-sm ring-1"
+                              : "hover:border-primary/50 border-gray-200 bg-white hover:bg-gray-50",
+                        )}
+                      >
+                        <div className="flex flex-col gap-1 min-w-0 flex-1 pr-4">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-semibold text-gray-900 truncate">
+                              {quizz.subject}
+                            </span>
+                            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500 shrink-0">
+                              {t("manager:quizz.questionsCount", {
+                                count: quizz.questionCount ?? 0,
+                              })}
+                            </span>
+                            {isCurrentActive && (
+                              <span className="bg-primary rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase shrink-0">
+                                {t("common:active", "Active")}
+                              </span>
+                            )}
+                          </div>
+                          {hasMismatch && (
+                            <span className="mt-1 text-xs font-medium text-rose-600">
+                              ⚠️ {t("manager:quizz.mismatchBadge")} —{" "}
+                              {t("manager:quizz.mismatchTooltip")}
                             </span>
                           )}
                         </div>
-                        {hasMismatch && (
-                          <span className="mt-1 text-xs font-medium text-rose-600">
-                            ⚠️ {t("manager:quizz.mismatchBadge")} —{" "}
-                            {t("manager:quizz.mismatchTooltip")}
-                          </span>
-                        )}
-                      </div>
 
-                      <div
-                        className={clsx(
-                          "flex size-6 items-center justify-center rounded-full border transition-all duration-200",
-                          isCurrentActive
-                            ? "bg-primary border-primary"
-                            : "border-gray-300",
-                        )}
-                      >
-                        {isCurrentActive && (
-                          <Check className="size-4 stroke-[3.5] text-white" />
-                        )}
+                        <div
+                          className={clsx(
+                            "flex size-6 shrink-0 items-center justify-center rounded-full border transition-all duration-200",
+                            isCurrentActive
+                              ? "bg-primary border-primary"
+                              : "border-gray-300",
+                          )}
+                        >
+                          {isCurrentActive && (
+                            <Check className="size-4 stroke-[3.5] text-white" />
+                          )}
+                        </div>
                       </div>
+                    )
+                  })}
+
+                  {filteredQuizzes.length === 0 && (
+                    <div className="py-12 text-center text-gray-500">
+                      <p className="text-sm font-medium">{t("manager:quizz.notFound")}</p>
                     </div>
-                  )
-                })}
-
-              {quizzList.length === 0 && (
-                <div className="py-8 text-center text-gray-500">
-                  <p>{t("manager:quizz.notFound")}</p>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="mt-4 flex justify-end border-t border-gray-100 pt-4">
