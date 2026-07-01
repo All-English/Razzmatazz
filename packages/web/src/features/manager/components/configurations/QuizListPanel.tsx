@@ -518,10 +518,11 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                             params: { quizzId: q.id },
                           })
                         }
-                        className="rounded-lg border border-gray-200 bg-white p-1.5 text-gray-500 shadow-xs transition-colors hover:bg-gray-50 hover:text-gray-700"
+                        className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-gray-700 shadow-xs transition-colors hover:bg-gray-50 hover:text-gray-900 flex items-center gap-1 text-xs font-semibold"
                         title={t("manager:quizz.edit")}
                       >
                         <Pencil className="size-3.5" />
+                        <span>{t("manager:quizz.edit")}</span>
                       </button>
                     </div>
                   </td>

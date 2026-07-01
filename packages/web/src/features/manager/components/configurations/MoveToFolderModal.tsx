@@ -4,6 +4,8 @@ import { useConfig } from "@razzia/web/features/manager/contexts/config-context"
 import { Folder, Home, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
+import { buildFolderTree, type FolderNode } from "./FolderSidebar"
+
 interface Props {
   isOpen: boolean
   onClose: () => void
@@ -14,13 +16,25 @@ const MoveToFolderModal = ({ isOpen, onClose, onMove }: Props) => {
   const { folders } = useConfig()
   const { t } = useTranslation()
 
-  const sortedFolders = [...folders].sort((a, b) =>
-    a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
-  )
-
   const handleSelect = (folderName: string) => {
     onMove(folderName)
     onClose()
+  }
+
+  const renderFolderOption = (node: FolderNode, depth: number) => {
+    return (
+      <div key={node.path}>
+        <button
+          onClick={() => handleSelect(node.path)}
+          className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 py-3 pr-4 text-left text-sm font-medium text-gray-700 transition-all mb-1"
+          style={{ paddingLeft: `${16 + depth * 16}px` }}
+        >
+          <Folder className="group-hover:text-primary size-4 shrink-0 text-gray-500" />
+          <span>{node.name}</span>
+        </button>
+        {node.children.map((child) => renderFolderOption(child, depth + 1))}
+      </div>
+    )
   }
 
   return (
@@ -48,22 +62,13 @@ const MoveToFolderModal = ({ isOpen, onClose, onMove }: Props) => {
             {/* Root/No Folder Option */}
             <button
               onClick={() => handleSelect("")}
-              className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-all"
+              className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-all mb-1"
             >
               <Home className="group-hover:text-primary size-4 shrink-0 text-gray-500" />
               <span>{t("manager:quizz.noFolder")}</span>
             </button>
 
-            {sortedFolders.map((folder) => (
-              <button
-                key={folder}
-                onClick={() => handleSelect(folder)}
-                className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-all"
-              >
-                <Folder className="group-hover:text-primary size-4 shrink-0 text-gray-500" />
-                <span>{folder}</span>
-              </button>
-            ))}
+            {buildFolderTree(folders).map((node) => renderFolderOption(node, 0))}
 
             {folders.length === 0 && (
               <p className="py-6 text-center text-sm text-gray-400 italic">

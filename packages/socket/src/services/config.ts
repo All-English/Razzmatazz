@@ -515,14 +515,17 @@ export const createFolder = (name: string): void => {
 
 export const deleteFolder = (name: string): void => {
   const folders = getFolders()
-  const updated = folders.filter((f) => f !== name)
+  const updated = folders.filter((f) => f !== name && !f.startsWith(name + "/"))
   saveFolders(updated)
 
   const store = getQuizzMetaStore()
   const now = new Date().toISOString()
   let modified = false
   for (const [id, entry] of Object.entries(store)) {
-    if (entry.folder === name) {
+    if (
+      entry.folder === name ||
+      (entry.folder && entry.folder.startsWith(name + "/"))
+    ) {
       entry.deletedAt = now
       entry.folder = ""
       modified = true
@@ -535,17 +538,23 @@ export const deleteFolder = (name: string): void => {
 
 export const renameFolder = (oldName: string, newName: string): void => {
   const folders = getFolders()
-  const index = folders.indexOf(oldName)
-  if (index !== -1) {
-    folders[index] = newName
-    saveFolders(folders)
-  }
+  const updatedFolders = folders.map((f) => {
+    if (f === oldName) return newName
+    if (f.startsWith(oldName + "/")) {
+      return newName + f.slice(oldName.length)
+    }
+    return f
+  })
+  saveFolders(updatedFolders)
 
   const store = getQuizzMetaStore()
   let modified = false
   for (const [id, entry] of Object.entries(store)) {
     if (entry.folder === oldName) {
       entry.folder = newName
+      modified = true
+    } else if (entry.folder && entry.folder.startsWith(oldName + "/")) {
+      entry.folder = newName + entry.folder.slice(oldName.length)
       modified = true
     }
   }

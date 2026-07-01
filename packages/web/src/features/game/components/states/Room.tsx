@@ -10,6 +10,7 @@ import { useGameModeStore } from "@razzia/web/features/game/stores/gameMode"
 import { useManagerStore } from "@razzia/web/features/game/stores/manager"
 import { useOnClickOutside } from "@razzia/web/hooks/useOnClickOutside"
 import { useConfig } from "@razzia/web/features/manager/contexts/config-context"
+import { buildFolderTree, type FolderNode } from "@razzia/web/features/manager/components/configurations/FolderSidebar"
 import { Maximize2, X, Check, Folder, FolderHeart, FolderOpen, Search } from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
 import { useEffect, useRef, useState } from "react"
@@ -51,10 +52,6 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
       setSelectedFolder("all")
     }
   }, [changeQuizOpen])
-
-  const sortedFolders = [...folders].sort((a, b) =>
-    a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
-  )
 
   const filteredQuizzes = [...quizzList]
     .filter((q) => {
@@ -98,6 +95,28 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
       startIndex < 1 ||
       endIndex < startIndex ||
       endIndex > activeQuizQuestionCount)
+
+  const renderFolderButton = (node: FolderNode, depth: number) => {
+    const isSelected = selectedFolder === node.path
+    return (
+      <div key={node.path}>
+        <button
+          onClick={() => setSelectedFolder(node.path)}
+          className={clsx(
+            "flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200 mb-1",
+            isSelected
+              ? "border-primary bg-primary/5 text-primary font-bold"
+              : "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+          )}
+          style={{ paddingLeft: `${12 + depth * 12}px` }}
+        >
+          <Folder className="size-4 shrink-0" />
+          <span className="truncate text-left">{node.name}</span>
+        </button>
+        {node.children.map((child) => renderFolderButton(child, depth + 1))}
+      </div>
+    )
+  }
 
   const [playMusic, { stop: stopMusic }] = useSound(SFX.ANSWERS.MUSIC, {
     volume: 0.2,
@@ -518,30 +537,13 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                   </button>
                 </div>
 
-                {sortedFolders.length > 0 && (
+                {folders.length > 0 && (
                   <div className="flex flex-col gap-2">
                     <div className="px-3 text-[10px] font-bold tracking-wider text-gray-400 uppercase">
                       {t("manager:sidebar.yourFolders")}
                     </div>
-                    <div className="flex flex-col gap-1.5">
-                      {sortedFolders.map((folder) => {
-                        const isSelected = selectedFolder === folder
-                        return (
-                          <button
-                            key={folder}
-                            onClick={() => setSelectedFolder(folder)}
-                            className={clsx(
-                              "flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200",
-                              isSelected
-                                ? "border-primary bg-primary/5 text-primary font-bold"
-                                : "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                            )}
-                          >
-                            <Folder className="size-4 shrink-0" />
-                            <span className="truncate text-left">{folder}</span>
-                          </button>
-                        )
-                      })}
+                    <div className="flex flex-col gap-1">
+                      {buildFolderTree(folders).map((node) => renderFolderButton(node, 0))}
                     </div>
                   </div>
                 )}
