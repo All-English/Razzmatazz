@@ -21,5 +21,6 @@
   "submit": "제출",
   "change": "변경",
   "active": "활성",
-  "close": "닫기"
+  "close": "닫기",
+  "goBack": "돌아가기"
 }

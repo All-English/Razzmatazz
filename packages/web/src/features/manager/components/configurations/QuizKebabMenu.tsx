@@ -1,4 +1,4 @@
-import { Copy, FolderInput, MoreVertical, Star, Trash2 } from "lucide-react"
+import { Copy, FolderInput, MoreVertical, Star, Trash2, Pencil, Rocket } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -8,6 +8,8 @@ interface Props {
   onMove: () => void
   onDuplicate: () => void
   onDelete: () => void
+  onHost: () => void
+  onEdit: () => void
 }
 
 const QuizKebabMenu = ({
@@ -16,6 +18,8 @@ const QuizKebabMenu = ({
   onDuplicate,
   onMove,
   onDelete,
+  onHost,
+  onEdit,
 }: Props) => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
@@ -35,7 +39,7 @@ const QuizKebabMenu = ({
       if (menuRef.current) {
         const rect = menuRef.current.getBoundingClientRect()
         const spaceBelow = window.innerHeight - rect.bottom
-        const menuHeight = 180 // approximate dropdown height
+        const menuHeight = 210 // approximate compact dropdown height
         if (spaceBelow < menuHeight && rect.top > menuHeight) {
           setPlacement("top")
         } else {
@@ -60,7 +64,7 @@ const QuizKebabMenu = ({
 
       {isOpen && (
         <div
-          className={`animate-fade-in absolute right-0 z-30 w-44 divide-y divide-gray-50 rounded-xl border border-gray-100 bg-white py-1.5 shadow-xl ${
+          className={`animate-fade-in absolute right-0 z-30 w-44 divide-y divide-gray-50 rounded-xl border border-gray-100 bg-white py-1 shadow-xl ${
             placement === "top" ? "bottom-full mb-1" : "top-full mt-1"
           }`}
           onClick={(e) => {
@@ -69,10 +73,30 @@ const QuizKebabMenu = ({
           }}
         >
           <div className="py-1">
+            {/* Host */}
+            <button
+              onClick={onHost}
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors"
+            >
+              <Rocket className="size-4 shrink-0 text-gray-400" />
+              <span>{t("manager:quizz.host")}</span>
+            </button>
+
+            {/* Edit */}
+            <button
+              onClick={onEdit}
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors"
+            >
+              <Pencil className="size-4 shrink-0 text-gray-400" />
+              <span>{t("manager:quizz.edit")}</span>
+            </button>
+
+            <hr className="my-1 border-gray-100" />
+
             {/* Favorite / Unfavorite */}
             <button
               onClick={onFavorite}
-              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors"
             >
               <Star
                 className={`size-4 shrink-0 ${isFavorite ? "fill-primary text-primary" : "text-gray-400"}`}
@@ -87,7 +111,7 @@ const QuizKebabMenu = ({
             {/* Move to folder */}
             <button
               onClick={onMove}
-              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors"
             >
               <FolderInput className="size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.moveToFolder")}</span>
@@ -96,7 +120,7 @@ const QuizKebabMenu = ({
             {/* Duplicate */}
             <button
               onClick={onDuplicate}
-              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-gray-700 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors"
             >
               <Copy className="size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.duplicate")}</span>
@@ -107,7 +131,7 @@ const QuizKebabMenu = ({
           <div className="py-1">
             <button
               onClick={onDelete}
-              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium text-red-500 transition-colors hover:bg-red-50"
+              className="flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-red-500 transition-colors hover:bg-red-50"
             >
               <Trash2 className="size-4 shrink-0 text-red-400" />
               <span>{t("common:delete")}</span>

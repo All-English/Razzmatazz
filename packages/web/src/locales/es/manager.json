@@ -116,5 +116,9 @@
     "connected": "Conectado",
     "disconnected": "Desconectado",
     "appVersion": "Versión de la aplicación"
+  },
+  "editor": {
+    "unsupportedScreenTitle": "Tamaño o dirección de pantalla no compatible",
+    "unsupportedScreenDesc": "Para obtener la mejor experiencia al crear y editar cuestionarios, utilice una computadora de escritorio o gire su tableta a orientación horizontal."
   }
 }

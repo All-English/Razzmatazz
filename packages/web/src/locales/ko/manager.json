@@ -116,5 +116,9 @@
     "connected": "연결됨",
     "disconnected": "연결 끊김",
     "appVersion": "앱 버전"
+  },
+  "editor": {
+    "unsupportedScreenTitle": "지원되지 않는 화면 크기 또는 방향",
+    "unsupportedScreenDesc": "퀴즈 생성 및 편집을 원활하게 이용하려면 데스크톱 컴퓨터를 사용하거나 태블릿을 가로 방향으로 회전해 주세요."
   }
 }

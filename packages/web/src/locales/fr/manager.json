@@ -116,5 +116,9 @@
     "connected": "Connecté",
     "disconnected": "Déconnecté",
     "appVersion": "Version de l'application"
+  },
+  "editor": {
+    "unsupportedScreenTitle": "Taille ou orientation d'écran non prise en charge",
+    "unsupportedScreenDesc": "Pour une expérience optimale de création et d'édition de quiz, veuillez utiliser un ordinateur de bureau ou orienter votre tablette en mode paysage."
   }
 }

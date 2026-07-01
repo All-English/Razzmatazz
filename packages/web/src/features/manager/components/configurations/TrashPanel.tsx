@@ -17,8 +17,12 @@ const formatDate = (isoString?: string) => {
   })} · ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
 }
 
-const TrashPanel = () => {
-  const { trash } = useConfig()
+interface Props {
+  onSelectFolder: (_folder: string) => void
+}
+
+const TrashPanel = ({ onSelectFolder }: Props) => {
+  const { trash, folders } = useConfig()
   const { socket } = useSocket()
   const { t } = useTranslation()
 
@@ -71,6 +75,31 @@ const TrashPanel = () => {
 
   return (
     <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-gray-50 p-8 select-none">
+      {/* Folder Dropdown for tablet/mobile (visible only below lg: 1024px) */}
+      <div className="lg:hidden mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
+        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+          {t("manager:nav.library")}:
+        </label>
+        <select
+          value="trash"
+          onChange={(e) => onSelectFolder(e.target.value)}
+          className="rounded-lg border border-gray-200 bg-gray-50/50 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-64"
+        >
+          <option value="all">📁 {t("manager:sidebar.allQuizzes")}</option>
+          <option value="favorites">❤️ {t("manager:sidebar.favorites")}</option>
+          {[...folders]
+            .sort((a, b) =>
+              a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
+            )
+            .map((f) => (
+              <option key={f} value={f}>
+                📁 {f}
+              </option>
+            ))}
+          <option value="trash">🗑️ {t("manager:sidebar.trash")}</option>
+        </select>
+      </div>
+
       {/* Header */}
       <div className="border-gray-150 mb-6 border-b pb-5">
         <h1 className="text-2xl font-bold text-gray-900">
@@ -95,8 +124,8 @@ const TrashPanel = () => {
                 />
               </th>
               <th className="px-4 py-3">Title</th>
-              <th className="w-32 px-4 py-3">Questions</th>
-              <th className="w-52 px-4 py-3">
+              <th className="hidden sm:table-cell w-32 px-4 py-3">Questions</th>
+              <th className="hidden sm:table-cell w-52 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-3.5" />
                   <span>{t("manager:trash.deletedOn")}</span>
@@ -126,12 +155,12 @@ const TrashPanel = () => {
                   <td className="max-w-[300px] truncate px-4 py-3.5 font-medium text-gray-900">
                     {q.subject}
                   </td>
-                  <td className="px-4 py-3.5 text-gray-500">
+                  <td className="hidden sm:table-cell px-4 py-3.5 text-gray-500">
                     <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
                       {q.questionCount ?? 0}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-xs text-gray-400">
+                  <td className="hidden sm:table-cell px-4 py-3.5 text-xs text-gray-400">
                     {formatDate(q.deletedAt)}
                   </td>
                   <td className="px-4 py-3.5 text-right">

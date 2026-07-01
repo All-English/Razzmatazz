@@ -325,7 +325,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
   }
 
   return (
-    <div className="flex h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 bg-white p-4 select-none">
+    <div className="hidden lg:flex h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 bg-white p-4 select-none">
       <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto pr-1">
         {/* Section Title */}
         <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 uppercase">

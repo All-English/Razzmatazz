@@ -116,5 +116,9 @@
     "connected": "Verbunden",
     "disconnected": "Getrennt",
     "appVersion": "App-Version"
+  },
+  "editor": {
+    "unsupportedScreenTitle": "Bildschirmgröße oder -ausrichtung nicht unterstützt",
+    "unsupportedScreenDesc": "Für die beste Erfahrung beim Erstellen und Bearbeiten von Quizzes verwenden Sie bitte einen Desktop-Computer oder drehen Sie Ihr Tablet ins Querformat."
   }
 }

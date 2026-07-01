@@ -23,5 +23,6 @@
   "submit": "Invia",
   "change": "Modifica",
   "active": "Attivo",
-  "close": "Chiudi"
+  "close": "Chiudi",
+  "goBack": "Indietro"
 }

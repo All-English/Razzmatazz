@@ -116,5 +116,9 @@
     "connected": "Connesso",
     "disconnected": "Disconnesso",
     "appVersion": "Versione dell'applicazione"
+  },
+  "editor": {
+    "unsupportedScreenTitle": "Dimensioni o orientamento dello schermo non supportati",
+    "unsupportedScreenDesc": "Per la migliore esperienza di creazione e modifica dei quiz, utilizza un computer desktop o ruota il tablet in orientamento orizzontale."
   }
 }

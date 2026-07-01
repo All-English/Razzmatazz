@@ -23,5 +23,6 @@
   "submit": "送信",
   "change": "変更",
   "active": "アクティブ",
-  "close": "閉じる"
+  "close": "閉じる",
+  "goBack": "戻る"
 }

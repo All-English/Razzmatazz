@@ -116,5 +116,9 @@
     "connected": "接続済み",
     "disconnected": "切断",
     "appVersion": "アプリバージョン"
+  },
+  "editor": {
+    "unsupportedScreenTitle": "非対応の画面サイズまたは向き",
+    "unsupportedScreenDesc": "クイズの作成および編集を快適に行うには、デスクトップPCを使用するか、タブレットを横向きに回転させてください。"
   }
 }

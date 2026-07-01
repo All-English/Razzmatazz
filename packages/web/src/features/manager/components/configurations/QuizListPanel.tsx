@@ -34,6 +34,7 @@ import { useTranslation } from "react-i18next"
 
 interface Props {
   selectedFolder: string
+  onSelectFolder: (_folder: string) => void
 }
 
 const formatRelativeTime = (isoString?: string, t?: any) => {
@@ -70,8 +71,8 @@ const formatRelativeTime = (isoString?: string, t?: any) => {
   })
 }
 
-const QuizListPanel = ({ selectedFolder }: Props) => {
-  const { quizz } = useConfig()
+const QuizListPanel = ({ selectedFolder, onSelectFolder }: Props) => {
+  const { quizz, folders } = useConfig()
   const { socket } = useSocket()
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -377,6 +378,31 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
 
   return (
     <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-gray-50 p-8 select-none">
+      {/* Folder Dropdown for tablet/mobile (visible only below lg: 1024px) */}
+      <div className="lg:hidden mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
+        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+          {t("manager:nav.library")}:
+        </label>
+        <select
+          value={selectedFolder}
+          onChange={(e) => onSelectFolder(e.target.value)}
+          className="rounded-lg border border-gray-200 bg-gray-50/50 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-64"
+        >
+          <option value="all">📁 {t("manager:sidebar.allQuizzes")}</option>
+          <option value="favorites">❤️ {t("manager:sidebar.favorites")}</option>
+          {[...folders]
+            .sort((a, b) =>
+              a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
+            )
+            .map((f) => (
+              <option key={f} value={f}>
+                📁 {f}
+              </option>
+            ))}
+          <option value="trash">🗑️ {t("manager:sidebar.trash")}</option>
+        </select>
+      </div>
+
       {/* Top Action Bar */}
       <div className="mb-6 flex flex-col justify-between gap-4 border-b border-gray-100 pb-5 md:flex-row md:items-center">
         {/* Search */}
@@ -433,7 +459,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
       </div>
 
       {/* Quiz Table */}
-      <div className="min-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-xs">
+      <div className="min-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-xs min-h-[320px]">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-100/70 text-xs font-semibold tracking-wider text-gray-500 uppercase">
@@ -446,13 +472,13 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                 />
               </th>
               <th className="px-4 py-3">{t("manager:quizz.title")}</th>
-              <th className="w-32 px-4 py-3">
+              <th className="hidden sm:table-cell w-32 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Hash className="size-3.5" />
                   <span>{t("manager:quizz.questions")}</span>
                 </div>
               </th>
-              <th className="w-48 px-4 py-3">
+              <th className="hidden sm:table-cell w-48 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-3.5" />
                   <span>{t("manager:quizz.lastModified")}</span>
@@ -506,12 +532,12 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                       )}
                     </div>
                   </td>
-                  <td className="px-4 py-3.5 text-gray-500">
+                  <td className="hidden sm:table-cell px-4 py-3.5 text-gray-500">
                     <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
                       {q.questionCount ?? 0}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-xs text-gray-500 w-48">
+                  <td className="hidden sm:table-cell px-4 py-3.5 text-xs text-gray-500 w-48">
                     <div className="flex items-center group-hover:hidden h-[30px]">
                       {formatRelativeTime(q.lastModified, t)}
                     </div>
@@ -553,6 +579,13 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                           setMoveModalOpen(true)
                         }}
                         onDelete={() => setQuizzToDelete(q.id)}
+                        onHost={() => handleHostGame(q.id)}
+                        onEdit={() =>
+                          navigate({
+                            to: "/manager/quizz/$quizzId",
+                            params: { quizzId: q.id },
+                          })
+                        }
                       />
                     </div>
                   </td>
