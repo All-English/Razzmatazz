@@ -222,8 +222,8 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
         <div
           className={`group relative flex w-full items-center justify-between rounded-lg py-2 pr-3 text-sm transition-all duration-200 ${
             isSelected
-              ? "border border-gray-200/50 bg-white font-semibold text-gray-900 shadow-xs"
-              : "text-gray-700 hover:bg-gray-200/55"
+              ? "bg-primary/5 font-semibold text-primary"
+              : "text-gray-700 hover:bg-gray-50"
           }`}
           style={{ paddingLeft: `${12 + depth * 16}px` }}
         >
@@ -325,7 +325,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
   }
 
   return (
-    <div className="flex h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 bg-gray-100 p-4 select-none">
+    <div className="flex h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 bg-white p-4 select-none">
       <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto pr-1">
         {/* Section Title */}
         <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 uppercase">
@@ -339,8 +339,8 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             onClick={() => onSelectFolder("all")}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
               selectedFolder === "all"
-                ? "border border-gray-200/50 bg-white font-semibold text-gray-900 shadow-xs"
-                : "text-gray-700 hover:bg-gray-200/55"
+                ? "bg-primary/5 font-semibold text-primary"
+                : "text-gray-700 hover:bg-gray-50"
             }`}
           >
             <FolderOpen
@@ -354,8 +354,8 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             onClick={() => onSelectFolder("favorites")}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
               selectedFolder === "favorites"
-                ? "border border-gray-200/50 bg-white font-semibold text-gray-900 shadow-xs"
-                : "text-gray-700 hover:bg-gray-200/55"
+                ? "bg-primary/5 font-semibold text-primary"
+                : "text-gray-700 hover:bg-gray-50"
             }`}
           >
             <FolderHeart
@@ -415,7 +415,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
           onClick={() => onSelectFolder("trash")}
           className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
             selectedFolder === "trash"
-              ? "border border-red-100 bg-red-50 font-semibold text-red-700 shadow-xs"
+              ? "bg-red-50 font-semibold text-red-700"
               : "text-gray-700 hover:bg-red-50/50 hover:text-red-600"
           }`}
         >

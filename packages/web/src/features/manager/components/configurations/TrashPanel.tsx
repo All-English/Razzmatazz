@@ -70,7 +70,7 @@ const TrashPanel = () => {
   const isAllSelected = trash.length > 0 && selectedIds.length === trash.length
 
   return (
-    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-white p-8 select-none">
+    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-gray-50 p-8 select-none">
       {/* Header */}
       <div className="border-gray-150 mb-6 border-b pb-5">
         <h1 className="text-2xl font-bold text-gray-900">
@@ -82,10 +82,10 @@ const TrashPanel = () => {
       </div>
 
       {/* Trash Table */}
-      <div className="min-w-full flex-1">
+      <div className="min-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-xs">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-gray-150 border-b text-xs font-semibold tracking-wider text-gray-400 uppercase">
+            <tr className="border-b border-gray-200 bg-gray-100/70 text-xs font-semibold tracking-wider text-gray-500 uppercase">
               <th className="w-12 px-4 py-3">
                 <input
                   type="checkbox"
@@ -111,7 +111,7 @@ const TrashPanel = () => {
               return (
                 <tr
                   key={q.id}
-                  className={`group transition-colors hover:bg-gray-50/50 ${
+                  className={`group transition-colors hover:bg-gray-100/70 ${
                     isChecked ? "bg-red-50/20" : ""
                   }`}
                 >

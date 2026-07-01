@@ -19,6 +19,7 @@ import BulkActionBar from "@razzia/web/features/manager/components/configuration
 import { useNavigate } from "@tanstack/react-router"
 import {
   Calendar,
+  Folder,
   Hash,
   Pencil,
   Plus,
@@ -167,6 +168,11 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
 
   // Row operations
   const handleHostGame = (id: string) => {
+    const q = quizz.find((item) => item.id === id)
+    if (q?.hasMismatch) {
+      toast.error(t("manager:quizz.hasMismatchError"))
+      return
+    }
     socket.emit(EVENTS.GAME.CREATE, id)
   }
 
@@ -370,7 +376,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
     filteredQuizzes.length > 0 && selectedIds.length === filteredQuizzes.length
 
   return (
-    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-white p-8 select-none">
+    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-gray-50 p-8 select-none">
       {/* Top Action Bar */}
       <div className="mb-6 flex flex-col justify-between gap-4 border-b border-gray-100 pb-5 md:flex-row md:items-center">
         {/* Search */}
@@ -400,19 +406,19 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                 search: activeFolder ? { folder: activeFolder } : undefined,
               })
             }}
-            className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold"
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold whitespace-nowrap"
           >
-            <Plus className="size-4" />
-            <span>{t("manager:quizz.create")}</span>
+            <Plus className="size-4 shrink-0" />
+            <span className="whitespace-nowrap">{t("manager:quizz.create")}</span>
           </Button>
 
           <Button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-1.5 border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200"
+            className="flex items-center gap-1.5 border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200 whitespace-nowrap"
             title={t("manager:quizz.import")}
           >
-            <Upload className="size-4" />
-            <span>{t("manager:quizz.importShort")}</span>
+            <Upload className="size-4 shrink-0" />
+            <span className="whitespace-nowrap">{t("manager:quizz.importShort")}</span>
           </Button>
 
           <input
@@ -427,10 +433,10 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
       </div>
 
       {/* Quiz Table */}
-      <div className="min-w-full flex-1">
+      <div className="min-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-xs">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-gray-150 border-b text-xs font-semibold tracking-wider text-gray-400 uppercase">
+            <tr className="border-b border-gray-200 bg-gray-100/70 text-xs font-semibold tracking-wider text-gray-500 uppercase">
               <th className="w-12 px-4 py-3">
                 <input
                   type="checkbox"
@@ -480,6 +486,15 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                       </span>
                       {q.favorite && (
                         <Star className="fill-primary text-primary size-4 shrink-0" />
+                      )}
+                      {q.folder && (selectedFolder === "all" || selectedFolder === "favorites") && (
+                        <span
+                          className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 border border-gray-200 shrink-0"
+                          title={t("manager:quizz.folderTagTooltip", "In folder: {{folder}}", { folder: q.folder })}
+                        >
+                          <Folder className="size-3 text-gray-400" />
+                          <span>{q.folder}</span>
+                        </span>
                       )}
                       {q.hasMismatch && (
                         <span
