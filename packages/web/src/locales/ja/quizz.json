@@ -18,7 +18,7 @@
   "filesReady": "個のファイルがアップロード可能です",
   "importButton": "インポート",
   "importInvalidJson": "無効なJSONフォーマット",
-  "importMismatchWarning": "インポートされたいくつかの質問に不一致のエラーがあります。確認して修正してください。",
+  "importMismatchWarning": "インポート警告 ({{subject}}): インポートされたいくつかの質問に不一致のエラーがあります。確認して修正してください。",
   "importStoryButton": "質問を生成",
   "importedQuestions": "{{count}} 件の質問が正常にインポートされました！",
   "importSingleChunkWarning": "いくつかのインポートされた質問 (番号: {{indices}}) は1つのチャンクしか生成されませんでした。保存する前にエディタで手動で分割する必要があります。",

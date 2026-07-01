@@ -91,6 +91,7 @@ const QuizzEditorHeader = () => {
       setTimeout(() => {
         toast.error(
           t("quizz:importMismatchWarning", {
+            subject: importedSubject,
             questions: mismatchedIndices.join(", "),
           }),
           { duration: 6000 },

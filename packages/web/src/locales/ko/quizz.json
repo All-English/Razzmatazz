@@ -16,7 +16,7 @@
   "filesReady": "가져올 파일이 준비되었습니다",
   "importButton": "가져오기",
   "importInvalidJson": "잘못된 JSON 파일입니다",
-  "importMismatchWarning": "가져오기 경고: 질문 {{questions}}의 청크가 올바른 문장과 일치하지 않습니다. 확인해 주세요.",
+  "importMismatchWarning": "가져오기 경고 ({{subject}}): 질문 {{questions}}의 청크가 올바른 문장과 일치하지 않습니다. 확인해 주세요.",
   "importStoryButton": "문장 가져오기",
   "importedQuestions": "가져온 질문",
   "importSingleChunkWarning": "일부 가져온 질문({{indices}}번)의 청크가 1개만 생성되었습니다. 저장하기 전에 에디터에서 직접 청크를 분할해야 합니다.",

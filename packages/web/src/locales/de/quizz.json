@@ -18,7 +18,7 @@
   "filesReady": "Dateien bereit zum Hochladen",
   "importButton": "Importieren",
   "importInvalidJson": "Ungültiges JSON-Format",
-  "importMismatchWarning": "Importwarnung: Die Segmente für Frage(n) {{questions}} stimmen nicht mit den korrekten Sätzen überein. Bitte überprüfe sie.",
+  "importMismatchWarning": "Importwarnung ({{subject}}): Die Segmente für Frage(n) {{questions}} stimmen nicht mit den korrekten Sätzen überein. Bitte überprüfe sie.",
   "importStoryButton": "Sätze importieren",
   "importedQuestions": "Erfolgreich {{count}} Fragen importiert!",
   "importSingleChunkWarning": "Einige importierte Fragen (Nummer(n): {{indices}}) haben nur einen Satzteil generiert. Sie müssen sie vor dem Speichern manuell im Editor aufteilen.",

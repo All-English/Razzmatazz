@@ -18,7 +18,7 @@
   "filesReady": "fichiers prêts à être téléchargés",
   "importButton": "Importer",
   "importInvalidJson": "Format JSON invalide",
-  "importMismatchWarning": "Avertissement d'importation : Les segments pour la/les question(s) {{questions}} ne correspondent pas à leurs phrases correctes. Veuillez les vérifier.",
+  "importMismatchWarning": "Avertissement d'importation ({{subject}}) : Les segments pour la/les question(s) {{questions}} ne correspondent pas à leurs phrases correctes. Veuillez les vérifier.",
   "importStoryButton": "Importer les phrases",
   "importedQuestions": "{{count}} questions importées avec succès !",
   "importSingleChunkWarning": "Certaines questions importées (numéro(s) : {{indices}}) n'ont généré qu'un seul segment. Vous devez les diviser manuellement dans l'éditeur avant d'enregistrer.",

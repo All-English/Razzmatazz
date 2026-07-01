@@ -18,7 +18,7 @@
   "filesReady": "archivos listos para subir",
   "importButton": "Importar",
   "importInvalidJson": "Formato JSON no válido",
-  "importMismatchWarning": "Advertencia de importación: Los fragmentos de la(s) pregunta(s) {{questions}} no coinciden con sus frases correctas. Por favor, revísalas.",
+  "importMismatchWarning": "Advertencia de importación ({{subject}}): Los fragmentos de la(s) pregunta(s) {{questions}} no coinciden con sus frases correctas. Por favor, revísalas.",
   "importStoryButton": "Importar oraciones",
   "importedQuestions": "¡Se importaron {{count}} preguntas con éxito!",
   "importSingleChunkWarning": "Algunas preguntas importadas (número(s): {{indices}}) generaron un solo fragmento. Debes dividirlas manualmente en el editor antes de guardar.",

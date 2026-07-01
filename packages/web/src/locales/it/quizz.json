@@ -18,7 +18,7 @@
   "filesReady": "file pronti per il caricamento",
   "importButton": "Importa",
   "importInvalidJson": "Formato JSON non valido",
-  "importMismatchWarning": "Avviso di importazione: I segmenti per la/le domanda/e {{questions}} non corrispondono alle frasi corrette. Si prega di verificarle.",
+  "importMismatchWarning": "Avviso di importazione ({{subject}}): I segmenti per la/le domanda/e {{questions}} non corrispondono alle frasi corrette. Si prega di verificarle.",
   "importStoryButton": "Importa frasi",
   "importedQuestions": "{{count}} domande importate con successo!",
   "importSingleChunkWarning": "Alcune domande importate (numero/i: {{indices}}) hanno generato un solo frammento. È necessario dividerle manualmente nell'editor prima di salvare.",

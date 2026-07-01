@@ -328,7 +328,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
             }
           })
 
-          if (mismatchedIndices.length > 0) {
+          if (mismatchedIndices.length > 0 && files.length === 1) {
             pendingMismatchedSubjects.current.push(
               result.data.subject.toLowerCase().trim(),
             )
@@ -349,6 +349,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
             setTimeout(() => {
               toast.error(
                 t("quizz:importMismatchWarning", {
+                  subject: result.data.subject,
                   questions: mismatchedIndices.join(", "),
                 }),
                 { duration: 6000 },
