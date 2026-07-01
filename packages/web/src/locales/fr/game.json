@@ -30,7 +30,8 @@
   "historyTitle": "Historique d'entraînement",
   "hud": {
     "answers": "Réponses",
-    "time": "Temps"
+    "time": "Temps",
+    "endNow": "Terminer maintenant"
   },
   "joinInstruction": "Rejoins la partie sur",
   "leaderboard": "Classement",

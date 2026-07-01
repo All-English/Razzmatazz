@@ -30,7 +30,8 @@
   "historyTitle": "연습 기록",
   "hud": {
     "answers": "답변 수",
-    "time": "시간"
+    "time": "시간",
+    "endNow": "지금 종료"
   },
   "joinInstruction": "게임 참여 링크:",
   "leaderboard": "리더보드",

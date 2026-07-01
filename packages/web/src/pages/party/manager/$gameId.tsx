@@ -37,7 +37,7 @@ const ManagerGamePage = () => {
     setActiveQuizzId,
   } = useManagerStore()
   const { setQuestionStates } = useQuestionStore()
-  const { mode } = useGameModeStore()
+  const { mode, setMode } = useGameModeStore()
   const { t } = useTranslation()
 
   useEvent(EVENTS.GAME.STATUS, ({ name, data }) => {
@@ -74,6 +74,7 @@ const ManagerGamePage = () => {
       players,
       currentQuestion,
       quizzId,
+      mode: reconnectMode,
     }) => {
       setGameId(reconnectGameId)
       setInviteCode(inviteCode)
@@ -81,6 +82,9 @@ const ManagerGamePage = () => {
       setPlayers(players)
       setQuestionStates(currentQuestion)
       setActiveQuizzId(quizzId)
+      if (reconnectMode) {
+        setMode(reconnectMode)
+      }
     },
   )
 

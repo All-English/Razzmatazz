@@ -30,7 +30,8 @@
   "historyTitle": "Historial de práctica",
   "hud": {
     "answers": "Respuestas",
-    "time": "Tiempo"
+    "time": "Tiempo",
+    "endNow": "Terminar ya"
   },
   "joinInstruction": "Únete al juego en",
   "leaderboard": "Clasificación",

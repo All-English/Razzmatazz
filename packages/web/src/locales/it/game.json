@@ -30,7 +30,8 @@
   "historyTitle": "Cronologia di pratica",
   "hud": {
     "answers": "Risposte",
-    "time": "Tempo"
+    "time": "Tempo",
+    "endNow": "Termina ora"
   },
   "joinInstruction": "Unisciti al gioco su",
   "leaderboard": "Classifica",

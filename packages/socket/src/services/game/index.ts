@@ -190,6 +190,7 @@ class Game {
           status,
           players: this.playerManager.getAll(),
           quizzId: this.quizzId,
+          mode: this.mode,
         })
         socket.emit(EVENTS.GAME.TOTAL_PLAYERS, this.playerManager.count())
 
@@ -230,6 +231,7 @@ class Game {
       status,
       players: this.playerManager.getAll(),
       quizzId: this.quizzId,
+      mode: this.mode,
     })
     socket.emit(EVENTS.GAME.TOTAL_PLAYERS, this.playerManager.count())
 
@@ -434,6 +436,7 @@ class Game {
       status: roomStatus,
       players,
       quizzId: this.quizzId,
+      mode: this.mode,
     })
 
     // Refresh counts for everyone

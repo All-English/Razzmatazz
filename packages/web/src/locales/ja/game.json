@@ -30,7 +30,8 @@
   "historyTitle": "練習履歴",
   "hud": {
     "answers": "回答数",
-    "time": "時間"
+    "time": "時間",
+    "endNow": "今すぐ終了"
   },
   "joinInstruction": "以下でゲームに参加してください",
   "leaderboard": "リーダーボード",

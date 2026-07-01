@@ -58,15 +58,22 @@ const GameWrapper = ({
     })
   })
 
+  const [totalAnswers, setTotalAnswers] = useState(0)
+
   useEvent(EVENTS.GAME.ERROR_MESSAGE, (message) => {
     toast.error(t(message))
     console.log(t(message))
     setIsDisabled(false)
   })
 
+  useEvent(EVENTS.GAME.PLAYER_ANSWER, (count) => {
+    setTotalAnswers(count)
+  })
+
   useEffect(() => {
     setIsDisabled(false)
     setIsConfirmingEnd(false)
+    setTotalAnswers(0)
   }, [statusName])
 
   useEffect(() => {
@@ -97,6 +104,13 @@ const GameWrapper = ({
     setIsDisabled(true)
     onNext?.()
   }
+
+  const buttonText =
+    statusName === STATUS.BUILD_SENTENCE && totalAnswers > 0
+      ? t("game:hud.endNow")
+      : next
+        ? t(next)
+        : ""
 
   return (
     <section className="relative flex min-h-dvh">
@@ -148,7 +162,7 @@ const GameWrapper = ({
                     )}
                     onClick={handleNext}
                   >
-                    {t(next)}
+                    {buttonText}
                   </Button>
                 )}
 

@@ -30,7 +30,8 @@
   "historyTitle": "Übungsverlauf",
   "hud": {
     "answers": "Antworten",
-    "time": "Zeit"
+    "time": "Zeit",
+    "endNow": "Jetzt beenden"
   },
   "joinInstruction": "Tritt dem Spiel bei auf",
   "leaderboard": "Bestenliste",
