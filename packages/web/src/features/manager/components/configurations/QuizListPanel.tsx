@@ -255,25 +255,55 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
             subject?: string
           }
 
-          // Auto-heal correctChunks
+          // Auto-heal correctChunks & scramble correct-order chunks
           if (parsed.questions && Array.isArray(parsed.questions)) {
             parsed.questions = parsed.questions.map((q) => {
-              if (
-                q.correctSentence &&
-                q.scrambledChunks &&
-                q.correctChunks &&
-                (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
-                  q.correctChunks.length !== q.scrambledChunks.length)
+              if (!q.correctSentence || !q.scrambledChunks) {
+                return q
+              }
+
+              let nextScrambled = [...q.scrambledChunks]
+              let nextCorrect = q.correctChunks
+
+              if (isValidChunksOrder(q.correctSentence, nextScrambled)) {
+                const shuffle = (arr: string[]) => {
+                  const next = [...arr]
+                  for (let i = next.length - 1; i > 0; i -= 1) {
+                    const j = Math.floor(Math.random() * (i + 1))
+                    const temp = next[i]
+                    next[i] = next[j]
+                    next[j] = temp
+                  }
+                  return next
+                }
+
+                let attempts = 0
+                let shuffled = shuffle(nextScrambled)
+                while (attempts < 10 && isValidChunksOrder(q.correctSentence, shuffled)) {
+                  shuffled = shuffle(nextScrambled)
+                  attempts += 1
+                }
+                nextScrambled = shuffled
+                nextCorrect = deriveCorrectChunks(q.correctSentence, nextScrambled)
+              } else if (
+                !nextCorrect ||
+                !isValidChunksOrder(q.correctSentence, nextCorrect) ||
+                nextCorrect.length !== nextScrambled.length
               ) {
                 const healed = deriveCorrectChunks(
                   q.correctSentence,
-                  q.scrambledChunks,
+                  nextScrambled,
                 )
                 if (healed.length > 0) {
-                  return { ...q, correctChunks: healed }
+                  nextCorrect = healed
                 }
               }
-              return q
+
+              return {
+                ...q,
+                scrambledChunks: nextScrambled,
+                correctChunks: nextCorrect,
+              }
             })
           }
 
@@ -445,12 +475,20 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                     />
                   </td>
                   <td className="px-4 py-3.5 font-medium text-gray-900">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="max-w-[300px] truncate md:max-w-[400px]">
                         {q.subject}
                       </span>
                       {q.favorite && (
                         <Star className="fill-primary text-primary size-4 shrink-0" />
+                      )}
+                      {q.hasMismatch && (
+                        <span
+                          className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-semibold text-rose-600 border border-rose-100 shrink-0"
+                          title={t("manager:quizz.mismatchTooltip")}
+                        >
+                          ⚠️ {t("manager:quizz.mismatchBadge")}
+                        </span>
                       )}
                     </div>
                   </td>

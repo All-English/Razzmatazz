@@ -14,8 +14,7 @@ const questionValidator = z.object({
     .array(z.string().min(1, "errors:quizz.chunkEmpty"))
     .min(2, "errors:quizz.tooFewChunks"),
   correctChunks: z
-    .array(z.string().min(1, "errors:quizz.chunkEmpty"))
-    .min(2, "errors:quizz.tooFewChunks"),
+    .array(z.string().min(1, "errors:quizz.chunkEmpty")),
   correctSentence: z.string().min(1, "errors:quizz.sentenceEmpty"),
   media: questionMediaValidator.optional(),
   cooldown: z.number().int().min(3).max(15),

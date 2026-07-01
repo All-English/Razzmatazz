@@ -51,25 +51,55 @@ const BulkImportModal = ({ onImport }: Props) => {
           subject?: string
         }
 
-        // Auto-heal incorrect correctChunks
+        // Auto-heal correctChunks & scramble correct-order chunks
         if (parsed.questions && Array.isArray(parsed.questions)) {
           parsed.questions = parsed.questions.map((q) => {
-            if (
-              q.correctSentence &&
-              q.scrambledChunks &&
-              q.correctChunks &&
-              (!isValidChunksOrder(q.correctSentence, q.correctChunks) ||
-                q.correctChunks.length !== q.scrambledChunks.length)
+            if (!q.correctSentence || !q.scrambledChunks) {
+              return q
+            }
+
+            let nextScrambled = [...q.scrambledChunks]
+            let nextCorrect = q.correctChunks
+
+            if (isValidChunksOrder(q.correctSentence, nextScrambled)) {
+              const shuffle = (arr: string[]) => {
+                const next = [...arr]
+                for (let i = next.length - 1; i > 0; i -= 1) {
+                  const j = Math.floor(Math.random() * (i + 1))
+                  const temp = next[i]
+                  next[i] = next[j]
+                  next[j] = temp
+                }
+                return next
+              }
+
+              let attempts = 0
+              let shuffled = shuffle(nextScrambled)
+              while (attempts < 10 && isValidChunksOrder(q.correctSentence, shuffled)) {
+                shuffled = shuffle(nextScrambled)
+                attempts += 1
+              }
+              nextScrambled = shuffled
+              nextCorrect = deriveCorrectChunks(q.correctSentence, nextScrambled)
+            } else if (
+              !nextCorrect ||
+              !isValidChunksOrder(q.correctSentence, nextCorrect) ||
+              nextCorrect.length !== nextScrambled.length
             ) {
               const healed = deriveCorrectChunks(
                 q.correctSentence,
-                q.scrambledChunks,
+                nextScrambled,
               )
               if (healed.length > 0) {
-                return { ...q, correctChunks: healed }
+                nextCorrect = healed
               }
             }
-            return q
+
+            return {
+              ...q,
+              scrambledChunks: nextScrambled,
+              correctChunks: nextCorrect,
+            }
           })
         }
 

@@ -412,67 +412,77 @@ export function autoGenerateChunks(sentence: string): string[] {
   }
 
   const words = cleanSentence.split(/\s+/u)
+  let baseChunks: string[] = []
 
   if (words.length <= 5) {
-    return shuffleArray(words)
-  }
+    baseChunks = words
+  } else {
+    const chunks: string[] = []
+    let currentChunkWords: string[] = []
 
-  const chunks: string[] = []
-  let currentChunkWords: string[] = []
+    for (let idx = 0; idx < words.length; idx += 1) {
+      const word = words[idx]
+      currentChunkWords.push(word)
 
-  for (let idx = 0; idx < words.length; idx += 1) {
-    const word = words[idx]
-    currentChunkWords.push(word)
+      const nextWord = words[idx + 1]
+      const lastChar = word.slice(-1)
+      const isAbbreviation = abbreviations.has(word.toLowerCase())
+      const isPause = /[.,;:!?”"’']/u.test(lastChar) && !isAbbreviation
 
-    const nextWord = words[idx + 1]
-    const lastChar = word.slice(-1)
-    const isAbbreviation = abbreviations.has(word.toLowerCase())
-    const isPause = /[.,;:!?”"’']/u.test(lastChar) && !isAbbreviation
+      const isNextSplitWord =
+        nextWord &&
+        splitBeforeWords.has(nextWord.toLowerCase().replace(/[^\p{L}]/gu, ""))
 
-    const isNextSplitWord =
-      nextWord &&
-      splitBeforeWords.has(nextWord.toLowerCase().replace(/[^\p{L}]/gu, ""))
+      const shouldSplit =
+        idx === words.length - 1 ||
+        isPause ||
+        isNextSplitWord ||
+        currentChunkWords.length >= 3
 
-    const shouldSplit =
-      idx === words.length - 1 ||
-      isPause ||
-      isNextSplitWord ||
-      currentChunkWords.length >= 3
-
-    if (shouldSplit) {
-      chunks.push(currentChunkWords.join(" "))
-      currentChunkWords = []
-    }
-  }
-
-  // Enforce a minimum of 4 chunks for phrase-based chunking
-  while (chunks.length < 4) {
-    let maxWordsIndex = -1
-    let maxWordsCount = 0
-
-    for (let j = 0; j < chunks.length; j += 1) {
-      const wordCount = chunks[j].split(/\s+/u).length
-
-      if (wordCount > maxWordsCount) {
-        maxWordsCount = wordCount
-        maxWordsIndex = j
+      if (shouldSplit) {
+        chunks.push(currentChunkWords.join(" "))
+        currentChunkWords = []
       }
     }
 
-    if (maxWordsCount <= 1) {
-      break
+    // Enforce a minimum of 4 chunks for phrase-based chunking
+    while (chunks.length < 4) {
+      let maxWordsIndex = -1
+      let maxWordsCount = 0
+
+      for (let j = 0; j < chunks.length; j += 1) {
+        const wordCount = chunks[j].split(/\s+/u).length
+
+        if (wordCount > maxWordsCount) {
+          maxWordsCount = wordCount
+          maxWordsIndex = j
+        }
+      }
+
+      if (maxWordsCount <= 1) {
+        break
+      }
+
+      const chunkToSplit = chunks[maxWordsIndex]
+      const wordsInChunk = chunkToSplit.split(/\s+/u)
+      const mid = Math.ceil(wordsInChunk.length / 2)
+      const part1 = wordsInChunk.slice(0, mid).join(" ")
+      const part2 = wordsInChunk.slice(mid).join(" ")
+
+      chunks.splice(maxWordsIndex, 1, part1, part2)
     }
 
-    const chunkToSplit = chunks[maxWordsIndex]
-    const wordsInChunk = chunkToSplit.split(/\s+/u)
-    const mid = Math.ceil(wordsInChunk.length / 2)
-    const part1 = wordsInChunk.slice(0, mid).join(" ")
-    const part2 = wordsInChunk.slice(mid).join(" ")
-
-    chunks.splice(maxWordsIndex, 1, part1, part2)
+    baseChunks = chunks
   }
 
-  return shuffleArray(chunks)
+  let shuffled = shuffleArray(baseChunks)
+  let attempts = 0
+  while (attempts < 10 && isValidChunksOrder(cleanSentence, shuffled)) {
+    shuffled = shuffleArray(baseChunks)
+    attempts += 1
+  }
+
+  return shuffled
 }
 
 const speechVerbs = new Set([
