@@ -42,7 +42,7 @@ const ReportsPanel = () => {
   }
 
   return (
-    <div className="flex h-full flex-1 flex-col overflow-y-auto bg-white p-8 select-none">
+    <div className="flex h-full flex-1 flex-col overflow-y-auto bg-white p-4 sm:p-8 select-none">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
         <div>
@@ -60,42 +60,46 @@ const ReportsPanel = () => {
         {results.map((r) => (
           <div
             key={r.id}
-            className="group border-gray-150 hover:border-primary/20 hover:bg-primary/5 flex w-full items-center justify-between rounded-xl border bg-gray-50/30 px-6 py-4 transition-all duration-200 hover:shadow-xs"
+            className="group border-gray-150 hover:border-primary/20 hover:bg-primary/5 flex w-full items-start justify-between gap-3 rounded-xl border bg-gray-50/30 px-4 py-4 transition-all duration-200 hover:shadow-xs sm:items-center sm:px-6"
           >
             <button
               className="min-w-0 flex-1 text-left"
               onClick={handleOpen(r.id)}
             >
-              <div className="flex items-center gap-3">
-                <p className="group-hover:text-primary truncate font-semibold text-gray-900 transition-colors">
+              {/* Subject + Mode Badge */}
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="group-hover:text-primary font-semibold text-gray-900 transition-colors">
                   {r.subject}
                 </p>
                 {r.mode && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-gray-600 uppercase">
+                  <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-gray-600 uppercase">
                     {r.mode === "study"
                       ? t("manager:result.studyMode")
                       : t("manager:result.liveMode")}
                   </span>
                 )}
               </div>
-              <div className="mt-1.5 flex items-center gap-4 text-xs text-gray-400">
+              {/* Date + Players */}
+              <div className="mt-1.5 flex flex-wrap items-center gap-3 text-xs text-gray-400">
                 <span className="flex items-center gap-1">
-                  <Calendar className="size-3.5" />
+                  <Calendar className="size-3.5 shrink-0" />
                   {formatDate(r.date)}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Users className="size-3.5" />
+                  <Users className="size-3.5 shrink-0" />
                   {t("manager:result.playerCount", { count: r.playerCount })}
                 </span>
               </div>
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={handleOpen(r.id)}
-                className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:bg-gray-50 hover:text-gray-900"
+                className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:bg-gray-50 hover:text-gray-900 sm:px-3.5"
               >
-                <Trophy className="text-primary size-3.5" />
-                <span>{t("manager:result.viewResults")}</span>
+                <Trophy className="text-primary size-3.5 shrink-0" />
+                <span className="hidden sm:inline">
+                  {t("manager:result.viewResults")}
+                </span>
               </button>
               <AlertDialog
                 trigger={

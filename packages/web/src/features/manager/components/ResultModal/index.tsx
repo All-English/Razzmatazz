@@ -21,13 +21,13 @@ const ResultModal = ({ result, onClose }: Props) => {
   }, [])
 
   return (
-    <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 p-4">
-      <div className="flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl">
+    <div className="fixed inset-0 z-60 flex items-end justify-center bg-black/50 p-4 sm:items-center">
+      <div className="flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-xl">
         <ResultModalProvider result={result} onClose={onClose}>
           <ResultModalHeader />
           <ResultModalAnswers />
           <ResultModalStats />
-          <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="min-h-0 flex-1 overflow-y-auto overflow-x-auto">
             <ResultModalTable />
           </div>
         </ResultModalProvider>
