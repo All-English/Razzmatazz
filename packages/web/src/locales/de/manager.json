@@ -115,7 +115,14 @@
     "serverConnection": "Serververbindung",
     "connected": "Verbunden",
     "disconnected": "Getrennt",
-    "appVersion": "App-Version"
+    "appVersion": "App-Version",
+    "theme": "Design",
+    "selectTheme": "Wählen Sie das Design für das Verwaltungsportal aus",
+    "themeOptions": {
+      "system": "System folgen",
+      "light": "Hell",
+      "dark": "Dunkel"
+    }
   },
   "editor": {
     "unsupportedScreenTitle": "Bildschirmgröße oder -ausrichtung nicht unterstützt",

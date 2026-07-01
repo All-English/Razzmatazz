@@ -115,7 +115,14 @@
     "serverConnection": "Conexión del servidor",
     "connected": "Conectado",
     "disconnected": "Desconectado",
-    "appVersion": "Versión de la aplicación"
+    "appVersion": "Versión de la aplicación",
+    "theme": "Tema",
+    "selectTheme": "Elija el tema de la interfaz para el panel del administrador",
+    "themeOptions": {
+      "system": "Predeterminado del sistema",
+      "light": "Claro",
+      "dark": "Oscuro"
+    }
   },
   "editor": {
     "unsupportedScreenTitle": "Tamaño o dirección de pantalla no compatible",

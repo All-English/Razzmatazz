@@ -115,7 +115,14 @@
     "serverConnection": "Server Connection",
     "connected": "Connected",
     "disconnected": "Disconnected",
-    "appVersion": "App Version"
+    "appVersion": "App Version",
+    "theme": "Theme",
+    "selectTheme": "Choose the interface theme for the manager panel",
+    "themeOptions": {
+      "system": "Follow System",
+      "light": "Light",
+      "dark": "Dark"
+    }
   },
   "editor": {
     "unsupportedScreenTitle": "Screen Size or Orientation Unsupported",

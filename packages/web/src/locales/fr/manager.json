@@ -115,7 +115,14 @@
     "serverConnection": "Connexion serveur",
     "connected": "Connecté",
     "disconnected": "Déconnecté",
-    "appVersion": "Version de l'application"
+    "appVersion": "Version de l'application",
+    "theme": "Thème",
+    "selectTheme": "Choisissez le thème de l'interface pour le panneau d'administration",
+    "themeOptions": {
+      "system": "Thème système",
+      "light": "Clair",
+      "dark": "Sombre"
+    }
   },
   "editor": {
     "unsupportedScreenTitle": "Taille ou orientation d'écran non prise en charge",

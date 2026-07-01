@@ -35,7 +35,7 @@ const NavRail = ({ activeSection, onSectionChange }: Props) => {
   ]
 
   return (
-    <div className="bg-secondary hidden md:flex h-full w-[72px] lg:w-56 shrink-0 flex-col items-center justify-between border-r border-gray-200 py-4 text-gray-400 select-none transition-all duration-300">
+    <div className="bg-secondary hidden md:flex h-full w-[72px] lg:w-56 shrink-0 flex-col items-center justify-between border-r border-gray-200 dark:border-zinc-800 py-4 text-gray-400 select-none transition-all duration-300">
       {/* Top: Logo & Navigation Items */}
       <div className="flex w-full flex-col items-center gap-6">
         <div className="flex w-full items-center justify-center lg:justify-start lg:px-4 gap-3">

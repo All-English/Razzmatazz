@@ -115,7 +115,14 @@
     "serverConnection": "サーバー接続",
     "connected": "接続済み",
     "disconnected": "切断",
-    "appVersion": "アプリバージョン"
+    "appVersion": "アプリバージョン",
+    "theme": "テーマ",
+    "selectTheme": "管理パネルのテーマを選択してください",
+    "themeOptions": {
+      "system": "システムに従う",
+      "light": "ライト",
+      "dark": "ダーク"
+    }
   },
   "editor": {
     "unsupportedScreenTitle": "非対応の画面サイズまたは向き",
