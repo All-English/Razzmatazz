@@ -446,15 +446,13 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                   <span>{t("manager:quizz.questions")}</span>
                 </div>
               </th>
-              <th className="w-44 px-4 py-3">
+              <th className="w-48 px-4 py-3">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-3.5" />
                   <span>{t("manager:quizz.lastModified")}</span>
                 </div>
               </th>
-              <th className="w-40 px-4 py-3 text-right">
-                {t("manager:quizz.actions")}
-              </th>
+              <th className="w-16 px-4 py-3 text-right"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -463,7 +461,7 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
               return (
                 <tr
                   key={q.id}
-                  className={`group transition-colors hover:bg-gray-50/50 ${
+                  className={`group transition-colors hover:bg-gray-100/70 ${
                     isChecked ? "bg-primary/5" : ""
                   }`}
                 >
@@ -498,11 +496,11 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                       {q.questionCount ?? 0}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-xs text-gray-500">
-                    {formatRelativeTime(q.lastModified, t)}
-                  </td>
-                  <td className="px-4 py-3.5 text-right">
-                    <div className="flex items-center justify-end gap-1.5">
+                  <td className="px-4 py-3.5 text-xs text-gray-500 w-48">
+                    <div className="flex items-center group-hover:hidden h-[30px]">
+                      {formatRelativeTime(q.lastModified, t)}
+                    </div>
+                    <div className="hidden items-center gap-1.5 group-hover:flex h-[30px]">
                       {/* Host */}
                       <button
                         onClick={() => handleHostGame(q.id)}
@@ -525,7 +523,10 @@ const QuizListPanel = ({ selectedFolder }: Props) => {
                       >
                         <Pencil className="size-3.5" />
                       </button>
-
+                    </div>
+                  </td>
+                  <td className="px-4 py-3.5 text-right w-16">
+                    <div className="flex items-center justify-end">
                       {/* Kebab Dropdown Options */}
                       <QuizKebabMenu
                         isFavorite={!!q.favorite}
