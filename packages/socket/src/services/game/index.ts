@@ -33,6 +33,7 @@ class Game {
     clientId: string
     connected: boolean
   }
+  private readonly quizz: Quizz
   private readonly playerManager: PlayerManager
   private readonly round: RoundManager
   private readonly cooldown: CooldownTimer
@@ -54,6 +55,7 @@ class Game {
     const clientId = socket.handshake.auth.clientId as string
 
     this.io = io
+    this.quizz = quizz
     this.gameId = uuid()
     this.quizzId = (quizz as QuizzWithId).id ?? ""
 
@@ -249,11 +251,21 @@ class Game {
 
     if (player.connected) {
       if (player.id === socket.id) {
-        const status = this.playerStatus.get(socket.id) ??
+        let status = this.playerStatus.get(socket.id) ??
           this.lastBroadcastStatus ?? {
             name: STATUS.WAIT,
             data: { text: "game:waitingForPlayers" },
           }
+
+        // Clone to avoid mutating shared state reference
+        status = JSON.parse(JSON.stringify(status))
+
+        if (status.name === STATUS.WAIT && !this.started) {
+          status.data = {
+            ...status.data,
+            correctSentences: this.quizz.questions.map((q) => q.correctSentence),
+          }
+        }
 
         socket.emit(EVENTS.PLAYER.SUCCESS_RECONNECT, {
           gameId: this.gameId,
@@ -280,11 +292,21 @@ class Game {
     this.playerManager.updateSocketId(oldSocketId, socket.id)
     player.connected = true
 
-    const status = this.playerStatus.get(oldSocketId) ??
+    let status = this.playerStatus.get(oldSocketId) ??
       this.lastBroadcastStatus ?? {
         name: STATUS.WAIT,
         data: { text: "game:waitingForPlayers" },
       }
+
+    // Clone to avoid mutating shared state reference
+    status = JSON.parse(JSON.stringify(status))
+
+    if (status.name === STATUS.WAIT && !this.started) {
+      status.data = {
+        ...status.data,
+        correctSentences: this.quizz.questions.map((q) => q.correctSentence),
+      }
+    }
 
     const oldStatus = this.playerStatus.get(oldSocketId)
 

@@ -46,7 +46,7 @@ export interface CommonStatusDataMap {
     submittedChunks: string[]
     correctChunks: string[]
   }
-  WAIT: { text: string }
+  WAIT: { text: string; correctSentences?: string[] }
   FINISHED: {
     subject: string
     top: Player[]
