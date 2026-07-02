@@ -17,6 +17,7 @@ Razzmatazz is a straightforward and open-source scrambled sentence builder game,
   <img width="30%" src=".github/previews/1.png" alt="Login">
   <img width="30%" src=".github/previews/2.png" alt="Manager Room">
   <img width="30%" src=".github/previews/3.png" alt="Question Screen">
+  <img width="30%" src=".github/previews/4.png" alt="Game Lobby">
 </p>
 
 ## 🆚 Razzmatazz vs. Razzia

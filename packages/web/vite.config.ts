@@ -58,22 +58,6 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         globPatterns: ["**/*.{js,css,html,ico,png,svg,mp3,json,woff,woff2}"],
-        runtimeCaching: [
-          {
-            urlPattern: /.*/,
-            handler: "StaleWhileRevalidate",
-            options: {
-              cacheName: "razzmatazz-cache",
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
-        ],
       },
     }),
   ],

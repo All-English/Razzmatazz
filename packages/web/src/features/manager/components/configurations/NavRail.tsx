@@ -43,7 +43,7 @@ const NavRail = ({ activeSection, onSectionChange }: Props) => {
             R
           </div>
           <span className="hidden lg:inline font-display text-xl font-bold text-white tracking-wide">
-            Razzia
+            Razzmatazz
           </span>
         </div>
 

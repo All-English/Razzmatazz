@@ -118,7 +118,7 @@ const Configurations = ({ data }: Props) => {
             >
               <Menu className="size-6" />
             </button>
-            <span className="font-display text-lg font-bold">Razzia</span>
+            <span className="font-display text-lg font-bold">Razzmatazz</span>
           </div>
         </div>
 
@@ -135,7 +135,7 @@ const Configurations = ({ data }: Props) => {
             >
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                 <span className="font-display text-xl font-bold text-white">
-                  Razzia
+                  Razzmatazz
                 </span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
