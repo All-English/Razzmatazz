@@ -50,7 +50,7 @@ export interface RoundManagerOptions {
 export class RoundManager {
   private readonly opts: RoundManagerOptions
   private started = false
-  private mode: GameMode = "competitive"
+  private mode: GameMode = "study"
   private currentQuestion = 0
   private playersAnswers: Answer[] = []
   private startTime = 0
@@ -96,7 +96,7 @@ export class RoundManager {
 
   reset(): void {
     this.started = false
-    this.mode = "competitive"
+    this.mode = "study"
     this.currentQuestion = 0
     this.playersAnswers = []
     this.startTime = 0
@@ -112,7 +112,7 @@ export class RoundManager {
 
   async start(
     socket: Socket,
-    mode: GameMode = "competitive",
+    mode: GameMode = "study",
     options?: { shuffle?: boolean; startIndex?: number; endIndex?: number },
   ): Promise<void> {
     if (this.opts.getManagerId() !== socket.id) {

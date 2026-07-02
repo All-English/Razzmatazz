@@ -1,7 +1,10 @@
 services:
   razzmatazz:
     build: .
+    container_name: razzmatazz
+    restart: unless-stopped
+    init: true
     ports:
-      - "3000:3000"
+      - "3050:3000"
     volumes:
       - ./config:/app/config
