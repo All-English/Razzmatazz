@@ -746,15 +746,13 @@ export class RoundManager {
     const players = this.opts.players.getAll()
     const total = this.opts.quizz.questions.length
 
-    const students: StudyProgress[] = this.opts.players
-      .getAll()
-      .map((player) => ({
-        playerId: player.id,
-        username: player.username,
-        completed: this.studyProgress.get(player.id) ?? 0,
-        total,
-        studyRound: player.studyRound ?? 1,
-      }))
+    const students: StudyProgress[] = players.map((player) => ({
+      playerId: player.id,
+      username: player.username,
+      completed: this.studyProgress.get(player.id) ?? 0,
+      total,
+      studyRound: player.studyRound ?? 1,
+    }))
 
     // Send via STATUS machine so the manager enters/stays on StudyDashboard view
     this.opts.send(this.opts.getManagerId(), STATUS.STUDY_PROGRESS, {

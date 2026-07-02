@@ -320,6 +320,7 @@ export const deleteQuizz = (id: string): void => {
 
 export const saveResult = (data: GameResult): void => {
   try {
+    assertSafeId(data.id)
     const resultsPath = getPath("results")
 
     if (!fs.existsSync(resultsPath)) {
@@ -549,6 +550,7 @@ export const renameFolder = (oldName: string, newName: string): void => {
 }
 
 export const moveQuizz = (ids: string[], folder: string): void => {
+  ids.forEach(assertSafeId)
   const store = getQuizzMetaStore()
   for (const id of ids) {
     if (!store[id]) {
@@ -560,6 +562,7 @@ export const moveQuizz = (ids: string[], folder: string): void => {
 }
 
 export const toggleFavorite = (ids: string[]): void => {
+  ids.forEach(assertSafeId)
   const store = getQuizzMetaStore()
   for (const id of ids) {
     if (!store[id]) {
