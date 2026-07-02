@@ -11,7 +11,8 @@
     "lint": "pnpm -r --parallel run types && oxlint",
     "format": "pnpm -r --parallel run format",
     "format:fix": "pnpm -r --parallel run format:fix",
-    "check-locales": "pnpm --filter web check-locales"
+    "check-locales": "pnpm --filter web check-locales",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "latest",
@@ -20,6 +21,8 @@
     "oxlint-tsgolint": "^0.23.0",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.9"
   }
 }
