@@ -1,5 +1,5 @@
 // oxlint-disable typescript/no-unnecessary-condition
-import { EVENTS, MEDIA_TYPES, NO_TIME_LIMIT } from "@razzia/common/constants"
+import { EVENTS, MEDIA_TYPES, NO_TIME_LIMIT, STUDY_MODE_TIME } from "@razzia/common/constants"
 import type {
   Answer,
   GameMode,
@@ -223,7 +223,7 @@ export class RoundManager {
       time: question.time,
       totalPlayer: this.opts.players.count(),
       questionIndex: this.currentQuestion,
-      correctChunks: question.correctChunks,
+      correctChunks: this.mode === "study" ? question.correctChunks : [],
     })
 
     await this.opts.cooldown.start(question.time)
@@ -480,7 +480,7 @@ export class RoundManager {
         prompt: firstQuestion.prompt,
         scrambledChunks: firstQuestion.scrambledChunks,
         media: firstQuestion.media,
-        time: 9999,
+        time: STUDY_MODE_TIME,
         totalPlayer: players.length,
         questionIndex: 0,
         correctChunks: firstQuestion.correctChunks,
@@ -527,7 +527,7 @@ export class RoundManager {
         prompt: firstQuestion.prompt,
         scrambledChunks: firstQuestion.scrambledChunks,
         media: firstQuestion.media,
-        time: 9999,
+        time: STUDY_MODE_TIME,
         totalPlayer: this.opts.players.count(),
         questionIndex: 0,
         correctChunks: firstQuestion.correctChunks,
@@ -604,7 +604,7 @@ export class RoundManager {
             prompt: nextQuestion.prompt,
             scrambledChunks: nextQuestion.scrambledChunks,
             media: nextQuestion.media,
-            time: 9999,
+            time: STUDY_MODE_TIME,
             totalPlayer: this.opts.players.count(),
             questionIndex: newCompleted,
             correctChunks: nextQuestion.correctChunks,
@@ -677,7 +677,7 @@ export class RoundManager {
           prompt: firstQuestion.prompt,
           scrambledChunks: firstQuestion.scrambledChunks,
           media: firstQuestion.media,
-          time: 9999,
+          time: STUDY_MODE_TIME,
           totalPlayer: this.opts.players.count(),
           questionIndex: 0,
           correctChunks: firstQuestion.correctChunks,

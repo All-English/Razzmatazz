@@ -25,7 +25,7 @@ export default defineConfig({
       manifest: {
         name: "Razzmatazz",
         short_name: "Razzmatazz",
-        description: "A social deduction game",
+        description: "A scrambled sentence builder game for language learning",
         theme_color: "#FF9900",
         background_color: "#1a140b",
         display: "standalone",

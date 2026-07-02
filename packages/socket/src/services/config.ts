@@ -27,6 +27,12 @@ const getPath = (path = "") =>
     ? resolve(inContainerPath, path)
     : resolve(process.cwd(), "../../config", path)
 
+export const assertSafeId = (id: string): void => {
+  if (typeof id !== "string" || /[\/\\]|\.\./.test(id) || id.startsWith(".")) {
+    throw new Error("Invalid ID: Path traversal attempt detected")
+  }
+}
+
 export interface QuizzMetaEntry {
   folder?: string
   favorite?: boolean
@@ -87,19 +93,23 @@ export const initConfig = () => {
 export const getGameConfig = (): GameConfig => {
   const isExists = fs.existsSync(getPath("game.json"))
 
-  if (!isExists) {
-    throw new Error("Game config not found")
+  let fileConfig: Partial<GameConfig> = {}
+  if (isExists) {
+    try {
+      const config = fs.readFileSync(getPath("game.json"), "utf-8")
+      fileConfig = JSON.parse(config) as GameConfig
+    } catch (error) {
+      console.error("Failed to read/parse game config:", error)
+      throw new Error("Game config file is corrupted")
+    }
   }
 
-  try {
-    const config = fs.readFileSync(getPath("game.json"), "utf-8")
+  const managerPassword =
+    process.env.MANAGER_PASSWORD || fileConfig.managerPassword || "PASSWORD"
 
-    return JSON.parse(config) as GameConfig
-  } catch (error) {
-    console.error("Failed to read game config:", error)
+  return {
+    managerPassword,
   }
-
-  return {} as GameConfig
 }
 
 export const getQuizzMetaStore = (): QuizzMetaStore => {
@@ -155,19 +165,12 @@ export const getQuizzMeta = () => {
   })
 }
 
-export const getQuizzById = (id: string) => {
-  const filePath = getPath(`quizz/${id}.json`)
-
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Quizz "${id}" not found`)
-  }
-
-  const data = fs.readFileSync(filePath, "utf-8")
-  const parsed = JSON.parse(data) as { questions?: Array<Partial<Question>> }
-  const questionsBefore = parsed.questions
-    ? JSON.stringify(parsed.questions)
-    : ""
-
+const healQuizz = (
+  parsed: { questions?: Array<Partial<Question>> },
+  filePath: string,
+  identifier: string,
+): boolean => {
+  const questionsBefore = parsed.questions ? JSON.stringify(parsed.questions) : ""
   if (parsed.questions && Array.isArray(parsed.questions)) {
     parsed.questions = parsed.questions.map((q) => {
       if (
@@ -192,10 +195,23 @@ export const getQuizzById = (id: string) => {
 
   if (modified) {
     fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2))
-    console.info(
-      `Auto-healed invalid correctChunks in quizz config "${id}.json"`,
-    )
+    console.info(`Auto-healed invalid correctChunks in quizz config "${identifier}"`)
   }
+  return modified
+}
+
+export const getQuizzById = (id: string) => {
+  assertSafeId(id)
+  const filePath = getPath(`quizz/${id}.json`)
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Quizz "${id}" not found`)
+  }
+
+  const data = fs.readFileSync(filePath, "utf-8")
+  const parsed = JSON.parse(data) as { questions?: Array<Partial<Question>> }
+
+  healQuizz(parsed, filePath, `${id}.json`)
 
   const result = quizzValidator.safeParse(parsed)
 
@@ -227,48 +243,13 @@ export const getQuizz = (includeDeleted = false) => {
         return []
       }
 
-      const data = fs.readFileSync(getPath(`quizz/${file}`), "utf-8")
+      const filePath = getPath(`quizz/${file}`)
+      const data = fs.readFileSync(filePath, "utf-8")
       const parsed = JSON.parse(data) as {
         questions?: Array<Partial<Question>>
       }
-      const questionsBefore = parsed.questions
-        ? JSON.stringify(parsed.questions)
-        : ""
 
-      if (parsed.questions && Array.isArray(parsed.questions)) {
-        parsed.questions = parsed.questions.map((q) => {
-          if (
-            q.correctSentence &&
-            q.scrambledChunks &&
-            (!q.correctChunks ||
-              !isValidChunksOrder(q.correctSentence, q.correctChunks) ||
-              q.correctChunks.length !== q.scrambledChunks.length)
-          ) {
-            const healed = deriveCorrectChunks(
-              q.correctSentence,
-              q.scrambledChunks,
-            )
-            if (healed.length > 0) {
-              return { ...q, correctChunks: healed }
-            }
-          }
-          return q
-        })
-      }
-
-      const modified = parsed.questions
-        ? JSON.stringify(parsed.questions) !== questionsBefore
-        : false
-
-      if (modified) {
-        fs.writeFileSync(
-          getPath(`quizz/${file}`),
-          JSON.stringify(parsed, null, 2),
-        )
-        console.info(
-          `Auto-healed invalid correctChunks in quizz config "${file}"`,
-        )
-      }
+      healQuizz(parsed, filePath, file)
 
       const result = quizzValidator.safeParse(parsed)
 
@@ -295,6 +276,7 @@ export const getQuizz = (includeDeleted = false) => {
 }
 
 export const updateQuizz = (id: string, data: unknown): { id: string } => {
+  assertSafeId(id)
   const result = quizzValidator.safeParse(data)
 
   if (!result.success) {
@@ -326,6 +308,7 @@ export const updateQuizz = (id: string, data: unknown): { id: string } => {
 }
 
 export const deleteQuizz = (id: string): void => {
+  assertSafeId(id)
   const filePath = getPath(`quizz/${id}.json`)
 
   if (!fs.existsSync(filePath)) {
@@ -391,6 +374,7 @@ export const getResultsMeta = (): GameResultMeta[] => {
 }
 
 export const getResultById = (id: string): GameResult => {
+  assertSafeId(id)
   const filePath = getPath(`results/${id}.json`)
 
   if (!fs.existsSync(filePath)) {
@@ -401,6 +385,7 @@ export const getResultById = (id: string): GameResult => {
 }
 
 export const deleteResult = (id: string): void => {
+  assertSafeId(id)
   const filePath = getPath(`results/${id}.json`)
 
   if (!fs.existsSync(filePath)) {
@@ -521,7 +506,7 @@ export const deleteFolder = (name: string): void => {
   const store = getQuizzMetaStore()
   const now = new Date().toISOString()
   let modified = false
-  for (const [id, entry] of Object.entries(store)) {
+  for (const [, entry] of Object.entries(store)) {
     if (
       entry.folder === name ||
       (entry.folder && entry.folder.startsWith(name + "/"))
@@ -549,7 +534,7 @@ export const renameFolder = (oldName: string, newName: string): void => {
 
   const store = getQuizzMetaStore()
   let modified = false
-  for (const [id, entry] of Object.entries(store)) {
+  for (const [, entry] of Object.entries(store)) {
     if (entry.folder === oldName) {
       entry.folder = newName
       modified = true
@@ -586,6 +571,7 @@ export const toggleFavorite = (ids: string[]): void => {
 }
 
 export const softDeleteQuizz = (ids: string[]): void => {
+  ids.forEach(assertSafeId)
   const store = getQuizzMetaStore()
   const now = new Date().toISOString()
   for (const id of ids) {
@@ -598,6 +584,7 @@ export const softDeleteQuizz = (ids: string[]): void => {
 }
 
 export const restoreQuizz = (ids: string[]): void => {
+  ids.forEach(assertSafeId)
   const store = getQuizzMetaStore()
   for (const id of ids) {
     if (store[id]) {
@@ -608,6 +595,7 @@ export const restoreQuizz = (ids: string[]): void => {
 }
 
 export const permanentDeleteQuizz = (ids: string[]): void => {
+  ids.forEach(assertSafeId)
   const store = getQuizzMetaStore()
   for (const id of ids) {
     const filePath = getPath(`quizz/${id}.json`)
@@ -620,6 +608,7 @@ export const permanentDeleteQuizz = (ids: string[]): void => {
 }
 
 export const duplicateQuizz = (id: string): { id: string } => {
+  assertSafeId(id)
   const filePath = getPath(`quizz/${id}.json`)
   if (!fs.existsSync(filePath)) {
     throw new Error(`Quizz "${id}" not found`)
@@ -664,6 +653,7 @@ export const combineQuizzes = (
   subject: string,
   folder?: string,
 ): { id: string } => {
+  ids.forEach(assertSafeId)
   const existing = getQuizz(true)
   const isDuplicate = existing.some(
     (q) => q.subject.toLowerCase().trim() === subject.toLowerCase().trim(),

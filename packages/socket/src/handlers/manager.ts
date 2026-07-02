@@ -1,3 +1,4 @@
+import crypto from "crypto"
 import { EVENTS } from "@razzia/common/constants"
 import type { SocketContext } from "@razzia/socket/handlers/types"
 import {
@@ -7,6 +8,16 @@ import {
   renameFolder,
 } from "@razzia/socket/services/config"
 import manager, { emitConfig } from "@razzia/socket/services/manager"
+
+const safeCompare = (a: string, b: string): boolean => {
+  try {
+    const hashA = crypto.createHash("sha256").update(a).digest()
+    const hashB = crypto.createHash("sha256").update(b).digest()
+    return crypto.timingSafeEqual(hashA, hashB)
+  } catch {
+    return false
+  }
+}
 
 export const managerSocketHandlers = ({ socket }: SocketContext) => {
   socket.on(
@@ -24,7 +35,7 @@ export const managerSocketHandlers = ({ socket }: SocketContext) => {
     try {
       const config = getGameConfig()
 
-      if (config.managerPassword === "PASSWORD") {
+      if (safeCompare(config.managerPassword, "PASSWORD")) {
         socket.emit(
           EVENTS.MANAGER.ERROR_MESSAGE,
           "errors:manager.passwordNotConfigured",
@@ -33,7 +44,7 @@ export const managerSocketHandlers = ({ socket }: SocketContext) => {
         return
       }
 
-      if (password !== config.managerPassword) {
+      if (!safeCompare(password, config.managerPassword)) {
         socket.emit(
           EVENTS.MANAGER.ERROR_MESSAGE,
           "errors:manager.invalidPassword",

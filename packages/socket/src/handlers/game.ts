@@ -12,6 +12,19 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   const registry = Registry.getInstance()
   const clientId = socket.handshake.auth.clientId as string
 
+  const withManagerGame = (
+    gameId: string | undefined,
+    callback: (_game: Game) => void | Promise<void>,
+  ): void => {
+    withGame(gameId, socket, (game) => {
+      if (game.manager.clientId !== clientId) {
+        socket.emit(EVENTS.MANAGER.ERROR_MESSAGE, "errors:manager.unauthorized")
+        return
+      }
+      callback(game)
+    })
+  }
+
   const handleManagerLeave = (game: Game) => {
     game.setManagerDisconnected()
     registry.markGameAsEmpty(game)
@@ -120,11 +133,11 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   )
 
   socket.on(EVENTS.MANAGER.KICK_PLAYER, ({ gameId, playerId }) =>
-    withGame(gameId, socket, (game) => game.kickPlayer(socket, playerId)),
+    withManagerGame(gameId, (game) => game.kickPlayer(socket, playerId)),
   )
 
   socket.on(EVENTS.MANAGER.START_GAME, ({ gameId, mode, options }) =>
-    withGame(gameId, socket, (game) =>
+    withManagerGame(gameId, (game) =>
       game.start(socket, (mode as GameMode) || "competitive", options),
     ),
   )
@@ -151,27 +164,27 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   )
 
   socket.on(EVENTS.MANAGER.ABORT_QUIZ, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.abortRound(socket)),
+    withManagerGame(gameId, (game) => game.abortRound(socket)),
   )
 
   socket.on(EVENTS.MANAGER.NEXT_QUESTION, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.nextRound(socket)),
+    withManagerGame(gameId, (game) => game.nextRound(socket)),
   )
 
   socket.on(EVENTS.MANAGER.SHOW_LEADERBOARD, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.showLeaderboard()),
+    withManagerGame(gameId, (game) => game.showLeaderboard()),
   )
 
   socket.on(EVENTS.MANAGER.END_GAME_EARLY, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.endGameEarly(socket)),
+    withManagerGame(gameId, (game) => game.endGameEarly(socket)),
   )
 
   socket.on(EVENTS.MANAGER.PLAY_AGAIN, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.playAgain(socket)),
+    withManagerGame(gameId, (game) => game.playAgain(socket)),
   )
 
   socket.on(EVENTS.MANAGER.CHANGE_QUIZ, ({ gameId, quizzId }) =>
-    withGame(gameId, socket, (game) => {
+    withManagerGame(gameId, (game) => {
       const quizzList = getQuizz()
       const quizz = quizzList.find((q) => q.id === quizzId)
 

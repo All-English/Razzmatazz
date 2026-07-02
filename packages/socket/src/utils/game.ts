@@ -1,3 +1,4 @@
+import { EVENTS } from "@razzia/common/constants"
 import type { Socket } from "@razzia/common/types/game/socket"
 import Game from "@razzia/socket/services/game"
 import Registry from "@razzia/socket/services/registry"
@@ -9,7 +10,7 @@ export const withGame = (
   callback: (_game: Game) => void | Promise<void>,
 ): void => {
   if (!gameId) {
-    socket.emit("game:errorMessage", "errors:game.notFound")
+    socket.emit(EVENTS.GAME.ERROR_MESSAGE, "errors:game.notFound")
 
     return
   }
@@ -18,7 +19,7 @@ export const withGame = (
   const game = registry.getGameById(gameId)
 
   if (!game) {
-    socket.emit("game:errorMessage", "errors:game.notFound")
+    socket.emit(EVENTS.GAME.ERROR_MESSAGE, "errors:game.notFound")
 
     return
   }

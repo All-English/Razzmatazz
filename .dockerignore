@@ -1,3 +1,10 @@
 **/node_modules
 .pnpm-store
 .git
+.env
+config/
+packages/web/dist/
+packages/socket/dist/
+*.md
+.vscode/
+.github/

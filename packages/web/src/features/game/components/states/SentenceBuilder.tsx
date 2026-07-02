@@ -1,4 +1,4 @@
-import { EVENTS } from "@razzia/common/constants"
+import { EVENTS, STUDY_MODE_TIME } from "@razzia/common/constants"
 import type { QuestionMediaType } from "@razzia/common/types/game"
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
 import QuestionMedia from "@razzia/web/components/QuestionMedia"
@@ -53,7 +53,7 @@ const SentenceBuilder = ({
   const { player, gameId } = usePlayerStore()
   const { t } = useTranslation()
 
-  const isStudyMode = time === 9999
+  const isStudyMode = time === STUDY_MODE_TIME
 
   const [cooldown, setCooldown] = useState(time)
   const [totalAnswer, setTotalAnswer] = useState(0)

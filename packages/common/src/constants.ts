@@ -79,6 +79,7 @@ export const EVENTS = {
 } as const
 
 export const NO_TIME_LIMIT = -1
+export const STUDY_MODE_TIME = 9999
 
 export const MEDIA_TYPES = {
   IMAGE: "image",
