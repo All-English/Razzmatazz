@@ -36,6 +36,7 @@
     "fromQuestion": "시작 질문",
     "toQuestion": "끝 질문",
     "shuffle": "질문 섞기",
+    "easyMode": "쉬운 모드 (여러 번 시도 가능)",
     "questionsCount": "{{count}}개 질문",
     "changeQuizz": "퀴즈 변경",
     "search": "퀴즈 검색...",

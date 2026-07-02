@@ -46,6 +46,7 @@ const SentenceBuilder = ({
     totalPlayer,
     questionIndex,
     correctChunks,
+    easyMode,
   },
   manager,
 }: Props) => {
@@ -270,7 +271,7 @@ const SentenceBuilder = ({
               </p>
               <div
                 className={clsx(
-                  "flex min-h-[72px] flex-wrap items-center gap-2 rounded-2xl border-2 border-dashed border-white/40 bg-black/20 p-3 backdrop-blur-sm transition-all",
+                  "flex min-h-[80px] flex-wrap items-center gap-2 rounded-2xl border-2 border-dashed border-white/40 bg-black/20 p-3 backdrop-blur-sm transition-all",
                   isShaking && "animate-shake border-red-400",
                 )}
               >
@@ -291,7 +292,7 @@ const SentenceBuilder = ({
                       className={clsx(
                         "rounded-xl px-4 py-3 text-base font-bold text-white shadow-md transition-all duration-200 sm:text-lg md:text-xl",
                         "hover:scale-105 active:scale-95",
-                        isStudyMode
+                        isStudyMode || easyMode
                           ? isWrong
                             ? "scale-95 bg-red-500"
                             : "bg-[#3DBFA0]"
@@ -307,11 +308,16 @@ const SentenceBuilder = ({
                 })}
               </div>
 
-              {showWrongFeedback && (
-                <p className="mt-2 text-center text-lg font-bold tracking-wide text-red-300">
-                  {wrongFeedbackMsg}
-                </p>
-              )}
+              <p
+                className={clsx(
+                  "mt-2 text-center text-lg font-bold tracking-wide text-red-300 transition-all duration-300 min-h-[28px]",
+                  showWrongFeedback
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95 pointer-events-none select-none",
+                )}
+              >
+                {showWrongFeedback ? wrongFeedbackMsg : "\u00A0"}
+              </p>
             </div>
 
             {/* Timer & answer count (hidden in study mode) */}

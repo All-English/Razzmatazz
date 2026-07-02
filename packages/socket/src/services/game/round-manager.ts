@@ -51,6 +51,7 @@ export class RoundManager {
   private readonly opts: RoundManagerOptions
   private started = false
   private mode: GameMode = "study"
+  private easyMode = false
   private currentQuestion = 0
   private playersAnswers: Answer[] = []
   private startTime = 0
@@ -87,6 +88,10 @@ export class RoundManager {
     return this.mode
   }
 
+  getEasyMode(): boolean {
+    return this.easyMode
+  }
+
   getReconnectInfo() {
     return {
       current: this.currentQuestion + 1,
@@ -97,6 +102,7 @@ export class RoundManager {
   reset(): void {
     this.started = false
     this.mode = "study"
+    this.easyMode = false
     this.currentQuestion = 0
     this.playersAnswers = []
     this.startTime = 0
@@ -113,7 +119,7 @@ export class RoundManager {
   async start(
     socket: Socket,
     mode: GameMode = "study",
-    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number },
+    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number; easyMode?: boolean },
   ): Promise<void> {
     if (this.opts.getManagerId() !== socket.id) {
       return
@@ -164,6 +170,7 @@ export class RoundManager {
 
     this.started = true
     this.mode = mode
+    this.easyMode = options?.easyMode ?? false
 
     this.opts.broadcast(STATUS.SHOW_START, {
       time: 3,
@@ -223,7 +230,8 @@ export class RoundManager {
       time: question.time,
       totalPlayer: this.opts.players.count(),
       questionIndex: this.currentQuestion,
-      correctChunks: this.mode === "study" ? question.correctChunks : [],
+      correctChunks: question.correctChunks,
+      easyMode: this.easyMode,
     })
 
     await this.opts.cooldown.start(question.time)
@@ -341,6 +349,19 @@ export class RoundManager {
 
     if (this.playersAnswers.find((a) => a.playerId === socket.id)) {
       return
+    }
+
+    if (this.easyMode) {
+      const cleanStr = (s: string) =>
+        s.toLowerCase().replace(/[\p{P}\p{S}\s]/gu, "")
+      const isCorrect = submittedChunks && submittedChunks.length > 0
+        ? JSON.stringify(submittedChunks) === JSON.stringify(question.correctChunks)
+        : cleanStr(submittedSentence) === cleanStr(question.correctSentence)
+
+      if (!isCorrect) {
+        socket.emit(EVENTS.GAME.STUDY_WRONG)
+        return
+      }
     }
 
     const points = (() => {

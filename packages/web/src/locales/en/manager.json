@@ -36,6 +36,7 @@
     "fromQuestion": "From question",
     "toQuestion": "to",
     "shuffle": "Shuffle questions",
+    "easyMode": "Easy Mode (Allow multiple attempts)",
     "questionsCount": "{{count}} questions",
     "changeQuizz": "Change Quiz",
     "search": "Search quizzes...",

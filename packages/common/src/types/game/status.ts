@@ -35,6 +35,7 @@ export interface CommonStatusDataMap {
     totalPlayer: number
     questionIndex: number
     correctChunks: string[]
+    easyMode?: boolean
   }
   SHOW_RESULT: {
     correct: boolean

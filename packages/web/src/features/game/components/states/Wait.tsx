@@ -36,17 +36,17 @@ const Wait = ({ data: { text, correctSentences } }: Props) => {
       {correctSentences && correctSentences.length > 0 ? (
         <div className="flex flex-col items-center gap-8 text-center max-w-2xl w-full">
           {/* Pulsing indicator */}
-          <div className="relative flex items-center justify-center h-4 w-4">
-            <span className="size-3 rounded-full bg-primary animate-ping" />
-            <span className="size-3 rounded-full bg-primary/40 absolute" />
+          <div className="relative flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 shadow-lg shadow-primary/20">
+            <span className="absolute size-4 rounded-full bg-primary animate-ping opacity-75" />
+            <span className="relative size-3 rounded-full bg-primary shadow-inner" />
           </div>
 
           <div className="space-y-3">
-            <h2 className="text-3xl font-black md:text-5xl tracking-tight drop-shadow-md text-white">
+            <h2 className="text-3xl font-black md:text-5xl tracking-tight drop-shadow-md text-white" style={{ textWrap: "balance" }}>
               {t("game:waitingForGameToStart", "Waiting for the game to start.")}
             </h2>
             <p className="text-white/60 text-sm md:text-base font-medium">
-              {t("game:getReadyHint", "Get ready! Read through some of the sentences you might see in this game:")}
+              {t("game:getReadyHint", "Here are some sentences you will see in the game:")}
             </p>
           </div>
 
@@ -59,7 +59,7 @@ const Wait = ({ data: { text, correctSentences } }: Props) => {
                   : "opacity-0 scale-95 translate-y-2 blur-xs"
               }`}
             >
-              “ {correctSentences[currentSentenceIndex]} ”
+              {correctSentences[currentSentenceIndex]}
             </p>
           </div>
 

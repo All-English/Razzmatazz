@@ -38,6 +38,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
   // Configuration options state
   const { quizz: quizzList, folders } = useConfig()
   const [shuffle, setShuffle] = useState(false)
+  const [easyMode, setEasyMode] = useState(false)
   const [isLimitEnabled, setIsLimitEnabled] = useState(false)
   const [startIndex, setStartIndex] = useState(1)
   const [endIndex, setEndIndex] = useState(1)
@@ -197,9 +198,11 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
       return
     }
 
-    const startOptions = isLimitEnabled
-      ? { startIndex: startIndex - 1, endIndex: endIndex - 1, shuffle }
-      : { shuffle }
+    const startOptions = {
+      shuffle,
+      easyMode,
+      ...(isLimitEnabled ? { startIndex: startIndex - 1, endIndex: endIndex - 1 } : {}),
+    }
 
     socket.emit(EVENTS.MANAGER.START_GAME, {
       gameId,
@@ -382,6 +385,18 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 />
                 <span>{t("manager:quizz.shuffle")}</span>
               </label>
+
+              {gameMode === "competitive" && (
+                <label className="flex cursor-pointer items-center gap-2.5 text-sm font-semibold text-white select-none hover:text-white/90">
+                  <input
+                    type="checkbox"
+                    checked={easyMode}
+                    onChange={(e) => setEasyMode(e.target.checked)}
+                    className="text-primary focus:ring-primary size-4.5 cursor-pointer rounded border-white/20 bg-white/10"
+                  />
+                  <span>{t("manager:quizz.easyMode", "Easy Mode (Allow multiple attempts)")}</span>
+                </label>
+              )}
 
               <div className="flex flex-col gap-2.5">
                 <label className="flex cursor-pointer items-center gap-2.5 text-sm font-semibold text-white select-none hover:text-white/90">

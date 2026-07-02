@@ -365,7 +365,7 @@ class Game {
   async start(
     socket: Socket,
     mode: GameMode = "study",
-    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number },
+    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number; easyMode?: boolean },
   ) {
     await this.round.start(socket, mode, options)
   }
