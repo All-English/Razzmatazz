@@ -25,6 +25,7 @@ interface QuizzEditorContextType {
   currentQuestion: QuestionWithId
   setCurrentIndex: (_index: number) => void
   addQuestion: () => void
+  duplicateQuestion: (index: number) => void
   removeQuestion: (_index: number) => void
   reorderQuestions: (_from: number, _to: number) => void
   updateQuestion: (_index: number, _updates: Partial<QuestionWithId>) => void
@@ -141,6 +142,19 @@ export const QuizzEditorProvider = ({
     setCurrentIndex(questions.length)
   }
 
+  const duplicateQuestion = (index: number) => {
+    setQuestions((prev) => {
+      const copy = {
+        ...JSON.parse(JSON.stringify(prev[index])),
+        id: uuid(),
+      }
+      const next = [...prev]
+      next.splice(index + 1, 0, copy)
+      return next
+    })
+    setCurrentIndex(index + 1)
+  }
+
   const removeQuestion = (index: number) => {
     const next = questions.filter((_, i) => i !== index)
     setQuestions(next)
@@ -197,6 +211,7 @@ export const QuizzEditorProvider = ({
         currentQuestion,
         setCurrentIndex,
         addQuestion,
+        duplicateQuestion,
         removeQuestion,
         reorderQuestions,
         updateQuestion,

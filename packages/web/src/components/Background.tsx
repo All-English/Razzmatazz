@@ -1,15 +1,18 @@
 import logo from "@razzia/web/assets/logo.svg"
 import GithubIcon from "@razzia/web/components/GithubIcon"
+import { Link } from "@tanstack/react-router"
 import type { PropsWithChildren } from "react"
 
 const Background = ({ children }: PropsWithChildren) => (
   <section className="relative flex min-h-dvh flex-col items-center justify-center">
-    <div className="absolute h-full max-h-svh w-full overflow-hidden">
+    <div className="absolute h-full max-h-svh w-full overflow-hidden pointer-events-none">
       <div className="bg-primary/15 absolute top-[-70vmin] left-[-50vmin] min-h-[120vmin] min-w-[120vmin] rotate-20 rounded-4xl" />
       <div className="bg-primary/15 absolute right-[-10vmin] bottom-[-45vmin] min-h-[75vmin] min-w-[75vmin] rotate-20 rounded-4xl" />
     </div>
 
-    <img src={logo} className="mb-10 h-20" alt="logo" />
+    <Link to="/manager" className="relative z-10 cursor-pointer">
+      <img src={logo} className="mb-10 h-20" alt="logo" />
+    </Link>
     {children}
 
     <a

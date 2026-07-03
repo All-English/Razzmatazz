@@ -34,6 +34,7 @@ interface SortableItemProps {
   canDelete: boolean
   onClick: () => void
   onDelete: () => void
+  onDuplicate: () => void
 }
 
 const SortableItem = ({
@@ -43,6 +44,7 @@ const SortableItem = ({
   canDelete,
   onClick,
   onDelete,
+  onDuplicate,
 }: SortableItemProps) => {
   const {
     attributes,
@@ -68,6 +70,7 @@ const SortableItem = ({
         canDelete={canDelete}
         onClick={onClick}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     </div>
   )
@@ -79,6 +82,7 @@ const QuizzEditorSidebar = () => {
     currentIndex,
     setCurrentIndex,
     addQuestion,
+    duplicateQuestion,
     removeQuestion,
     reorderQuestions,
   } = useQuizzEditor()
@@ -98,6 +102,10 @@ const QuizzEditorSidebar = () => {
 
   const handleDelete = (index: number) => () => {
     removeQuestion(index)
+  }
+
+  const handleDuplicate = (index: number) => () => {
+    duplicateQuestion(index)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -138,6 +146,7 @@ const QuizzEditorSidebar = () => {
                 canDelete={questions.length > 1}
                 onClick={handleSlideClick(index)}
                 onDelete={handleDelete(index)}
+                onDuplicate={handleDuplicate(index)}
               />
             ))}
           </div>

@@ -4,7 +4,7 @@ import AlertDialog from "@razzia/web/components/AlertDialog"
 import { type QuestionWithId } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
 import { isDerivationSuccessful } from "@razzia/web/features/quizz/utils/chunks"
 import clsx from "clsx"
-import { AlertTriangle, Music, Trash2, Video } from "lucide-react"
+import { AlertTriangle, Copy, Music, Trash2, Video } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { twMerge } from "tailwind-merge"
 
@@ -40,6 +40,7 @@ interface Props {
   canDelete: boolean
   onClick: () => void
   onDelete: () => void
+  onDuplicate: () => void
 }
 
 const QuizzEditorCard = ({
@@ -49,6 +50,7 @@ const QuizzEditorCard = ({
   canDelete,
   onClick,
   onDelete,
+  onDuplicate,
 }: Props) => {
   const { t } = useTranslation()
   const isMismatched =
@@ -94,22 +96,35 @@ const QuizzEditorCard = ({
         )}
       </div>
 
-      {canDelete && (
-        <AlertDialog
-          trigger={
-            <button
-              onClick={(e) => e.stopPropagation()}
-              className="absolute top-1.5 right-1.5 hidden rounded-sm bg-white p-1 text-gray-400 group-hover:block hover:bg-red-50 hover:text-red-500"
-            >
-              <Trash2 className="size-3.5" />
-            </button>
-          }
-          title={t("quizz:question.deleteQuestion")}
-          description={t("quizz:question.deleteQuestionConfirm")}
-          confirmLabel={t("common:delete")}
-          onConfirm={onDelete}
-        />
-      )}
+      <div className="absolute top-1.5 right-1.5 hidden gap-1 group-hover:flex">
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            onDuplicate()
+          }}
+          title={t("quizz:question.duplicateQuestion", "Duplicate Question")}
+          className="rounded-sm bg-white p-1 text-gray-400 hover:bg-indigo-50 hover:text-indigo-600"
+        >
+          <Copy className="size-3.5" />
+        </button>
+
+        {canDelete && (
+          <AlertDialog
+            trigger={
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="rounded-sm bg-white p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
+              >
+                <Trash2 className="size-3.5" />
+              </button>
+            }
+            title={t("quizz:question.deleteQuestion")}
+            description={t("quizz:question.deleteQuestionConfirm")}
+            confirmLabel={t("common:delete")}
+            onConfirm={onDelete}
+          />
+        )}
+      </div>
     </div>
   )
 }
