@@ -126,6 +126,10 @@ const SentenceBuilder = ({
     setShowWrongFeedback(true)
     setIsShaking(true)
 
+    if (typeof window !== "undefined" && navigator.vibrate) {
+      navigator.vibrate(200)
+    }
+
     setTimeout(() => {
       setBarChunks([])
       setShowWrongFeedback(false)

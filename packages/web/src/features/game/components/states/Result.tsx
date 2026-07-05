@@ -56,8 +56,12 @@ const Result = ({
     player.updatePoints(myPoints)
 
     sfxResults()
+
+    if (!correct && typeof window !== "undefined" && navigator.vibrate) {
+      navigator.vibrate(200)
+    }
     // oxlint-disable-next-line
-  }, [sfxResults, myPoints])
+  }, [sfxResults, myPoints, correct])
 
   return (
     <section className="anim-show relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center">
