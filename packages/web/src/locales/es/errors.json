@@ -2,7 +2,7 @@
   "auth": {
     "invalidInviteCode": "Código de invitación inválido",
     "usernameTooLong": "El nombre de usuario no puede superar los 20 caracteres",
-    "usernameTooShort": "El nombre de usuario no puede tener menos de 4 caracteres"
+    "usernameTooShort": "El nombre de usuario no puede tener menos de 2 caracteres"
   },
   "game": {
     "expired": "Partida expirada",

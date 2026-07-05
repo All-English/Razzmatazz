@@ -2,7 +2,7 @@
   "auth": {
     "invalidInviteCode": "Invalid invite code",
     "usernameTooLong": "Username cannot exceed 20 characters",
-    "usernameTooShort": "Username cannot be less than 4 characters"
+    "usernameTooShort": "Username cannot be less than 2 characters"
   },
   "game": {
     "expired": "Game expired",

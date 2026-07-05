@@ -2,7 +2,7 @@
   "auth": {
     "invalidInviteCode": "招待コードが無効です",
     "usernameTooLong": "ユーザー名は20文字以内にしてください",
-    "usernameTooShort": "ユーザー名は4文字以上にしてください"
+    "usernameTooShort": "ユーザー名は2文字以上にしてください"
   },
   "game": {
     "expired": "ゲームの有効期限が切れました",

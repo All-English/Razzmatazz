@@ -2,7 +2,7 @@
   "auth": {
     "invalidInviteCode": "잘못된 초대 코드입니다",
     "usernameTooLong": "사용자 이름은 20자를 초과할 수 없습니다",
-    "usernameTooShort": "사용자 이름은 4자 이상이어야 합니다"
+    "usernameTooShort": "사용자 이름은 2자 이상이어야 합니다"
   },
   "game": {
     "expired": "게임이 만료되었습니다",
