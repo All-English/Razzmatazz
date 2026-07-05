@@ -376,47 +376,59 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
 
             {/* Shuffle & Limit Range Options */}
             <div className="flex flex-col gap-3.5 border-t border-white/10 pt-3.5">
-              <label className="flex cursor-pointer items-center gap-2.5 text-sm font-semibold text-white select-none hover:text-white/90">
-                <input
-                  type="checkbox"
-                  checked={shuffle}
-                  onChange={(e) => setShuffle(e.target.checked)}
-                  className="text-primary focus:ring-primary size-4.5 cursor-pointer rounded border-white/20 bg-white/10"
-                />
+              <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-white select-none hover:text-white/90">
+                <div className="relative shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={shuffle}
+                    onChange={(e) => setShuffle(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="h-5 w-9 rounded-full bg-white/10 border border-white/20 transition-all duration-200 peer-checked:bg-primary peer-checked:border-primary" />
+                  <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:translate-x-4 shadow" />
+                </div>
                 <span>{t("manager:quizz.shuffle")}</span>
               </label>
 
               {gameMode === "competitive" && (
-                <label className="flex cursor-pointer items-center gap-2.5 text-sm font-semibold text-white select-none hover:text-white/90">
-                  <input
-                    type="checkbox"
-                    checked={easyMode}
-                    onChange={(e) => setEasyMode(e.target.checked)}
-                    className="text-primary focus:ring-primary size-4.5 cursor-pointer rounded border-white/20 bg-white/10"
-                  />
-                  <span>{t("manager:quizz.easyMode", "Easy Mode (Allow multiple attempts)")}</span>
+                <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-white select-none hover:text-white/90">
+                  <div className="relative shrink-0">
+                    <input
+                      type="checkbox"
+                      checked={easyMode}
+                      onChange={(e) => setEasyMode(e.target.checked)}
+                      className="sr-only peer"
+                    />
+                    <div className="h-5 w-9 rounded-full bg-white/10 border border-white/20 transition-all duration-200 peer-checked:bg-primary peer-checked:border-primary" />
+                    <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:translate-x-4 shadow" />
+                  </div>
+                  <span>{t("manager:quizz.easyMode", "Easy Mode (Allow Multiple Attempts)")}</span>
                 </label>
               )}
 
               <div className="flex flex-col gap-2.5">
-                <label className="flex cursor-pointer items-center gap-2.5 text-sm font-semibold text-white select-none hover:text-white/90">
-                  <input
-                    type="checkbox"
-                    checked={isLimitEnabled}
-                    onChange={(e) => {
-                      setIsLimitEnabled(e.target.checked)
-                      if (e.target.checked) {
-                        setStartIndex(1)
-                        setEndIndex(activeQuizQuestionCount || 1)
-                      }
-                    }}
-                    className="text-primary focus:ring-primary size-4.5 cursor-pointer rounded border-white/20 bg-white/10"
-                  />
+                <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-white select-none hover:text-white/90">
+                  <div className="relative shrink-0">
+                    <input
+                      type="checkbox"
+                      checked={isLimitEnabled}
+                      onChange={(e) => {
+                        setIsLimitEnabled(e.target.checked)
+                        if (e.target.checked) {
+                          setStartIndex(1)
+                          setEndIndex(activeQuizQuestionCount || 1)
+                        }
+                      }}
+                      className="sr-only peer"
+                    />
+                    <div className="h-5 w-9 rounded-full bg-white/10 border border-white/20 transition-all duration-200 peer-checked:bg-primary peer-checked:border-primary" />
+                    <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:translate-x-4 shadow" />
+                  </div>
                   <span>{t("manager:quizz.limitRange")}</span>
                 </label>
 
                 {isLimitEnabled && (
-                  <div className="animate-in fade-in slide-in-from-top-1 flex items-center gap-1.5 pl-7 text-xs font-semibold text-white/95 duration-200">
+                  <div className="animate-in fade-in slide-in-from-top-1 flex items-center gap-1.5 pl-12 text-xs font-semibold text-white/95 duration-200">
                     <span>{t("manager:quizz.fromQuestion")}</span>
                     <input
                       type="number"

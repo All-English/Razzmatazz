@@ -1,7 +1,8 @@
 import * as Select from "@radix-ui/react-select"
 import LanguageSwitcher from "@razzia/web/components/LanguageSwitcher"
+import GithubIcon from "@razzia/web/components/GithubIcon"
 import { useSocket } from "@razzia/web/features/game/contexts/socket-context"
-import { Globe, ShieldAlert, Wifi, SunMoon } from "lucide-react"
+import { Globe, ShieldAlert, Wifi, SunMoon, ExternalLink } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 interface Props {
@@ -97,6 +98,27 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
             </Select.Root>
           </div>
         </div>
+
+        {/* GitHub Link */}
+        <a
+          href="https://github.com/All-English/Razzmatazz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border-gray-150 dark:border-zinc-800 flex items-center justify-between rounded-xl border bg-gray-50/30 dark:bg-zinc-900/20 p-5 hover:bg-gray-50/80 dark:hover:bg-zinc-900/40 transition-all group"
+        >
+          <div className="flex gap-3">
+            <GithubIcon size={20} className="mt-0.5 text-gray-400 dark:text-zinc-500 group-hover:text-gray-600 dark:group-hover:text-zinc-300 transition-colors" />
+            <div>
+              <p className="font-semibold text-gray-900 dark:text-zinc-100 group-hover:text-primary transition-colors">
+                {t("manager:settings.githubRepository", "GitHub Repository")}
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500 dark:text-zinc-400">
+                {t("manager:settings.githubSubtitle", "View the source code and contribute")}
+              </p>
+            </div>
+          </div>
+          <ExternalLink className="size-4 text-gray-400 dark:text-zinc-600 group-hover:text-gray-500 dark:group-hover:text-zinc-400 transition-colors" />
+        </a>
 
         {/* System Status Setting */}
         <div className="border-gray-150 dark:border-zinc-800 space-y-4 rounded-xl border bg-gray-50/30 dark:bg-zinc-900/20 p-5">
