@@ -13,7 +13,8 @@ import {
 } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
 import { isDerivationSuccessful } from "@razzia/web/features/quizz/utils/chunks"
 import { useNavigate, useSearch } from "@tanstack/react-router"
-import { type ChangeEvent, useEffect } from "react"
+import { type ChangeEvent, useEffect, useState } from "react"
+import AlertDialog from "@razzia/web/components/AlertDialog"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 
@@ -33,8 +34,19 @@ const QuizzEditorHeader = () => {
   const search = useSearch({ strict: false }) as { folder?: string }
   const folder = search.folder
 
+  const [showMismatchDialog, setShowMismatchDialog] = useState(false)
+  const [mismatchedQuestionsList, setMismatchedQuestionsList] = useState("")
+
   const handleChangeSubject = (e: ChangeEvent<HTMLInputElement>) => {
     setSubject(e.target.value)
+  }
+
+  const executeSave = () => {
+    if (quizzId) {
+      socket.emit(EVENTS.QUIZZ.UPDATE, { id: quizzId, subject, questions })
+    } else {
+      socket.emit(EVENTS.QUIZZ.SAVE, { subject, questions, folder })
+    }
   }
 
   const handleSave = () => {
@@ -49,21 +61,12 @@ const QuizzEditorHeader = () => {
     })
 
     if (mismatchedIndices.length > 0) {
-      const confirmSave = window.confirm(
-        t("quizz:saveMismatchConfirm", {
-          questions: mismatchedIndices.join(", "),
-        }),
-      )
-      if (!confirmSave) {
-        return
-      }
+      setMismatchedQuestionsList(mismatchedIndices.join(", "))
+      setShowMismatchDialog(true)
+      return
     }
 
-    if (quizzId) {
-      socket.emit(EVENTS.QUIZZ.UPDATE, { id: quizzId, subject, questions })
-    } else {
-      socket.emit(EVENTS.QUIZZ.SAVE, { subject, questions, folder })
-    }
+    executeSave()
   }
 
   const handleBulkImport = (
@@ -186,6 +189,20 @@ const QuizzEditorHeader = () => {
           {t("common:save")}
         </Button>
       </div>
+
+      <AlertDialog
+        open={showMismatchDialog}
+        onOpenChange={setShowMismatchDialog}
+        title={t("quizz:saveMismatchTitle", "Mismatched Chunks Warning")}
+        description={t("quizz:saveMismatchConfirm", {
+          questions: mismatchedQuestionsList,
+        })}
+        confirmLabel={t("common:saveAnyway", "Save Anyway")}
+        onConfirm={() => {
+          setShowMismatchDialog(false)
+          executeSave()
+        }}
+      />
     </header>
   )
 }

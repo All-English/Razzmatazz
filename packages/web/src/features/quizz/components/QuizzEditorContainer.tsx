@@ -2,6 +2,7 @@ import QuestionEditor from "@razzia/web/features/quizz/components/QuestionEditor
 import QuizzEditorHeader from "@razzia/web/features/quizz/components/QuizzEditorHeader"
 import QuizzEditorSidebar from "@razzia/web/features/quizz/components/QuizzEditorSidebar"
 import { useQuizzEditor } from "@razzia/web/features/quizz/contexts/quizz-editor-context"
+import AlertDialog from "@razzia/web/components/AlertDialog"
 import { useBlocker } from "@tanstack/react-router"
 import { useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
@@ -10,14 +11,10 @@ const QuizzEditorContainer = () => {
   const { isDirty, hasSaved } = useQuizzEditor()
   const { t } = useTranslation()
 
-  const shouldBlockFn = useCallback(() => {
-    const confirm = window.confirm(t("quizz:unsavedChangesConfirm"))
-    return !confirm // Return true to block, false to proceed
-  }, [t])
-
   // Intercept in-app route transitions (Exit button, NavRail clicks)
-  useBlocker({
-    shouldBlockFn,
+  const blocker = useBlocker({
+    shouldBlockFn: useCallback(() => true, []),
+    withResolver: true,
     disabled: !isDirty || hasSaved,
   })
 
@@ -42,6 +39,19 @@ const QuizzEditorContainer = () => {
         <QuizzEditorSidebar />
         <QuestionEditor />
       </div>
+
+      <AlertDialog
+        open={blocker.status === "blocked"}
+        onOpenChange={(open) => {
+          if (!open) {
+            blocker.reset?.()
+          }
+        }}
+        title={t("quizz:unsavedChangesTitle", "Unsaved Changes")}
+        description={t("quizz:unsavedChangesConfirm")}
+        confirmLabel={t("common:leave", "Leave")}
+        onConfirm={() => blocker.proceed?.()}
+      />
     </div>
   )
 }
