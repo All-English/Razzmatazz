@@ -78,7 +78,7 @@ export const QuizzEditorProvider = ({
       : [defaultQuestion()],
   )
   const [currentIndex, setCurrentIndex] = useState(0)
-  const currentQuestion = questions[currentIndex]
+  const currentQuestion = questions[currentIndex] ?? questions[0]
   const [hasSaved, setHasSaved] = useState(false)
 
   // Track the initial normalized state to determine if the editor is dirty
