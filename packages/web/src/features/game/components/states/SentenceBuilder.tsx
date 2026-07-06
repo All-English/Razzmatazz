@@ -78,6 +78,7 @@ const SentenceBuilder = ({
   }, [barChunks])
 
   const [sfxPop] = useSound(SFX.ANSWERS.SOUND, { volume: 0.1 })
+  const [sfxCorrect] = useSound(SFX.RESULTS_SOUND, { volume: 0.2 })
   const [playMusic, { stop: stopMusic }] = useSound(SFX.ANSWERS.MUSIC, {
     volume: 0.2,
     interrupt: true,
@@ -114,6 +115,8 @@ const SentenceBuilder = ({
 
   // Study mode: wrong answer — flash red for mismatches, then return all bar chunks to bank
   useEvent(EVENTS.GAME.STUDY_WRONG, () => {
+    if (showWrongFeedback) return // Already handled locally!
+
     const list = t("game:wrongMessages", {
       returnObjects: true,
     }) as unknown as string[]
@@ -173,6 +176,41 @@ const SentenceBuilder = ({
     const sentence = barChunks.map((c) => c.text).join(" ")
     const chunks = barChunks.map((c) => c.text)
 
+    const isCorrect =
+      correctChunks && correctChunks.length > 0
+        ? JSON.stringify(chunks) === JSON.stringify(correctChunks)
+        : false
+
+    if (isStudyMode || easyMode) {
+      if (isCorrect) {
+        sfxCorrect()
+      } else {
+        // Wrong answer: trigger feedback and vibration instantly under the user gesture
+        const list = t("game:wrongMessages", {
+          returnObjects: true,
+        }) as unknown as string[]
+        if (Array.isArray(list) && list.length > 0) {
+          const idx = Math.floor(Math.random() * list.length)
+          setWrongFeedbackMsg(list[idx])
+        } else {
+          setWrongFeedbackMsg(t("game:studyTryAgain"))
+        }
+        setShowWrongFeedback(true)
+        setIsShaking(true)
+
+        if (typeof window !== "undefined" && navigator.vibrate) {
+          navigator.vibrate(200)
+        }
+
+        setTimeout(() => {
+          setBarChunks([])
+          setShowWrongFeedback(false)
+          setIsShaking(false)
+          setSubmitted(false)
+        }, 3000)
+      }
+    }
+
     if (isStudyMode) {
       socket.emit(EVENTS.PLAYER.STUDY_SUBMIT, {
         gameId,
@@ -198,8 +236,13 @@ const SentenceBuilder = ({
     submitted,
     socket,
     sfxPop,
+    sfxCorrect,
     isStudyMode,
+    easyMode,
     questionIndex,
+    correctChunks,
+    scrambledChunks.length,
+    t,
   ])
 
   return (

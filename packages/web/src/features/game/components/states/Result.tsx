@@ -55,13 +55,15 @@ const Result = ({
   useEffect(() => {
     player.updatePoints(myPoints)
 
-    sfxResults()
+    if (!isStudyMode) {
+      sfxResults()
+    }
 
     if (!correct && typeof window !== "undefined" && navigator.vibrate) {
       navigator.vibrate(200)
     }
     // oxlint-disable-next-line
-  }, [sfxResults, myPoints, correct])
+  }, [sfxResults, myPoints, correct, isStudyMode])
 
   return (
     <section className="anim-show relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center">
