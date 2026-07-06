@@ -1,7 +1,7 @@
 import type {
   Player,
   QuestionMedia,
-  StudyProgress,
+  PracticeProgress,
 } from "@razzia/common/types/game"
 
 export const STATUS = {
@@ -14,7 +14,7 @@ export const STATUS = {
   SHOW_LEADERBOARD: "SHOW_LEADERBOARD",
   FINISHED: "FINISHED",
   WAIT: "WAIT",
-  STUDY_PROGRESS: "STUDY_PROGRESS",
+  PRACTICE_PROGRESS: "PRACTICE_PROGRESS",
 } as const
 
 export type Status = (typeof STATUS)[keyof typeof STATUS]
@@ -52,7 +52,7 @@ export interface CommonStatusDataMap {
     subject: string
     top: Player[]
     rank?: number
-    studyTime?: number
+    practiceTime?: number
   }
 }
 
@@ -67,7 +67,7 @@ interface ManagerExtraStatus {
     totalCount: number
   }
   SHOW_LEADERBOARD: { oldLeaderboard: Player[]; leaderboard: Player[] }
-  STUDY_PROGRESS: { students: StudyProgress[]; subject: string }
+  PRACTICE_PROGRESS: { students: PracticeProgress[]; subject: string }
 }
 
 export type PlayerStatusDataMap = CommonStatusDataMap

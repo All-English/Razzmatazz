@@ -28,7 +28,7 @@ const PlayerGamePage = () => {
     setInviteCode,
     setStatus,
     reset,
-    resetStudyStats,
+    resetPracticeStats,
   } = usePlayerStore()
   const { setQuestionStates } = useQuestionStore()
   const { t } = useTranslation()
@@ -70,9 +70,9 @@ const PlayerGamePage = () => {
     if (name in GAME_STATE_COMPONENTS) {
       setStatus(name, data)
     }
-    // New game starting — reset study stats from previous session
+    // New game starting — reset practice stats from previous session
     if (name === STATUS.SHOW_START) {
-      resetStudyStats()
+      resetPracticeStats()
     }
   })
 

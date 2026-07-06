@@ -7,7 +7,7 @@ export interface Player {
   username: string
   points: number
   streak: number
-  studyRound?: number
+  practiceRound?: number
 }
 
 export interface Answer {
@@ -74,15 +74,15 @@ export interface GameResultPlayer {
   rank: number
 }
 
-export interface StudyPlayerRoundResult {
+export interface PracticePlayerRoundResult {
   playerName: string
   score: number
   time: number
 }
 
-export interface StudyRoundResult {
+export interface PracticeRoundResult {
   round: number
-  playerResults: StudyPlayerRoundResult[]
+  playerResults: PracticePlayerRoundResult[]
 }
 
 export interface GameResult {
@@ -92,7 +92,7 @@ export interface GameResult {
   mode?: GameMode
   players: GameResultPlayer[]
   questions: QuestionResult[]
-  rounds?: StudyRoundResult[]
+  rounds?: PracticeRoundResult[]
 }
 
 export interface GameResultMeta {
@@ -103,12 +103,12 @@ export interface GameResultMeta {
   mode?: GameMode
 }
 
-export type GameMode = "competitive" | "study"
+export type GameMode = "versus" | "practice"
 
-export interface StudyProgress {
+export interface PracticeProgress {
   playerId: string
   username: string
   completed: number
   total: number
-  studyRound: number
+  practiceRound: number
 }

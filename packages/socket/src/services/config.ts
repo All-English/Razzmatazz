@@ -355,7 +355,7 @@ export const getResultsMeta = (): GameResultMeta[] => {
         subject: result.subject,
         date: result.date,
         playerCount: result.players.length,
-        mode: result.mode ?? "competitive",
+        mode: result.mode ?? "versus",
       }
     } catch {
       return null

@@ -1,5 +1,5 @@
 // oxlint-disable typescript/no-unnecessary-condition
-import { EVENTS, MEDIA_TYPES, NO_TIME_LIMIT, STUDY_MODE_TIME } from "@razzia/common/constants"
+import { EVENTS, MEDIA_TYPES, NO_TIME_LIMIT, PRACTICE_MODE_TIME } from "@razzia/common/constants"
 import type {
   Answer,
   GameMode,
@@ -8,9 +8,9 @@ import type {
   Question,
   QuestionResult,
   Quizz,
-  StudyProgress,
-  StudyRoundResult,
-  StudyPlayerRoundResult,
+  PracticeProgress,
+  PracticeRoundResult,
+  PracticePlayerRoundResult,
 } from "@razzia/common/types/game"
 import type { Server, Socket } from "@razzia/common/types/game/socket"
 import {
@@ -50,7 +50,7 @@ export interface RoundManagerOptions {
 export class RoundManager {
   private readonly opts: RoundManagerOptions
   private started = false
-  private mode: GameMode = "study"
+  private mode: GameMode = "practice"
   private easyMode = false
   private currentQuestion = 0
   private playersAnswers: Answer[] = []
@@ -59,15 +59,15 @@ export class RoundManager {
   private tempOldLeaderboard: Player[] | null = null
   private questionsHistory: QuestionResult[] = []
 
-  // Study mode state
-  private studyProgress = new Map<string, number>() // username -> completed count
-  private studyStartTimes = new Map<string, number>() // username -> start timestamp
-  private studyErrors = new Map<string, number>() // username -> current question error count
-  private studyHistory = new Map<
+  // Practice mode state
+  private practiceProgress = new Map<string, number>() // username -> completed count
+  private practiceStartTimes = new Map<string, number>() // username -> start timestamp
+  private practiceErrors = new Map<string, number>() // username -> current question error count
+  private practiceHistory = new Map<
     string,
     Array<{ round: number; score: number; time: number }>
   >() // username -> history
-  private studyTimeouts = new Set<any>()
+  private practiceTimeouts = new Set<any>()
 
   private originalQuizz: Quizz
 
@@ -94,9 +94,9 @@ export class RoundManager {
   }
 
   getReconnectInfo(username?: string) {
-    if (this.mode === "study" && username) {
+    if (this.mode === "practice" && username) {
       return {
-        current: (this.studyProgress.get(username) ?? 0) + 1,
+        current: (this.practiceProgress.get(username) ?? 0) + 1,
         total: this.opts.quizz.questions.length,
       }
     }
@@ -108,7 +108,7 @@ export class RoundManager {
 
   reset(): void {
     this.started = false
-    this.mode = "study"
+    this.mode = "practice"
     this.easyMode = false
     this.currentQuestion = 0
     this.playersAnswers = []
@@ -117,20 +117,20 @@ export class RoundManager {
     this.tempOldLeaderboard = null
     this.questionsHistory = []
 
-    this.studyProgress.clear()
-    this.studyStartTimes.clear()
-    this.studyErrors.clear()
-    this.studyHistory.clear()
+    this.practiceProgress.clear()
+    this.practiceStartTimes.clear()
+    this.practiceErrors.clear()
+    this.practiceHistory.clear()
     
-    for (const timeout of this.studyTimeouts) {
+    for (const timeout of this.practiceTimeouts) {
       clearTimeout(timeout)
     }
-    this.studyTimeouts.clear()
+    this.practiceTimeouts.clear()
   }
 
   async start(
     socket: Socket,
-    mode: GameMode = "study",
+    mode: GameMode = "practice",
     options?: { shuffle?: boolean; startIndex?: number; endIndex?: number; easyMode?: boolean },
   ): Promise<void> {
     if (this.opts.getManagerId() !== socket.id) {
@@ -191,8 +191,8 @@ export class RoundManager {
 
     await sleep(3)
 
-    if (mode === "study") {
-      this.startStudyMode()
+    if (mode === "practice") {
+      this.startPracticeMode()
     } else {
       this.opts.io.to(this.opts.gameId).emit(EVENTS.GAME.START_COOLDOWN)
       await this.opts.cooldown.start(3)
@@ -371,7 +371,7 @@ export class RoundManager {
         : cleanStr(submittedSentence) === cleanStr(question.correctSentence)
 
       if (!isCorrect) {
-        socket.emit(EVENTS.GAME.STUDY_WRONG)
+        socket.emit(EVENTS.GAME.PRACTICE_WRONG)
         return
       }
     }
@@ -484,9 +484,9 @@ export class RoundManager {
     this.tempOldLeaderboard = null
   }
 
-  // ── Study Mode ──────────────────────────────────────────────────────────
+  // ── Practice Mode ──────────────────────────────────────────────────────────
 
-  private startStudyMode(): void {
+  private startPracticeMode(): void {
     const players = this.opts.players.getAll()
     const total = this.opts.quizz.questions.length
     const startTime = Date.now()
@@ -494,9 +494,9 @@ export class RoundManager {
     // Initialize progress for all players
     for (const player of players) {
       player.points = 0
-      this.studyProgress.set(player.username, 0)
-      this.studyStartTimes.set(player.username, startTime)
-      this.studyErrors.set(player.username, 0)
+      this.practiceProgress.set(player.username, 0)
+      this.practiceStartTimes.set(player.username, startTime)
+      this.practiceErrors.set(player.username, 0)
     }
 
     // Send first question to all players
@@ -507,25 +507,25 @@ export class RoundManager {
       total,
     })
 
-    // Send BUILD_SENTENCE to all players (no timer in study mode, but we use a large value)
+    // Send BUILD_SENTENCE to all players (no timer in practice mode, but we use a large value)
     for (const player of players) {
       this.opts.send(player.id, STATUS.BUILD_SENTENCE, {
         prompt: firstQuestion.prompt,
         scrambledChunks: firstQuestion.scrambledChunks,
         media: firstQuestion.media,
-        time: STUDY_MODE_TIME,
+        time: PRACTICE_MODE_TIME,
         totalPlayer: players.length,
         questionIndex: 0,
         correctChunks: firstQuestion.correctChunks,
       })
     }
 
-    // Send study progress to manager
-    this.emitStudyProgress()
+    // Send practice progress to manager
+    this.emitPracticeProgress()
   }
 
-  studyRestart(socket: Socket): void {
-    if (this.mode !== "study") {
+  practiceRestart(socket: Socket): void {
+    if (this.mode !== "practice") {
       return
     }
 
@@ -536,13 +536,13 @@ export class RoundManager {
     }
 
     // Increment player's round
-    player.studyRound = (player.studyRound ?? 1) + 1
+    player.practiceRound = (player.practiceRound ?? 1) + 1
     player.points = 0
 
     // Reset their progress
-    this.studyProgress.set(player.username, 0)
-    this.studyStartTimes.set(player.username, Date.now())
-    this.studyErrors.set(player.username, 0)
+    this.practiceProgress.set(player.username, 0)
+    this.practiceStartTimes.set(player.username, Date.now())
+    this.practiceErrors.set(player.username, 0)
 
     // Send updated player object back to the player
     this.opts.io.to(socket.id).emit(EVENTS.PLAYER.UPDATE, player)
@@ -560,23 +560,23 @@ export class RoundManager {
         prompt: firstQuestion.prompt,
         scrambledChunks: firstQuestion.scrambledChunks,
         media: firstQuestion.media,
-        time: STUDY_MODE_TIME,
+        time: PRACTICE_MODE_TIME,
         totalPlayer: this.opts.players.count(),
         questionIndex: 0,
         correctChunks: firstQuestion.correctChunks,
       })
     }
 
-    this.emitStudyProgress()
+    this.emitPracticeProgress()
   }
 
-  studySubmit(
+  practiceSubmit(
     socket: Socket,
     questionIndex: number,
     submittedSentence: string,
     submittedChunks: string[],
   ): void {
-    if (this.mode !== "study") {
+    if (this.mode !== "practice") {
       return
     }
 
@@ -599,17 +599,17 @@ export class RoundManager {
         ? JSON.stringify(submittedChunks) ===
           JSON.stringify(question.correctChunks)
         : cleanStr(submittedSentence) === cleanStr(question.correctSentence)
-    const currentCompleted = this.studyProgress.get(player.username) ?? 0
+    const currentCompleted = this.practiceProgress.get(player.username) ?? 0
 
     // Only advance if correct and this is their current question
     if (isCorrect && questionIndex === currentCompleted) {
       const newCompleted = currentCompleted + 1
-      this.studyProgress.set(player.username, newCompleted)
+      this.practiceProgress.set(player.username, newCompleted)
 
-      const errors = this.studyErrors.get(player.username) ?? 0
+      const errors = this.practiceErrors.get(player.username) ?? 0
       const points = Math.max(200, 1000 - errors * 200)
       player.points += points
-      this.studyErrors.set(player.username, 0)
+      this.practiceErrors.set(player.username, 0)
 
       // Send result feedback
       this.opts.send(socket.id, STATUS.SHOW_RESULT, {
@@ -625,7 +625,7 @@ export class RoundManager {
 
       // After a brief delay, send next question or finish
       const timeout = setTimeout(() => {
-        this.studyTimeouts.delete(timeout)
+        this.practiceTimeouts.delete(timeout)
         const nextQuestion = this.opts.quizz.questions[newCompleted]
 
         if (nextQuestion) {
@@ -638,30 +638,30 @@ export class RoundManager {
             prompt: nextQuestion.prompt,
             scrambledChunks: nextQuestion.scrambledChunks,
             media: nextQuestion.media,
-            time: STUDY_MODE_TIME,
+            time: PRACTICE_MODE_TIME,
             totalPlayer: this.opts.players.count(),
             questionIndex: newCompleted,
             correctChunks: nextQuestion.correctChunks,
           })
         } else {
           // Player finished all questions
-          const startTime = this.studyStartTimes.get(player.username)
-          const studyTime = startTime
+          const startTime = this.practiceStartTimes.get(player.username)
+          const practiceTime = startTime
             ? Math.round((Date.now() - startTime) / 1000)
             : undefined
 
           // Record completed round in history map
-          const roundNum = player.studyRound ?? 1
-          let history = this.studyHistory.get(player.username)
+          const roundNum = player.practiceRound ?? 1
+          let history = this.practiceHistory.get(player.username)
           if (!history) {
             history = []
-            this.studyHistory.set(player.username, history)
+            this.practiceHistory.set(player.username, history)
           }
           if (!history.some((h) => h.round === roundNum)) {
             history.push({
               round: roundNum,
               score: player.points,
-              time: studyTime ?? 0,
+              time: practiceTime ?? 0,
             })
           }
 
@@ -669,18 +669,18 @@ export class RoundManager {
             subject: this.opts.quizz.subject,
             top: [],
             rank: 0,
-            studyTime,
+            practiceTime,
           })
         }
 
-        this.emitStudyProgress()
+        this.emitPracticeProgress()
       }, 2500)
-      this.studyTimeouts.add(timeout)
+      this.practiceTimeouts.add(timeout)
     } else if (!isCorrect) {
-      const errors = this.studyErrors.get(player.username) ?? 0
-      this.studyErrors.set(player.username, errors + 1)
+      const errors = this.practiceErrors.get(player.username) ?? 0
+      this.practiceErrors.set(player.username, errors + 1)
       // Emit a lightweight signal — no state transition, player stays on BUILD_SENTENCE to retry
-      this.opts.io.to(socket.id).emit(EVENTS.GAME.STUDY_WRONG)
+      this.opts.io.to(socket.id).emit(EVENTS.GAME.PRACTICE_WRONG)
     }
   }
 
@@ -692,13 +692,13 @@ export class RoundManager {
       return
     }
 
-    if (this.mode === "study") {
+    if (this.mode === "practice") {
       const player = this.opts.players.findById(socket.id)
       if (player) {
         player.points = 0
-        this.studyProgress.set(player.username, 0)
-        this.studyStartTimes.set(player.username, Date.now())
-        this.studyErrors.set(player.username, 0)
+        this.practiceProgress.set(player.username, 0)
+        this.practiceStartTimes.set(player.username, Date.now())
+        this.practiceErrors.set(player.username, 0)
       }
 
       const firstQuestion = this.opts.quizz.questions[0]
@@ -712,13 +712,13 @@ export class RoundManager {
           prompt: firstQuestion.prompt,
           scrambledChunks: firstQuestion.scrambledChunks,
           media: firstQuestion.media,
-          time: STUDY_MODE_TIME,
+          time: PRACTICE_MODE_TIME,
           totalPlayer: this.opts.players.count(),
           questionIndex: 0,
           correctChunks: firstQuestion.correctChunks,
         })
 
-        this.emitStudyProgress()
+        this.emitPracticeProgress()
       }
     } else {
       this.opts.io.to(socket.id).emit(EVENTS.GAME.UPDATE_QUESTION, {
@@ -738,7 +738,7 @@ export class RoundManager {
   }
 
   public endGameEarly(socket: Socket): void {
-    if (!this.started || this.mode !== "competitive") {
+    if (!this.started || this.mode !== "versus") {
       return
     }
 
@@ -777,36 +777,36 @@ export class RoundManager {
     })
   }
 
-  private emitStudyProgress(): void {
+  private emitPracticeProgress(): void {
     const players = this.opts.players.getAll()
     const total = this.opts.quizz.questions.length
 
-    const students: StudyProgress[] = players.map((player) => ({
+    const students: PracticeProgress[] = players.map((player) => ({
       playerId: player.id,
       username: player.username,
-      completed: this.studyProgress.get(player.username) ?? 0,
+      completed: this.practiceProgress.get(player.username) ?? 0,
       total,
-      studyRound: player.studyRound ?? 1,
+      practiceRound: player.practiceRound ?? 1,
     }))
 
-    // Send via STATUS machine so the manager enters/stays on StudyDashboard view
-    this.opts.send(this.opts.getManagerId(), STATUS.STUDY_PROGRESS, {
+    // Send via STATUS machine so the manager enters/stays on PracticeDashboard view
+    this.opts.send(this.opts.getManagerId(), STATUS.PRACTICE_PROGRESS, {
       students,
       subject: this.opts.quizz.subject,
     })
-    // Also emit as a side-channel event so StudyDashboard can update its local state without remounting
+    // Also emit as a side-channel event so PracticeDashboard can update its local state without remounting
     this.opts.io
       .to(this.opts.getManagerId())
-      .emit(EVENTS.MANAGER.STUDY_PROGRESS, {
+      .emit(EVENTS.MANAGER.PRACTICE_PROGRESS, {
         students,
         subject: this.opts.quizz.subject,
       })
   }
 
-  getStudyResults(): StudyRoundResult[] {
-    const roundsMap = new Map<number, StudyPlayerRoundResult[]>()
+  getPracticeResults(): PracticeRoundResult[] {
+    const roundsMap = new Map<number, PracticePlayerRoundResult[]>()
 
-    for (const [username, runs] of this.studyHistory.entries()) {
+    for (const [username, runs] of this.practiceHistory.entries()) {
       for (const run of runs) {
         let roundResults = roundsMap.get(run.round)
         if (!roundResults) {
@@ -835,8 +835,8 @@ export class RoundManager {
     return this.opts.quizz.subject
   }
 
-  getStudyNextQuestionStatus(username: string): { name: Status; data: any } {
-    const completed = this.studyProgress.get(username) ?? 0
+  getPracticeNextQuestionStatus(username: string): { name: Status; data: any } {
+    const completed = this.practiceProgress.get(username) ?? 0
     const nextQuestion = this.opts.quizz.questions[completed]
 
     if (nextQuestion) {
@@ -846,7 +846,7 @@ export class RoundManager {
           prompt: nextQuestion.prompt,
           scrambledChunks: nextQuestion.scrambledChunks,
           media: nextQuestion.media,
-          time: STUDY_MODE_TIME,
+          time: PRACTICE_MODE_TIME,
           totalPlayer: this.opts.players.count(),
           questionIndex: completed,
           correctChunks: nextQuestion.correctChunks,
@@ -854,25 +854,25 @@ export class RoundManager {
       }
     } else {
       // Completed all questions
-      const startTime = this.studyStartTimes.get(username)
-      const studyTime = startTime
+      const startTime = this.practiceStartTimes.get(username)
+      const practiceTime = startTime
         ? Math.round((Date.now() - startTime) / 1000)
         : undefined
 
       // Record in history if not already present
       const player = this.opts.players.getAll().find((p) => p.username === username)
       if (player) {
-        const roundNum = player.studyRound ?? 1
-        let history = this.studyHistory.get(username)
+        const roundNum = player.practiceRound ?? 1
+        let history = this.practiceHistory.get(username)
         if (!history) {
           history = []
-          this.studyHistory.set(username, history)
+          this.practiceHistory.set(username, history)
         }
         if (!history.some((h) => h.round === roundNum)) {
           history.push({
             round: roundNum,
             score: player.points,
-            time: studyTime ?? 0,
+            time: practiceTime ?? 0,
           })
         }
       }
@@ -883,7 +883,7 @@ export class RoundManager {
           subject: this.opts.quizz.subject,
           top: [],
           rank: 0,
-          studyTime,
+          practiceTime,
         },
       }
     }

@@ -7,6 +7,6 @@ interface GameModeStore {
 }
 
 export const useGameModeStore = create<GameModeStore>((set) => ({
-  mode: "study",
+  mode: "practice",
   setMode: (mode) => set({ mode }),
 }))

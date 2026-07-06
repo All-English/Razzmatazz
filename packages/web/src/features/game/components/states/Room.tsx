@@ -357,24 +357,24 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
               </span>
               <div className="grid grid-cols-2 gap-2.5">
                 <button
-                  onClick={() => setGameMode("competitive")}
+                  onClick={() => setGameMode("versus")}
                   className={`rounded-xl py-2.5 text-sm font-bold transition-all ${
-                    gameMode === "competitive"
+                    gameMode === "versus"
                       ? "bg-primary shadow-primary/20 scale-[1.02] text-white shadow-lg"
                       : "bg-white/10 text-white/70 hover:bg-white/15"
                   }`}
                 >
-                  ⚔️ {t("game:competitiveMode")}
+                  ⚔️ {t("game:versusMode")}
                 </button>
                 <button
-                  onClick={() => setGameMode("study")}
+                  onClick={() => setGameMode("practice")}
                   className={`rounded-xl py-2.5 text-sm font-bold transition-all ${
-                    gameMode === "study"
+                    gameMode === "practice"
                       ? "scale-[1.02] bg-emerald-500 text-white shadow-lg shadow-emerald-500/20"
                       : "bg-white/10 text-white/70 hover:bg-white/15"
                   }`}
                 >
-                  📖 {t("game:studyMode")}
+                  📖 {t("game:practiceMode")}
                 </button>
               </div>
             </div>
@@ -395,7 +395,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 <span>{t("manager:quizz.shuffle")}</span>
               </label>
 
-              {gameMode === "competitive" && (
+              {gameMode === "versus" && (
                 <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-white select-none hover:text-white/90">
                   <div className="relative shrink-0">
                     <input
@@ -506,7 +506,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                   "flex w-full items-center justify-center gap-1.5 rounded-xl py-3.5 text-lg font-extrabold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] active:scale-95",
                   isRangeInvalid
                     ? "cursor-not-allowed bg-white/10 text-white/30 shadow-none"
-                    : gameMode === "study"
+                    : gameMode === "practice"
                       ? "bg-emerald-500 shadow-emerald-500/20 hover:bg-emerald-600"
                       : "bg-primary shadow-primary/20 hover:brightness-110",
                 )}

@@ -140,7 +140,7 @@ const GameWrapper = ({
                 {questionStates &&
                   statusName !== STATUS.SHOW_ROOM &&
                   statusName !== STATUS.WAIT &&
-                  (!manager || statusName !== STATUS.STUDY_PROGRESS) && (
+                  (!manager || statusName !== STATUS.PRACTICE_PROGRESS) && (
                     <div className="flex items-center rounded-md bg-white p-2 px-4 text-lg font-bold text-black shadow-md">
                       {`${questionStates.current} / ${questionStates.total}`}
                     </div>
@@ -261,9 +261,9 @@ const GameWrapper = ({
               <div className="z-50 flex items-center justify-between bg-white px-4 py-2 text-lg font-bold text-white">
                 <div className="flex items-center gap-3 text-gray-800">
                   <p>{player?.username}</p>
-                  {player?.studyRound && player.studyRound > 1 && (
+                  {player?.practiceRound && player.practiceRound > 1 && (
                     <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-bold tracking-wider text-blue-800 uppercase">
-                      Round {player.studyRound}
+                      Round {player.practiceRound}
                     </span>
                   )}
                 </div>

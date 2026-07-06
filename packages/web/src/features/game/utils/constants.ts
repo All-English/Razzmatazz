@@ -8,7 +8,7 @@ import Result from "@razzia/web/features/game/components/states/Result"
 import Room from "@razzia/web/features/game/components/states/Room"
 import SentenceBuilder from "@razzia/web/features/game/components/states/SentenceBuilder"
 import Start from "@razzia/web/features/game/components/states/Start"
-import StudyDashboard from "@razzia/web/features/game/components/states/StudyDashboard"
+import PracticeDashboard from "@razzia/web/features/game/components/states/PracticeDashboard"
 import Wait from "@razzia/web/features/game/components/states/Wait"
 
 import { STATUS } from "@razzia/common/types/game/status"
@@ -48,7 +48,7 @@ export const GAME_STATE_COMPONENTS_MANAGER = {
   [STATUS.SHOW_RESPONSES]: Responses,
   [STATUS.SHOW_LEADERBOARD]: Leaderboard,
   [STATUS.FINISHED]: Podium,
-  [STATUS.STUDY_PROGRESS]: StudyDashboard,
+  [STATUS.PRACTICE_PROGRESS]: PracticeDashboard,
 }
 
 export const SFX = {
@@ -93,5 +93,5 @@ export const MANAGER_SKIP_BTN = {
   [STATUS.SHOW_LEADERBOARD]: "common:next",
   [STATUS.FINISHED]: "game:playAgain",
   [STATUS.WAIT]: null,
-  [STATUS.STUDY_PROGRESS]: null,
+  [STATUS.PRACTICE_PROGRESS]: null,
 }

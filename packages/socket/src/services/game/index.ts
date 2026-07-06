@@ -267,8 +267,8 @@ class Game {
         // Clone to avoid mutating shared state reference
         status = JSON.parse(JSON.stringify(status))
 
-        if (this.mode === "study" && status.name === STATUS.SHOW_RESULT) {
-          status = this.round.getStudyNextQuestionStatus(player.username)
+        if (this.mode === "practice" && status.name === STATUS.SHOW_RESULT) {
+          status = this.round.getPracticeNextQuestionStatus(player.username)
           this.playerStatus.set(socket.id, status)
         }
 
@@ -313,8 +313,8 @@ class Game {
     // Clone to avoid mutating shared state reference
     status = JSON.parse(JSON.stringify(status))
 
-    if (this.mode === "study" && status.name === STATUS.SHOW_RESULT) {
-      status = this.round.getStudyNextQuestionStatus(player.username)
+    if (this.mode === "practice" && status.name === STATUS.SHOW_RESULT) {
+      status = this.round.getPracticeNextQuestionStatus(player.username)
       if (this.playerStatus.has(oldSocketId)) {
         this.playerStatus.set(oldSocketId, status)
       }
@@ -409,7 +409,7 @@ class Game {
 
   async start(
     socket: Socket,
-    mode: GameMode = "study",
+    mode: GameMode = "practice",
     options?: { shuffle?: boolean; startIndex?: number; endIndex?: number; easyMode?: boolean },
   ) {
     await this.round.start(socket, mode, options)
@@ -423,13 +423,13 @@ class Game {
     this.round.submitSentence(socket, submittedSentence, submittedChunks)
   }
 
-  studySubmit(
+  practiceSubmit(
     socket: Socket,
     questionIndex: number,
     submittedSentence: string,
     submittedChunks: string[],
   ): void {
-    this.round.studySubmit(
+    this.round.practiceSubmit(
       socket,
       questionIndex,
       submittedSentence,
@@ -437,8 +437,8 @@ class Game {
     )
   }
 
-  studyRestart(socket: Socket): void {
-    this.round.studyRestart(socket)
+  practiceRestart(socket: Socket): void {
+    this.round.practiceRestart(socket)
   }
 
   nextRound(socket: Socket) {
@@ -462,11 +462,11 @@ class Game {
       return
     }
 
-    // Stop any running cooldown (e.g. if called mid-study-mode)
+    // Stop any running cooldown (e.g. if called mid-practice-mode)
     this.cooldown.abort()
 
-    // Save practice results if in study mode before resetting state
-    this.saveStudyResults()
+    // Save practice results if in practice mode before resetting state
+    this.savePracticeResults()
 
     // Reset all round + player state
     this.round.reset()
@@ -519,12 +519,12 @@ class Game {
     console.log(`Game ${this.inviteCode} reset for a new round`)
   }
 
-  saveStudyResults(): void {
-    if (this.mode !== "study") {
+  savePracticeResults(): void {
+    if (this.mode !== "practice") {
       return
     }
-    const studyResults = this.round.getStudyResults()
-    if (studyResults.length === 0) {
+    const practiceResults = this.round.getPracticeResults()
+    if (practiceResults.length === 0) {
       return
     }
 
@@ -532,20 +532,20 @@ class Game {
       id: `${Date.now()}-${uuid().substring(0, 8)}`,
       subject: this.round.getQuizzSubject(),
       date: new Date().toISOString(),
-      mode: "study",
+      mode: "practice",
       players: this.players.map((p) => ({
         username: p.username,
         points: p.points,
         rank: 0,
       })),
       questions: [],
-      rounds: studyResults,
+      rounds: practiceResults,
     }
     saveResult(resultData)
   }
 
   destroy() {
-    this.saveStudyResults()
+    this.savePracticeResults()
     this.cooldown.abort()
     this.round.reset()
     for (const timeout of this.pendingLobbyLeaves.values()) {

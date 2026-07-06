@@ -106,7 +106,7 @@
     "available_one": "{{count}} report available",
     "available_other": "{{count}} reports available",
     "viewResults": "View Results",
-    "studyMode": "Study",
+    "practiceMode": "Practice",
     "liveMode": "Live"
   },
   "tabs": {

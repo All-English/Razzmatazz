@@ -5,7 +5,7 @@ import type {
   GameUpdateQuestion,
   Player,
   QuizzWithId,
-  StudyProgress,
+  PracticeProgress,
 } from "@razzia/common/types/game"
 import type { Status, StatusDataMap } from "@razzia/common/types/game/status"
 import type { ManagerConfig } from "@razzia/common/types/manager"
@@ -54,7 +54,7 @@ export interface ServerToClientEvents {
     } | null,
   ) => void
   [EVENTS.GAME.PLAYER_ANSWER]: (_count: number) => void
-  [EVENTS.GAME.STUDY_WRONG]: () => void
+  [EVENTS.GAME.PRACTICE_WRONG]: () => void
 
   // Player events
   [EVENTS.PLAYER.SUCCESS_RECONNECT]: (_data: {
@@ -92,8 +92,8 @@ export interface ServerToClientEvents {
   [EVENTS.MANAGER.ERROR_MESSAGE]: (_message: string) => void
   [EVENTS.MANAGER.PLAYER_KICKED]: (_playerId: string) => void
   [EVENTS.MANAGER.UNAUTHORIZED]: () => void
-  [EVENTS.MANAGER.STUDY_PROGRESS]: (_data: {
-    students: StudyProgress[]
+  [EVENTS.MANAGER.PRACTICE_PROGRESS]: (_data: {
+    students: PracticeProgress[]
     subject: string
   }) => void
 
@@ -176,14 +176,14 @@ export interface ClientToServerEvents {
       submittedChunks: string[]
     }>,
   ) => void
-  [EVENTS.PLAYER.STUDY_SUBMIT]: (
+  [EVENTS.PLAYER.PRACTICE_SUBMIT]: (
     _message: MessageWithoutStatus<{
       questionIndex: number
       submittedSentence: string
       submittedChunks: string[]
     }>,
   ) => void
-  [EVENTS.PLAYER.STUDY_RESTART]: (_message: { gameId: string }) => void
+  [EVENTS.PLAYER.PRACTICE_RESTART]: (_message: { gameId: string }) => void
 
   // Results actions
   [EVENTS.RESULTS.GET]: (_id: string) => void

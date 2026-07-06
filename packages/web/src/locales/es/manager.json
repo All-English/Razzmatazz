@@ -105,7 +105,7 @@
     "available_one": "{{count}} informe disponible",
     "available_other": "{{count}} informes disponibles",
     "viewResults": "Ver resultados",
-    "studyMode": "Práctica",
+    "practiceMode": "Práctica",
     "liveMode": "En vivo"
   },
   "tabs": {

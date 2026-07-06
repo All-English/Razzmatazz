@@ -1,4 +1,4 @@
-import { EVENTS, STUDY_MODE_TIME } from "@razzia/common/constants"
+import { EVENTS, PRACTICE_MODE_TIME } from "@razzia/common/constants"
 import type { QuestionMediaType } from "@razzia/common/types/game"
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
 import QuestionMedia from "@razzia/web/components/QuestionMedia"
@@ -23,7 +23,7 @@ interface ChunkItem {
   originalIndex: number
 }
 
-// Colors used in competitive mode for the word bank
+// Colors used in versus mode for the word bank
 const COMPETITIVE_CHUNK_COLORS = [
   "bg-[#E69F00]",
   "bg-[#56B4E9]",
@@ -54,7 +54,7 @@ const SentenceBuilder = ({
   const { player, gameId } = usePlayerStore()
   const { t } = useTranslation()
 
-  const isStudyMode = time === STUDY_MODE_TIME
+  const isPracticeMode = time === PRACTICE_MODE_TIME
 
   const [cooldown, setCooldown] = useState(time)
   const [totalAnswer, setTotalAnswer] = useState(0)
@@ -113,8 +113,8 @@ const SentenceBuilder = ({
     }
   })
 
-  // Study mode: wrong answer — flash red for mismatches, then return all bar chunks to bank
-  useEvent(EVENTS.GAME.STUDY_WRONG, () => {
+  // Practice mode: wrong answer — flash red for mismatches, then return all bar chunks to bank
+  useEvent(EVENTS.GAME.PRACTICE_WRONG, () => {
     if (showWrongFeedback) return // Already handled locally!
 
     const list = t("game:wrongMessages", {
@@ -124,7 +124,7 @@ const SentenceBuilder = ({
       const idx = Math.floor(Math.random() * list.length)
       setWrongFeedbackMsg(list[idx])
     } else {
-      setWrongFeedbackMsg(t("game:studyTryAgain"))
+      setWrongFeedbackMsg(t("game:practiceTryAgain"))
     }
     setShowWrongFeedback(true)
     setIsShaking(true)
@@ -181,9 +181,9 @@ const SentenceBuilder = ({
         ? JSON.stringify(chunks) === JSON.stringify(correctChunks)
         : false
 
-    if (isStudyMode || easyMode) {
+    if (isPracticeMode || easyMode) {
       if (isCorrect) {
-        if (isStudyMode) {
+        if (isPracticeMode) {
           sfxCorrect()
         }
       } else {
@@ -195,7 +195,7 @@ const SentenceBuilder = ({
           const idx = Math.floor(Math.random() * list.length)
           setWrongFeedbackMsg(list[idx])
         } else {
-          setWrongFeedbackMsg(t("game:studyTryAgain"))
+          setWrongFeedbackMsg(t("game:practiceTryAgain"))
         }
         setShowWrongFeedback(true)
         setIsShaking(true)
@@ -213,8 +213,8 @@ const SentenceBuilder = ({
       }
     }
 
-    if (isStudyMode) {
-      socket.emit(EVENTS.PLAYER.STUDY_SUBMIT, {
+    if (isPracticeMode) {
+      socket.emit(EVENTS.PLAYER.PRACTICE_SUBMIT, {
         gameId,
         data: {
           questionIndex,
@@ -239,7 +239,7 @@ const SentenceBuilder = ({
     socket,
     sfxPop,
     sfxCorrect,
-    isStudyMode,
+    isPracticeMode,
     easyMode,
     questionIndex,
     correctChunks,
@@ -250,7 +250,7 @@ const SentenceBuilder = ({
   return (
     <div className="flex h-full flex-1 flex-col justify-between overflow-hidden">
       {/* Manager HUD at Top */}
-      {manager && !isStudyMode && (
+      {manager && !isPracticeMode && (
         <div className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4 md:gap-6 px-4 md:px-6 pt-6 md:pt-8">
           {/* Timer */}
           <div className="flex flex-1 min-w-0 md:min-w-[240px] flex-col items-center rounded-2xl md:rounded-3xl border border-white/10 bg-black/40 py-4 px-3 md:p-8 shadow-2xl backdrop-blur-xl transition-all">
@@ -296,7 +296,7 @@ const SentenceBuilder = ({
                   key={chunk.originalIndex}
                   className={clsx(
                     "rounded-2xl border-b-4 border-black/20 px-8 py-5 text-xl font-black text-white shadow-xl transition-all",
-                    isStudyMode
+                    isPracticeMode
                       ? "bg-[#3DBFA0]"
                       : COMPETITIVE_CHUNK_COLORS[
                           chunk.originalIndex % COMPETITIVE_CHUNK_COLORS.length
@@ -341,7 +341,7 @@ const SentenceBuilder = ({
                       className={clsx(
                         "rounded-xl px-4 py-3 text-base font-bold text-white shadow-md transition-all duration-200 sm:text-lg md:text-xl",
                         "hover:scale-105 active:scale-95",
-                        isStudyMode || easyMode
+                        isPracticeMode || easyMode
                           ? isWrong
                             ? "scale-95 bg-red-500"
                             : "bg-[#3DBFA0]"
@@ -369,7 +369,7 @@ const SentenceBuilder = ({
               </p>
             </div>
 
-            {/* Timer & answer count (hidden in study mode) */}
+            {/* Timer & answer count (hidden in practice mode) */}
             {time < 9000 && (
               <div className="flex w-full justify-between gap-1 text-lg font-bold text-white">
                 <div className="flex flex-col items-center rounded-lg bg-black/40 px-4 text-lg font-bold">
@@ -410,7 +410,7 @@ const SentenceBuilder = ({
                       className={clsx(
                         "rounded-xl px-4 py-3 text-base font-bold text-white shadow-md transition-all sm:text-lg md:text-xl",
                         !isDisabled && "hover:scale-105 active:scale-95",
-                        isStudyMode
+                        isPracticeMode
                           ? "bg-[#3DBFA0]"
                           : COMPETITIVE_CHUNK_COLORS[
                               chunk.originalIndex %
@@ -447,8 +447,8 @@ const SentenceBuilder = ({
               </div>
             )}
 
-            {/* "Waiting" message only shown in competitive mode after submitting */}
-            {submitted && !isStudyMode && (
+            {/* "Waiting" message only shown in versus mode after submitting */}
+            {submitted && !isPracticeMode && (
               <div className="w-full">
                 <div className="w-full rounded-2xl bg-white/20 px-6 py-4 text-center text-lg font-bold text-white backdrop-blur-sm">
                   {t("game:waitingForAnswers")}

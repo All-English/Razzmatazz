@@ -16,7 +16,7 @@ const ResultModalStats = () => {
     useResultModal()
   const { t } = useTranslation()
 
-  if (result.mode === "study") {
+  if (result.mode === "practice") {
     const playerResults = roundResult?.playerResults ?? []
     const avgScore =
       playerResults.length > 0

@@ -105,7 +105,7 @@
     "available_one": "{{count}} rapporto disponibile",
     "available_other": "{{count}} rapporti disponibili",
     "viewResults": "Visualizza risultati",
-    "studyMode": "Pratica",
+    "practiceMode": "Pratica",
     "liveMode": "Dal vivo"
   },
   "tabs": {

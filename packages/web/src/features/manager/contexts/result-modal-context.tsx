@@ -1,7 +1,7 @@
 import type {
   GameResult,
   QuestionResult,
-  StudyRoundResult,
+  PracticeRoundResult,
 } from "@razzia/common/types/game"
 import {
   createContext,
@@ -13,7 +13,7 @@ import {
 interface ResultModalContextType {
   result: GameResult
   questionResult?: QuestionResult
-  roundResult?: StudyRoundResult
+  roundResult?: PracticeRoundResult
   questionIndex: number
   total: number
   totalPlayers: number
@@ -36,12 +36,12 @@ type Props = PropsWithChildren<{
 export const ResultModalProvider = ({ children, result, onClose }: Props) => {
   const [questionIndex, setQuestionIndex] = useState(0)
 
-  const isStudy = result.mode === "study"
-  const total = isStudy ? (result.rounds?.length ?? 0) : result.questions.length
+  const isPractice = result.mode === "practice"
+  const total = isPractice ? (result.rounds?.length ?? 0) : result.questions.length
   const totalPlayers = result.players.length
 
-  const questionResult = !isStudy ? result.questions[questionIndex] : undefined
-  const roundResult = isStudy ? result.rounds?.[questionIndex] : undefined
+  const questionResult = !isPractice ? result.questions[questionIndex] : undefined
+  const roundResult = isPractice ? result.rounds?.[questionIndex] : undefined
 
   const answeredCount = questionResult
     ? questionResult.playerAnswers.filter((pa) => pa.submittedSentence !== null)

@@ -105,7 +105,7 @@
     "available_one": "{{count}} Bericht verfügbar",
     "available_other": "{{count}} Berichte verfügbar",
     "viewResults": "Ergebnisse anzeigen",
-    "studyMode": "Üben",
+    "practiceMode": "Üben",
     "liveMode": "Live"
   },
   "tabs": {

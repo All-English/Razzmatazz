@@ -43,7 +43,7 @@ const ResultModalAnswers = () => {
     useResultModal()
   const { t } = useTranslation()
 
-  if (result.mode === "study") {
+  if (result.mode === "practice") {
     const completedCount = roundResult?.playerResults.length ?? 0
     return (
       <div className="flex flex-col border-b border-gray-100 md:flex-row">

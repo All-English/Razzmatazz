@@ -106,7 +106,7 @@
     "available_one": "{{count}}개의 리포트가 있습니다",
     "available_other": "{{count}}개의 리포트가 있습니다",
     "viewResults": "결과 보기",
-    "studyMode": "연습 모드",
+    "practiceMode": "연습 모드",
     "liveMode": "대결 모드"
   },
   "tabs": {

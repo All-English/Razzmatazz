@@ -62,7 +62,7 @@ export class PlayerManager {
       username,
       points: 0,
       streak: 0,
-      studyRound: 1,
+      practiceRound: 1,
     }
 
     this.players.push(player)
@@ -142,7 +142,7 @@ export class PlayerManager {
     for (const player of this.players) {
       player.points = 0
       player.streak = 0
-      player.studyRound = 1
+      player.practiceRound = 1
     }
   }
 

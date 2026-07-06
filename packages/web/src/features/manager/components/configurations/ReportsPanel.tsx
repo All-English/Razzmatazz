@@ -73,8 +73,8 @@ const ReportsPanel = () => {
                 </p>
                 {r.mode && (
                   <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gray-100 dark:bg-zinc-800 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-gray-600 dark:text-zinc-350 uppercase">
-                    {r.mode === "study"
-                      ? t("manager:result.studyMode")
+                    {r.mode === "practice"
+                      ? t("manager:result.practiceMode")
                       : t("manager:result.liveMode")}
                   </span>
                 )}

@@ -1,5 +1,5 @@
 import { EVENTS } from "@razzia/common/constants"
-import type { StudyProgress } from "@razzia/common/types/game"
+import type { PracticeProgress } from "@razzia/common/types/game"
 import type { ManagerStatusDataMap } from "@razzia/common/types/game/status"
 import {
   useEvent,
@@ -12,16 +12,16 @@ import { useTranslation } from "react-i18next"
 import useSound from "use-sound"
 
 interface Props {
-  data: ManagerStatusDataMap["STUDY_PROGRESS"]
+  data: ManagerStatusDataMap["PRACTICE_PROGRESS"]
 }
 
-const StudyDashboard = ({
+const PracticeDashboard = ({
   data: { students: initialStudents, subject },
 }: Props) => {
   const { t } = useTranslation()
   const { socket } = useSocket()
   const { gameId } = useManagerStore()
-  const [students, setStudents] = useState<StudyProgress[]>(initialStudents)
+  const [students, setStudents] = useState<PracticeProgress[]>(initialStudents)
 
   const [showProgress, setShowProgress] = useState<boolean>(
     () => localStorage.getItem("razzia_show_practice_progress") !== "false",
@@ -48,7 +48,7 @@ const StudyDashboard = ({
     }
   }, [playMusic, stopMusic])
 
-  useEvent(EVENTS.MANAGER.STUDY_PROGRESS, ({ students: updated }) => {
+  useEvent(EVENTS.MANAGER.PRACTICE_PROGRESS, ({ students: updated }) => {
     setStudents(updated)
   })
 
@@ -60,10 +60,10 @@ const StudyDashboard = ({
         {subject}
       </h1>
       <h2 className="mb-2 text-2xl font-bold text-white/90 drop-shadow-lg md:text-3xl">
-        📖 {t("game:studyMode")}
+        📖 {t("game:practiceMode")}
       </h2>
       <p className="mb-8 text-lg text-white/70">
-        {t("game:studyModeDescription")}
+        {t("game:practiceModeDescription")}
       </p>
 
       {/* Visibility Toggle Button */}
@@ -102,9 +102,9 @@ const StudyDashboard = ({
                 <p className="text-lg font-bold text-white">
                   {student.username}
                 </p>
-                {showProgress && student.studyRound > 1 && (
+                {showProgress && student.practiceRound > 1 && (
                   <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-xs font-bold tracking-wider text-blue-200 uppercase">
-                    Round {student.studyRound}
+                    Round {student.practiceRound}
                   </span>
                 )}
               </div>
@@ -182,4 +182,4 @@ const StudyDashboard = ({
   )
 }
 
-export default StudyDashboard
+export default PracticeDashboard

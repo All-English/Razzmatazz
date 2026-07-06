@@ -16,7 +16,7 @@ const ResultModalTable = () => {
     useResultModal()
   const { t } = useTranslation()
 
-  if (result.mode === "study") {
+  if (result.mode === "practice") {
     return (
       <table className="w-full min-w-[380px] text-sm">
         <thead className="sticky top-0 shadow-sm">

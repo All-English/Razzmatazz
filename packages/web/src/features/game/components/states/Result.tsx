@@ -27,8 +27,8 @@ const Result = ({
   const player = usePlayerStore()
   const { t } = useTranslation()
 
-  // rank === 0 signals study mode — no leaderboard context applies
-  const isStudyMode = rank === 0
+  // rank === 0 signals practice mode — no leaderboard context applies
+  const isPracticeMode = rank === 0
 
   const rankKeyMap: Record<number, string> = {
     1: "game:rank.1",
@@ -59,7 +59,7 @@ const Result = ({
       navigator.vibrate(200)
     }
     // oxlint-disable-next-line
-  }, [myPoints, correct, isStudyMode])
+  }, [myPoints, correct, isPracticeMode])
 
   return (
     <section className="anim-show relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center">
@@ -92,7 +92,7 @@ const Result = ({
         </div>
       )}
 
-      {!isStudyMode && (
+      {!isPracticeMode && (
         <p className="mt-1 text-xl font-bold text-white drop-shadow-lg">
           {t("game:resultTop")}
           {t(rankKey, { rank })}

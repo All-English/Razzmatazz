@@ -138,7 +138,7 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
 
   socket.on(EVENTS.MANAGER.START_GAME, ({ gameId, mode, options }) =>
     withManagerGame(gameId, (game) =>
-      game.start(socket, (mode as GameMode) || "competitive", options),
+      game.start(socket, (mode as GameMode) || "versus", options),
     ),
   )
 
@@ -148,9 +148,9 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     ),
   )
 
-  socket.on(EVENTS.PLAYER.STUDY_SUBMIT, ({ gameId, data }) =>
+  socket.on(EVENTS.PLAYER.PRACTICE_SUBMIT, ({ gameId, data }) =>
     withGame(gameId, socket, (game) =>
-      game.studySubmit(
+      game.practiceSubmit(
         socket,
         data.questionIndex,
         data.submittedSentence,
@@ -159,8 +159,8 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     ),
   )
 
-  socket.on(EVENTS.PLAYER.STUDY_RESTART, ({ gameId }) =>
-    withGame(gameId, socket, (game) => game.studyRestart(socket)),
+  socket.on(EVENTS.PLAYER.PRACTICE_RESTART, ({ gameId }) =>
+    withGame(gameId, socket, (game) => game.practiceRestart(socket)),
   )
 
   socket.on(EVENTS.MANAGER.ABORT_QUIZ, ({ gameId }) =>

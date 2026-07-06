@@ -129,7 +129,7 @@ class Registry {
 
     const removed = this.emptyGames.filter((g) => !stillEmpty.includes(g))
     for (const item of removed) {
-      item.game.saveStudyResults()
+      item.game.savePracticeResults()
     }
     const removedGameIds = removed.map((r) => r.game.gameId)
 

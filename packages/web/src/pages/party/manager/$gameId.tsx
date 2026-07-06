@@ -144,16 +144,16 @@ const ManagerGamePage = () => {
         onNext={handleSkip}
         onBack={
           status.name === STATUS.SHOW_ROOM ||
-          status.name === STATUS.STUDY_PROGRESS
+          status.name === STATUS.PRACTICE_PROGRESS
             ? triggerExitConfirmation
             : undefined
         }
         onExit={status.name === STATUS.FINISHED ? triggerExitConfirmation : undefined}
         onEndEarly={
-          mode === "competitive" &&
+          mode === "versus" &&
           status.name !== STATUS.FINISHED &&
           status.name !== STATUS.SHOW_ROOM &&
-          status.name !== STATUS.STUDY_PROGRESS
+          status.name !== STATUS.PRACTICE_PROGRESS
             ? handleEndEarly
             : undefined
         }

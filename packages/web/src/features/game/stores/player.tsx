@@ -8,7 +8,7 @@ import { create } from "zustand"
 interface PlayerState {
   username?: string
   points?: number
-  studyRound?: number
+  practiceRound?: number
 }
 
 interface PlayerStore<T> {
@@ -16,8 +16,8 @@ interface PlayerStore<T> {
   inviteCode: string | null
   player: PlayerState | null
   status: Status<T> | null
-  bestStudyTime: number | null
-  bestStudyScore: number | null
+  bestPracticeTime: number | null
+  bestPracticeScore: number | null
   practiceHistory: Array<{ round: number; score: number; time: number }>
 
   setGameId: (gameId: string | null) => void
@@ -29,10 +29,10 @@ interface PlayerStore<T> {
   updatePoints: (points: number) => void
 
   setStatus: <K extends keyof T>(name: K, data: T[K]) => void
-  setBestStudyTime: (bestStudyTime: number | null) => void
-  setBestStudyScore: (bestStudyScore: number | null) => void
+  setBestPracticeTime: (bestPracticeTime: number | null) => void
+  setBestPracticeScore: (bestPracticeScore: number | null) => void
   addPracticeRun: (run: { round: number; score: number; time: number }) => void
-  resetStudyStats: () => void
+  resetPracticeStats: () => void
 
   reset: () => void
 }
@@ -42,8 +42,8 @@ const initialState = {
   inviteCode: null,
   player: null,
   status: null,
-  bestStudyTime: null,
-  bestStudyScore: null,
+  bestPracticeTime: null,
+  bestPracticeScore: null,
   practiceHistory: [],
 }
 
@@ -72,18 +72,18 @@ export const usePlayerStore = create<PlayerStore<StatusDataMap>>((set) => ({
     })),
 
   setStatus: (name, data) => set({ status: createStatus(name, data) }),
-  setBestStudyTime: (bestStudyTime) => set({ bestStudyTime }),
-  setBestStudyScore: (bestStudyScore) => set({ bestStudyScore }),
+  setBestPracticeTime: (bestPracticeTime) => set({ bestPracticeTime }),
+  setBestPracticeScore: (bestPracticeScore) => set({ bestPracticeScore }),
   addPracticeRun: (run) =>
     set((state) => ({
       practiceHistory: [...state.practiceHistory, run],
     })),
 
-  resetStudyStats: () =>
+  resetPracticeStats: () =>
     set({
       practiceHistory: [],
-      bestStudyTime: null,
-      bestStudyScore: null,
+      bestPracticeTime: null,
+      bestPracticeScore: null,
     }),
 
   reset: () => set(initialState),

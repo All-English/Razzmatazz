@@ -105,7 +105,7 @@
     "available_one": "{{count}}件のレポートがあります",
     "available_other": "{{count}}件のレポートがあります",
     "viewResults": "結果を表示",
-    "studyMode": "練習モード",
+    "practiceMode": "練習モード",
     "liveMode": "対戦モード"
   },
   "tabs": {

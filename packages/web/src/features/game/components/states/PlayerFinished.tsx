@@ -12,66 +12,66 @@ interface Props {
   data: CommonStatusDataMap["FINISHED"]
 }
 
-const PlayerFinished = ({ data: { rank, subject, studyTime } }: Props) => {
+const PlayerFinished = ({ data: { rank, subject, practiceTime } }: Props) => {
   const {
     player,
     gameId,
-    bestStudyTime,
-    setBestStudyTime,
-    bestStudyScore,
-    setBestStudyScore,
+    bestPracticeTime,
+    setBestPracticeTime,
+    bestPracticeScore,
+    setBestPracticeScore,
     practiceHistory,
     addPracticeRun,
   } = usePlayerStore()
   const { t } = useTranslation()
 
-  // rank === 0 signals study mode — no leaderboard applies
-  const isStudyMode = rank === 0
+  // rank === 0 signals practice mode — no leaderboard applies
+  const isPracticeMode = rank === 0
 
   const hasLogged = useRef(false)
 
   useEffect(() => {
-    if (isStudyMode && typeof studyTime === "number" && !hasLogged.current) {
+    if (isPracticeMode && typeof practiceTime === "number" && !hasLogged.current) {
       hasLogged.current = true
 
       // Update best time
-      if (bestStudyTime === null || studyTime < bestStudyTime) {
-        setBestStudyTime(studyTime)
+      if (bestPracticeTime === null || practiceTime < bestPracticeTime) {
+        setBestPracticeTime(practiceTime)
       }
 
       // Update best score
       const currentScore = player?.points ?? 0
-      if (bestStudyScore === null || currentScore > bestStudyScore) {
-        setBestStudyScore(currentScore)
+      if (bestPracticeScore === null || currentScore > bestPracticeScore) {
+        setBestPracticeScore(currentScore)
       }
 
       // Record history if this round hasn't been added yet
-      const roundNum = player?.studyRound ?? 1
+      const roundNum = player?.practiceRound ?? 1
       const alreadyAdded = practiceHistory.some((h) => h.round === roundNum)
       if (!alreadyAdded) {
         addPracticeRun({
           round: roundNum,
           score: currentScore,
-          time: studyTime,
+          time: practiceTime,
         })
       }
     }
   }, [
-    isStudyMode,
-    studyTime,
-    bestStudyTime,
-    setBestStudyTime,
-    bestStudyScore,
-    setBestStudyScore,
+    isPracticeMode,
+    practiceTime,
+    bestPracticeTime,
+    setBestPracticeTime,
+    bestPracticeScore,
+    setBestPracticeScore,
     player?.points,
-    player?.studyRound,
+    player?.practiceRound,
     practiceHistory,
     addPracticeRun,
   ])
 
   const handleRestart = () => {
     if (gameId) {
-      socketClient.emit(EVENTS.PLAYER.STUDY_RESTART, { gameId })
+      socketClient.emit(EVENTS.PLAYER.PRACTICE_RESTART, { gameId })
     }
   }
 
@@ -102,7 +102,7 @@ const PlayerFinished = ({ data: { rank, subject, studyTime } }: Props) => {
     3: "game:rank.3",
   }
   const rankKey =
-    typeof rank === "number" && !isStudyMode
+    typeof rank === "number" && !isPracticeMode
       ? (rankKeyMap[rank] ?? "game:rank.other")
       : null
 
@@ -112,15 +112,15 @@ const PlayerFinished = ({ data: { rank, subject, studyTime } }: Props) => {
         {subject}
       </p>
 
-      {isStudyMode ? (
+      {isPracticeMode ? (
         <div className="flex w-full max-w-2xl flex-col items-center gap-6">
           <div className="text-center">
             <span className="animate-pulse text-5xl">🎉</span>
             <h1 className="mt-2 text-3xl font-black text-white drop-shadow-lg md:text-4xl">
-              {t("game:studyCompleteHeader")}
+              {t("game:practiceCompleteHeader")}
             </h1>
             <p className="mt-1.5 text-xl font-bold text-white/90 drop-shadow-md md:text-2xl">
-              {t("game:studyCompleteSub")}
+              {t("game:practiceCompleteSub")}
             </p>
           </div>
 
@@ -181,7 +181,7 @@ const PlayerFinished = ({ data: { rank, subject, studyTime } }: Props) => {
             onClick={handleRestart}
             className="w-full rounded-xl border-b-4 border-gray-300 bg-white px-10 py-3.5 text-xl font-extrabold text-black shadow-2xl transition-all hover:bg-gray-200 active:mt-1 active:border-b-0 sm:w-auto"
           >
-            {t("game:startRoundN", { round: (player?.studyRound ?? 1) + 1 })}
+            {t("game:startRoundN", { round: (player?.practiceRound ?? 1) + 1 })}
           </Button>
         </div>
       ) : (

@@ -11,7 +11,7 @@ export const EVENTS = {
     UPDATE_QUESTION: "game:updateQuestion",
     PLAYER_ANSWER: "game:playerAnswer",
     CREATE: "game:create",
-    STUDY_WRONG: "game:studyWrong",
+    PRACTICE_WRONG: "game:practiceWrong",
   },
   PLAYER: {
     SUCCESS_RECONNECT: "player:successReconnect",
@@ -21,8 +21,8 @@ export const EVENTS = {
     RECONNECT: "player:reconnect",
     LEAVE: "player:leave",
     SUBMIT_SENTENCE: "player:submitSentence",
-    STUDY_SUBMIT: "player:studySubmit",
-    STUDY_RESTART: "player:studyRestart",
+    PRACTICE_SUBMIT: "player:practiceSubmit",
+    PRACTICE_RESTART: "player:practiceRestart",
     UPDATE: "player:update",
   },
   MANAGER: {
@@ -45,7 +45,7 @@ export const EVENTS = {
     GET_CONFIG: "manager:getConfig",
     LOGOUT: "manager:logout",
     UNAUTHORIZED: "manager:unauthorized",
-    STUDY_PROGRESS: "manager:studyProgress",
+    PRACTICE_PROGRESS: "manager:practiceProgress",
     EXIT_GAME: "manager:exitGame",
     END_GAME_EARLY: "manager:endGameEarly",
     PLAY_AGAIN: "manager:playAgain",
@@ -79,7 +79,7 @@ export const EVENTS = {
 } as const
 
 export const NO_TIME_LIMIT = -1
-export const STUDY_MODE_TIME = 9999
+export const PRACTICE_MODE_TIME = 9999
 
 export const MEDIA_TYPES = {
   IMAGE: "image",
