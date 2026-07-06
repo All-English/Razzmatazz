@@ -1,7 +1,9 @@
 {
   "configurationsTitle": "Configurazioni",
   "logout": "Disconnetti",
-  "passwordPlaceholder": "Password",
+  "passwordPlaceholder": "Password del Gestore",
+  "loginTitle": "Accesso Gestore",
+  "enterGamePin": "Inserisci il codice PIN del gioco",
   "nav": {
     "library": "Libreria",
     "reports": "Rapporti",

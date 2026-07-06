@@ -1,7 +1,9 @@
 {
   "configurationsTitle": "設定",
   "logout": "ログアウト",
-  "passwordPlaceholder": "パスワード",
+  "passwordPlaceholder": "管理者パスワード",
+  "loginTitle": "管理者ログイン",
+  "enterGamePin": "ゲームPINコードを入力",
   "nav": {
     "library": "ライブラリ",
     "reports": "レポート",

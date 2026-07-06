@@ -60,9 +60,9 @@ export class RoundManager {
   private questionsHistory: QuestionResult[] = []
 
   // Study mode state
-  private studyProgress = new Map<string, number>() // socketId -> completed count
-  private studyStartTimes = new Map<string, number>() // socketId -> start timestamp
-  private studyErrors = new Map<string, number>() // socketId -> current question error count
+  private studyProgress = new Map<string, number>() // username -> completed count
+  private studyStartTimes = new Map<string, number>() // username -> start timestamp
+  private studyErrors = new Map<string, number>() // username -> current question error count
   private studyHistory = new Map<
     string,
     Array<{ round: number; score: number; time: number }>
@@ -92,7 +92,13 @@ export class RoundManager {
     return this.easyMode
   }
 
-  getReconnectInfo() {
+  getReconnectInfo(username?: string) {
+    if (this.mode === "study" && username) {
+      return {
+        current: (this.studyProgress.get(username) ?? 0) + 1,
+        total: this.opts.quizz.questions.length,
+      }
+    }
     return {
       current: this.currentQuestion + 1,
       total: this.opts.quizz.questions.length,
@@ -482,9 +488,9 @@ export class RoundManager {
     // Initialize progress for all players
     for (const player of players) {
       player.points = 0
-      this.studyProgress.set(player.id, 0)
-      this.studyStartTimes.set(player.id, startTime)
-      this.studyErrors.set(player.id, 0)
+      this.studyProgress.set(player.username, 0)
+      this.studyStartTimes.set(player.username, startTime)
+      this.studyErrors.set(player.username, 0)
     }
 
     // Send first question to all players
@@ -528,9 +534,9 @@ export class RoundManager {
     player.points = 0
 
     // Reset their progress
-    this.studyProgress.set(socket.id, 0)
-    this.studyStartTimes.set(socket.id, Date.now())
-    this.studyErrors.set(socket.id, 0)
+    this.studyProgress.set(player.username, 0)
+    this.studyStartTimes.set(player.username, Date.now())
+    this.studyErrors.set(player.username, 0)
 
     // Send updated player object back to the player
     this.opts.io.to(socket.id).emit(EVENTS.PLAYER.UPDATE, player)
@@ -587,17 +593,17 @@ export class RoundManager {
         ? JSON.stringify(submittedChunks) ===
           JSON.stringify(question.correctChunks)
         : cleanStr(submittedSentence) === cleanStr(question.correctSentence)
-    const currentCompleted = this.studyProgress.get(socket.id) ?? 0
+    const currentCompleted = this.studyProgress.get(player.username) ?? 0
 
     // Only advance if correct and this is their current question
     if (isCorrect && questionIndex === currentCompleted) {
       const newCompleted = currentCompleted + 1
-      this.studyProgress.set(socket.id, newCompleted)
+      this.studyProgress.set(player.username, newCompleted)
 
-      const errors = this.studyErrors.get(socket.id) ?? 0
+      const errors = this.studyErrors.get(player.username) ?? 0
       const points = Math.max(200, 1000 - errors * 200)
       player.points += points
-      this.studyErrors.set(socket.id, 0)
+      this.studyErrors.set(player.username, 0)
 
       // Send result feedback
       this.opts.send(socket.id, STATUS.SHOW_RESULT, {
@@ -632,7 +638,7 @@ export class RoundManager {
           })
         } else {
           // Player finished all questions
-          const startTime = this.studyStartTimes.get(socket.id)
+          const startTime = this.studyStartTimes.get(player.username)
           const studyTime = startTime
             ? Math.round((Date.now() - startTime) / 1000)
             : undefined
@@ -663,8 +669,8 @@ export class RoundManager {
         this.emitStudyProgress()
       }, 2500)
     } else if (!isCorrect) {
-      const errors = this.studyErrors.get(socket.id) ?? 0
-      this.studyErrors.set(socket.id, errors + 1)
+      const errors = this.studyErrors.get(player.username) ?? 0
+      this.studyErrors.set(player.username, errors + 1)
       // Emit a lightweight signal — no state transition, player stays on BUILD_SENTENCE to retry
       this.opts.io.to(socket.id).emit(EVENTS.GAME.STUDY_WRONG)
     }
@@ -682,10 +688,10 @@ export class RoundManager {
       const player = this.opts.players.findById(socket.id)
       if (player) {
         player.points = 0
+        this.studyProgress.set(player.username, 0)
+        this.studyStartTimes.set(player.username, Date.now())
+        this.studyErrors.set(player.username, 0)
       }
-      this.studyProgress.set(socket.id, 0)
-      this.studyStartTimes.set(socket.id, Date.now())
-      this.studyErrors.set(socket.id, 0)
 
       const firstQuestion = this.opts.quizz.questions[0]
       if (firstQuestion) {
@@ -770,7 +776,7 @@ export class RoundManager {
     const students: StudyProgress[] = players.map((player) => ({
       playerId: player.id,
       username: player.username,
-      completed: this.studyProgress.get(player.id) ?? 0,
+      completed: this.studyProgress.get(player.username) ?? 0,
       total,
       studyRound: player.studyRound ?? 1,
     }))

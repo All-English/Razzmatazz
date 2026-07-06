@@ -270,7 +270,7 @@ class Game {
         socket.emit(EVENTS.PLAYER.SUCCESS_RECONNECT, {
           gameId: this.gameId,
           inviteCode: this.inviteCode,
-          currentQuestion: this.round.getReconnectInfo(),
+          currentQuestion: this.round.getReconnectInfo(player.username),
           status,
           player: { username: player.username, points: player.points },
         })
@@ -318,7 +318,7 @@ class Game {
     socket.emit(EVENTS.PLAYER.SUCCESS_RECONNECT, {
       gameId: this.gameId,
       inviteCode: this.inviteCode,
-      currentQuestion: this.round.getReconnectInfo(),
+      currentQuestion: this.round.getReconnectInfo(player.username),
       status,
       player: { username: player.username, points: player.points },
     })

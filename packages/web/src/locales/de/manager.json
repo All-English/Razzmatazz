@@ -1,7 +1,9 @@
 {
   "configurationsTitle": "Konfigurationen",
   "logout": "Abmelden",
-  "passwordPlaceholder": "Passwort",
+  "passwordPlaceholder": "Manager-Passwort",
+  "loginTitle": "Manager-Anmeldung",
+  "enterGamePin": "Spiel-PIN-Code eingeben",
   "nav": {
     "library": "Bibliothek",
     "reports": "Berichte",

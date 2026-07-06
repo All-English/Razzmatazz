@@ -1,7 +1,9 @@
 {
   "configurationsTitle": "Configurations",
   "logout": "Déconnexion",
-  "passwordPlaceholder": "Mot de passe",
+  "passwordPlaceholder": "Mot de passe administrateur",
+  "loginTitle": "Connexion administrateur",
+  "enterGamePin": "Entrer le code PIN du jeu",
   "nav": {
     "library": "Bibliothèque",
     "reports": "Rapports",

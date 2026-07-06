@@ -1,7 +1,9 @@
 {
   "configurationsTitle": "Configurations",
   "logout": "Logout",
-  "passwordPlaceholder": "Password",
+  "passwordPlaceholder": "Manager Password",
+  "loginTitle": "Manager Login",
+  "enterGamePin": "Enter Game PIN Code",
   "nav": {
     "library": "Library",
     "reports": "Reports",

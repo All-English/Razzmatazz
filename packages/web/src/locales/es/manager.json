@@ -1,7 +1,9 @@
 {
   "configurationsTitle": "Configuraciones",
   "logout": "Cerrar sesión",
-  "passwordPlaceholder": "Contraseña",
+  "passwordPlaceholder": "Contraseña del Administrador",
+  "loginTitle": "Acceso del Administrador",
+  "enterGamePin": "Introducir PIN de juego",
   "nav": {
     "library": "Biblioteca",
     "reports": "Informes",
