@@ -183,7 +183,9 @@ const SentenceBuilder = ({
 
     if (isStudyMode || easyMode) {
       if (isCorrect) {
-        sfxCorrect()
+        if (isStudyMode) {
+          sfxCorrect()
+        }
       } else {
         // Wrong answer: trigger feedback and vibration instantly under the user gesture
         const list = t("game:wrongMessages", {

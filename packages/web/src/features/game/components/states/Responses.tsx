@@ -72,16 +72,10 @@ const Responses = ({
               <div className="flex size-10 items-center justify-center rounded-full bg-emerald-500 shadow-lg md:size-14">
                 <Check className="size-6 text-white md:size-10" />
               </div>
-              <span>
-                {correctCount}{" "}
-                <span className="text-emerald-400/80">{t("game:correct")}</span>
-              </span>
+              <span>{correctCount}</span>
             </div>
             <div className="flex items-center gap-4">
-              <span>
-                {incorrectCount}{" "}
-                <span className="text-red-400/80">{t("game:wrong")}</span>
-              </span>
+              <span>{incorrectCount}</span>
               <div className="flex size-10 items-center justify-center rounded-full bg-red-500 shadow-lg md:size-14">
                 <X className="size-6 text-white md:size-10" />
               </div>
