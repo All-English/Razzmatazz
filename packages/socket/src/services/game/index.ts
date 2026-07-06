@@ -50,6 +50,7 @@ class Game {
     string,
     { name: Status; data: StatusDataMap[Status] }
   >()
+  private pendingLobbyLeaves = new Map<string, NodeJS.Timeout>()
 
   constructor(io: Server, socket: Socket, quizz: Quizz) {
     const clientId = socket.handshake.auth.clientId as string
@@ -249,6 +250,12 @@ class Game {
       return
     }
 
+    const pendingLeave = this.pendingLobbyLeaves.get(clientId)
+    if (pendingLeave) {
+      clearTimeout(pendingLeave)
+      this.pendingLobbyLeaves.delete(clientId)
+    }
+
     if (player.connected) {
       if (player.id === socket.id) {
         let status = this.playerStatus.get(socket.id) ??
@@ -348,12 +355,28 @@ class Game {
   }
 
   removePlayer(socketId: string): Player | undefined {
-    const player = this.playerManager.remove(socketId)
+    const player = this.playerManager.findById(socketId)
+    if (!player) return undefined
 
-    if (player) {
-      this.io.to(this._manager.id).emit(EVENTS.MANAGER.REMOVE_PLAYER, player.id)
-      this.playerManager.broadcastCount()
+    const clientId = player.clientId
+
+    const existing = this.pendingLobbyLeaves.get(clientId)
+    if (existing) {
+      clearTimeout(existing)
+      this.pendingLobbyLeaves.delete(clientId)
     }
+
+    const timeout = setTimeout(() => {
+      this.pendingLobbyLeaves.delete(clientId)
+      const removedPlayer = this.playerManager.removeByClientId(clientId)
+      if (removedPlayer) {
+        this.io.to(this._manager.id).emit(EVENTS.MANAGER.REMOVE_PLAYER, removedPlayer.id)
+        this.playerManager.broadcastCount()
+        console.log(`Player ${removedPlayer.username} left game ${this.gameId} after grace period`)
+      }
+    }, 2500)
+
+    this.pendingLobbyLeaves.set(clientId, timeout)
 
     return player
   }
@@ -449,6 +472,11 @@ class Game {
     this.round.reset()
     this.playerManager.resetScores()
 
+    for (const timeout of this.pendingLobbyLeaves.values()) {
+      clearTimeout(timeout)
+    }
+    this.pendingLobbyLeaves.clear()
+
     // Clear status caches so reconnects get a clean slate
     this.lastBroadcastStatus = null
     this.managerStatus = null
@@ -514,6 +542,16 @@ class Game {
       rounds: studyResults,
     }
     saveResult(resultData)
+  }
+
+  destroy() {
+    this.saveStudyResults()
+    this.cooldown.abort()
+    this.round.reset()
+    for (const timeout of this.pendingLobbyLeaves.values()) {
+      clearTimeout(timeout)
+    }
+    this.pendingLobbyLeaves.clear()
   }
 }
 

@@ -29,11 +29,16 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
   const { socket } = useSocket()
   const webUrl = window.location.origin
   const [playerList, setPlayerList] = useState<Player[]>(players)
-  const [totalPlayers, setTotalPlayers] = useState(0)
+  const [totalPlayers, setTotalPlayers] = useState(players.length)
   const [qrOpen, setQrOpen] = useState(false)
   const { mode: gameMode, setMode: setGameMode } = useGameModeStore()
   const qrContentRef = useRef<HTMLDivElement>(null)
   const { t } = useTranslation(["game", "manager", "common", "errors"])
+
+  useEffect(() => {
+    setPlayerList(players)
+    setTotalPlayers(players.length)
+  }, [players])
 
   // Configuration options state
   const { quizz: quizzList, folders } = useConfig()

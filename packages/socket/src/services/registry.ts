@@ -89,7 +89,7 @@ class Registry {
     const initialLength = this.games.length
     const game = this.getGameById(gameId)
     if (game) {
-      game.saveStudyResults()
+      game.destroy()
     }
     this.games = this.games.filter((g) => g.gameId !== gameId)
     this.emptyGames = this.emptyGames.filter((g) => g.game.gameId !== gameId)

@@ -106,6 +106,18 @@ export class PlayerManager {
     return player
   }
 
+  removeByClientId(clientId: string): Player | undefined {
+    const player = this.findByClientId(clientId)
+
+    if (!player) {
+      return undefined
+    }
+
+    this.players = this.players.filter((p) => p.clientId !== clientId)
+
+    return player
+  }
+
   setDisconnected(socketId: string): void {
     const player = this.findById(socketId)
 
