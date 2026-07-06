@@ -260,6 +260,11 @@ class Game {
         // Clone to avoid mutating shared state reference
         status = JSON.parse(JSON.stringify(status))
 
+        if (this.mode === "study" && status.name === STATUS.SHOW_RESULT) {
+          status = this.round.getStudyNextQuestionStatus(player.username)
+          this.playerStatus.set(socket.id, status)
+        }
+
         if (status.name === STATUS.WAIT && !this.started) {
           status.data = {
             ...status.data,
@@ -300,6 +305,13 @@ class Game {
 
     // Clone to avoid mutating shared state reference
     status = JSON.parse(JSON.stringify(status))
+
+    if (this.mode === "study" && status.name === STATUS.SHOW_RESULT) {
+      status = this.round.getStudyNextQuestionStatus(player.username)
+      if (this.playerStatus.has(oldSocketId)) {
+        this.playerStatus.set(oldSocketId, status)
+      }
+    }
 
     if (status.name === STATUS.WAIT && !this.started) {
       status.data = {

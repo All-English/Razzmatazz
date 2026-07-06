@@ -826,4 +826,58 @@ export class RoundManager {
   getQuizzSubject(): string {
     return this.opts.quizz.subject
   }
+
+  getStudyNextQuestionStatus(username: string): { name: Status; data: any } {
+    const completed = this.studyProgress.get(username) ?? 0
+    const nextQuestion = this.opts.quizz.questions[completed]
+
+    if (nextQuestion) {
+      return {
+        name: STATUS.BUILD_SENTENCE,
+        data: {
+          prompt: nextQuestion.prompt,
+          scrambledChunks: nextQuestion.scrambledChunks,
+          media: nextQuestion.media,
+          time: STUDY_MODE_TIME,
+          totalPlayer: this.opts.players.count(),
+          questionIndex: completed,
+          correctChunks: nextQuestion.correctChunks,
+        },
+      }
+    } else {
+      // Completed all questions
+      const startTime = this.studyStartTimes.get(username)
+      const studyTime = startTime
+        ? Math.round((Date.now() - startTime) / 1000)
+        : undefined
+
+      // Record in history if not already present
+      const player = this.opts.players.getAll().find((p) => p.username === username)
+      if (player) {
+        const roundNum = player.studyRound ?? 1
+        let history = this.studyHistory.get(username)
+        if (!history) {
+          history = []
+          this.studyHistory.set(username, history)
+        }
+        if (!history.some((h) => h.round === roundNum)) {
+          history.push({
+            round: roundNum,
+            score: player.points,
+            time: studyTime ?? 0,
+          })
+        }
+      }
+
+      return {
+        name: STATUS.FINISHED,
+        data: {
+          subject: this.opts.quizz.subject,
+          top: [],
+          rank: 0,
+          studyTime,
+        },
+      }
+    }
+  }
 }

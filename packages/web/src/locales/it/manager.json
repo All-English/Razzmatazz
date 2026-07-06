@@ -4,6 +4,9 @@
   "passwordPlaceholder": "Password del Gestore",
   "loginTitle": "Accesso Gestore",
   "enterGamePin": "Inserisci il codice PIN del gioco",
+  "exitGameTitle": "Uscire dal gioco?",
+  "exitGameDescription": "Sei sicuro di voler uscire? Il gioco verrà chiuso e tutti i giocatori saranno disconnessi.",
+  "exitConfirmLabel": "Esci dal gioco",
   "nav": {
     "library": "Libreria",
     "reports": "Rapporti",

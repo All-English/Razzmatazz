@@ -4,6 +4,9 @@
   "passwordPlaceholder": "Manager Password",
   "loginTitle": "Manager Login",
   "enterGamePin": "Enter Game PIN Code",
+  "exitGameTitle": "Exit Game?",
+  "exitGameDescription": "Are you sure you want to exit? The game will be closed and all players will be disconnected.",
+  "exitConfirmLabel": "Exit Game",
   "nav": {
     "library": "Library",
     "reports": "Reports",

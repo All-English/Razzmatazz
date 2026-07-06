@@ -16,9 +16,10 @@ import {
 } from "@razzia/web/features/game/utils/constants"
 import { ConfigProvider } from "@razzia/web/features/manager/contexts/config-context"
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
+import AlertDialog from "@razzia/web/components/AlertDialog"
 
 const ManagerGamePage = () => {
   const navigate = useNavigate()
@@ -95,6 +96,8 @@ const ManagerGamePage = () => {
     toast.error(t(message))
   })
 
+  const [showExitConfirm, setShowExitConfirm] = useState(false)
+
   const handleSkip = () => {
     if (!status || !gameId) {
       return
@@ -105,14 +108,12 @@ const ManagerGamePage = () => {
     }
   }
 
-  const handleExit = () => {
-    if (gameId) socket.emit(EVENTS.MANAGER.EXIT_GAME, { gameId })
-    navigate({ to: "/manager/config" })
-    reset()
-    setQuestionStates(null)
+  const triggerExitConfirmation = () => {
+    setShowExitConfirm(true)
   }
 
-  const handleBack = () => {
+  const handleConfirmExit = () => {
+    setShowExitConfirm(false)
     if (gameId) socket.emit(EVENTS.MANAGER.EXIT_GAME, { gameId })
     navigate({ to: "/manager/config" })
     reset()
@@ -144,10 +145,10 @@ const ManagerGamePage = () => {
         onBack={
           status.name === STATUS.SHOW_ROOM ||
           status.name === STATUS.STUDY_PROGRESS
-            ? handleBack
+            ? triggerExitConfirmation
             : undefined
         }
-        onExit={status.name === STATUS.FINISHED ? handleExit : undefined}
+        onExit={status.name === STATUS.FINISHED ? triggerExitConfirmation : undefined}
         onEndEarly={
           mode === "competitive" &&
           status.name !== STATUS.FINISHED &&
@@ -162,6 +163,18 @@ const ManagerGamePage = () => {
           <CurrentComponent data={status.data as never} manager />
         )}
       </GameWrapper>
+
+      <AlertDialog
+        open={showExitConfirm}
+        onOpenChange={setShowExitConfirm}
+        title={t("manager:exitGameTitle", "Exit Game?")}
+        description={t(
+          "manager:exitGameDescription",
+          "Are you sure you want to exit? The game will be closed and all players will be disconnected.",
+        )}
+        confirmLabel={t("manager:exitConfirmLabel", "Exit Game")}
+        onConfirm={handleConfirmExit}
+      />
     </ConfigProvider>
   )
 }

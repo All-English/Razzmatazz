@@ -4,6 +4,9 @@
   "passwordPlaceholder": "Contraseña del Administrador",
   "loginTitle": "Acceso del Administrador",
   "enterGamePin": "Introducir PIN de juego",
+  "exitGameTitle": "¿Salir del juego?",
+  "exitGameDescription": "¿Estás seguro de que quieres salir? El juego se cerrará y todos los jugadores serán desconectados.",
+  "exitConfirmLabel": "Salir del juego",
   "nav": {
     "library": "Biblioteca",
     "reports": "Informes",

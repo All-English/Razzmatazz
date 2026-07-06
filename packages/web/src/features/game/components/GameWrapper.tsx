@@ -2,7 +2,9 @@ import { EVENTS } from "@razzia/common/constants"
 import { type Status, STATUS } from "@razzia/common/types/game/status"
 import background from "@razzia/web/assets/background.png"
 import Button from "@razzia/web/components/Button"
-import { Flag } from "lucide-react"
+import { Flag, Maximize2, X } from "lucide-react"
+import { QRCodeSVG } from "qrcode.react"
+import * as RadixAlertDialog from "@radix-ui/react-alert-dialog"
 import Loader from "@razzia/web/components/Loader"
 import {
   useEvent,
@@ -42,6 +44,7 @@ const GameWrapper = ({
   const { t } = useTranslation()
   const [isDisabled, setIsDisabled] = useState(false)
   const [isConfirmingEnd, setIsConfirmingEnd] = useState(false)
+  const [qrOpen, setQrOpen] = useState(false)
   const next = statusName ? MANAGER_SKIP_BTN[statusName] : null
 
   const inviteCode = manager ? managerInviteCode : playerInviteCode
@@ -144,9 +147,41 @@ const GameWrapper = ({
                   )}
 
                 {inviteCode && manager && statusName !== STATUS.SHOW_ROOM && (
-                  <div className="flex items-center rounded-md border border-white/20 bg-white/90 p-2 px-4 text-lg font-bold text-black shadow-md backdrop-blur-md">
-                    {t("game:pinLabel")}:{" "}
-                    <span className="ml-1 tracking-widest">{inviteCode}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-11 items-center rounded-md border border-white/20 bg-white/90 px-4 text-lg font-bold text-black shadow-md backdrop-blur-md">
+                      {t("game:pinLabel")}:{" "}
+                      <span className="ml-1 tracking-widest">{inviteCode}</span>
+                    </div>
+
+                    <RadixAlertDialog.Root open={qrOpen} onOpenChange={setQrOpen}>
+                      <RadixAlertDialog.Trigger asChild>
+                        <button className="group relative flex h-11 w-11 aspect-square shrink-0 cursor-pointer items-center justify-center rounded-md border border-white/20 bg-white/90 p-1 shadow-md backdrop-blur-md transition-all hover:scale-105">
+                          <QRCodeSVG
+                            className="h-full w-full"
+                            value={`${typeof window !== "undefined" ? window.location.origin : ""}?pin=${inviteCode}`}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/45 opacity-0 transition-opacity group-hover:opacity-100">
+                            <Maximize2 className="size-4 text-white" />
+                          </div>
+                        </button>
+                      </RadixAlertDialog.Trigger>
+
+                      <RadixAlertDialog.Portal>
+                        <RadixAlertDialog.Overlay className="data-[state=open]:animate-fade-in fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
+                        <RadixAlertDialog.Content className="data-[state=open]:animate-scale-in fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-8 shadow-2xl">
+                          <button
+                            onClick={() => setQrOpen(false)}
+                            className="absolute -top-3 -right-3 rounded-full bg-white p-2 shadow-lg transition-colors hover:bg-gray-100"
+                          >
+                            <X className="size-6 text-gray-700" />
+                          </button>
+                          <QRCodeSVG
+                            className="size-64 md:size-80 lg:size-[400px]"
+                            value={`${typeof window !== "undefined" ? window.location.origin : ""}?pin=${inviteCode}`}
+                          />
+                        </RadixAlertDialog.Content>
+                      </RadixAlertDialog.Portal>
+                    </RadixAlertDialog.Root>
                   </div>
                 )}
               </div>

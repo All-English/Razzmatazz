@@ -4,6 +4,9 @@
   "passwordPlaceholder": "Manager-Passwort",
   "loginTitle": "Manager-Anmeldung",
   "enterGamePin": "Spiel-PIN-Code eingeben",
+  "exitGameTitle": "Spiel beenden?",
+  "exitGameDescription": "Möchten Sie das Spiel wirklich beenden? Das Spiel wird geschlossen und alle Spieler werden getrennt.",
+  "exitConfirmLabel": "Spiel beenden",
   "nav": {
     "library": "Bibliothek",
     "reports": "Berichte",
