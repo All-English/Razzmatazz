@@ -370,8 +370,18 @@ class Game {
   }
 
   updateQuiz(quizz: Quizz) {
+    this.quizz = quizz
     this.quizzId = (quizz as QuizzWithId).id ?? ""
     this.round.updateQuizz(quizz)
+
+    // Broadcast the new correctSentences to all players in the lobby
+    const players = this.playerManager.getAll()
+    for (const player of players) {
+      this.sendStatus(player.id, STATUS.WAIT, {
+        text: "game:waitingForPlayers",
+        correctSentences: quizz.questions.map((q) => q.correctSentence),
+      })
+    }
   }
 
   async start(
@@ -454,6 +464,7 @@ class Game {
     for (const player of players) {
       this.sendStatus(player.id, STATUS.WAIT, {
         text: "game:waitingForNextGame",
+        correctSentences: this.quizz.questions.map((q) => q.correctSentence),
       })
       this.io.to(player.id).emit(EVENTS.PLAYER.UPDATE, player)
     }

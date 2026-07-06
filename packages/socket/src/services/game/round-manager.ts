@@ -67,6 +67,7 @@ export class RoundManager {
     string,
     Array<{ round: number; score: number; time: number }>
   >() // username -> history
+  private studyTimeouts = new Set<any>()
 
   private originalQuizz: Quizz
 
@@ -120,6 +121,11 @@ export class RoundManager {
     this.studyStartTimes.clear()
     this.studyErrors.clear()
     this.studyHistory.clear()
+    
+    for (const timeout of this.studyTimeouts) {
+      clearTimeout(timeout)
+    }
+    this.studyTimeouts.clear()
   }
 
   async start(
@@ -618,7 +624,8 @@ export class RoundManager {
       })
 
       // After a brief delay, send next question or finish
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
+        this.studyTimeouts.delete(timeout)
         const nextQuestion = this.opts.quizz.questions[newCompleted]
 
         if (nextQuestion) {
@@ -668,6 +675,7 @@ export class RoundManager {
 
         this.emitStudyProgress()
       }, 2500)
+      this.studyTimeouts.add(timeout)
     } else if (!isCorrect) {
       const errors = this.studyErrors.get(player.username) ?? 0
       this.studyErrors.set(player.username, errors + 1)
