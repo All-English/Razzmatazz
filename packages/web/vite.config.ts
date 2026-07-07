@@ -31,6 +31,11 @@ export default defineConfig({
         display: "standalone",
         orientation: "any",
         start_url: "/",
+        scope: "/",
+        scope_extensions: [
+          { origin: "https://__RAZZIA_APP_DOMAIN__" },
+          { origin: "https://*.__RAZZIA_APP_DOMAIN__" }
+        ],
         icons: [
           {
             src: "pwa-64x64.png",

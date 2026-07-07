@@ -1,0 +1,10 @@
+{
+  "web_apps": [
+    {
+      "manifest": "https://__RAZZIA_APP_DOMAIN__/manifest.webmanifest",
+      "details": {
+        "paths": ["/*"]
+      }
+    }
+  ]
+}
