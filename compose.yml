@@ -1,6 +1,6 @@
 services:
   razzmatazz:
-    build: .
+    image: ghcr.io/all-english/razzmatazz:latest
     container_name: razzmatazz
     restart: unless-stopped
     init: true

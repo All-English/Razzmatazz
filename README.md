@@ -78,30 +78,26 @@ Now, choose your preferred deployment method below:
 
 ### 🐳 Using Docker (Recommended)
 
-To run the application with your latest local updates, you will need to build the Docker image locally.
+You can run the pre-built Docker image hosted on GitHub Container Registry (GHCR).
 
 Using Docker Compose (recommended):
 You can find the docker compose configuration in the repository:
 [compose.yml](/compose.yml)
 
 ```bash
-docker compose up --build -d
+docker compose up -d
 ```
 
 Or using Docker directly:
 
 ```bash
-# Build the image locally
-docker build -t razzmatazz:latest .
-
-# Run the container
 docker run -d \
   --name razzmatazz \
   --restart unless-stopped \
   --init \
   -p 3050:3000 \
   -v "$(pwd)/config:/app/config" \
-  razzmatazz:latest
+  ghcr.io/all-english/razzmatazz:latest
 ```
 
 **Configuration Volume:**
