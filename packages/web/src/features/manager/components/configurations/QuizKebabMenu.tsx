@@ -1,4 +1,4 @@
-import { Copy, FolderInput, MoreVertical, Star, Trash2, Pencil, Rocket } from "lucide-react"
+import { Copy, FolderInput, MoreVertical, Star, Trash2, Pencil, Rocket, Download } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -10,6 +10,7 @@ interface Props {
   onDelete: () => void
   onHost: () => void
   onEdit: () => void
+  onExport: () => void
 }
 
 const QuizKebabMenu = ({
@@ -20,6 +21,7 @@ const QuizKebabMenu = ({
   onDelete,
   onHost,
   onEdit,
+  onExport,
 }: Props) => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
@@ -124,6 +126,15 @@ const QuizKebabMenu = ({
             >
               <Copy className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
               <span>{t("manager:quizz.duplicate")}</span>
+            </button>
+
+            {/* Export as JSON */}
+            <button
+              onClick={onExport}
+              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+            >
+              <Download className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
+              <span>{t("manager:quizz.export")}</span>
             </button>
           </div>
 

@@ -40,6 +40,8 @@
   "personalBestBadge": "ベスト",
   "personalBests": "自己ベスト",
   "pinLabel": "PINコード",
+  "reconnect": "再接続",
+  "reconnectTitle": "プレイ中のゲームがありました",
   "playAgain": "もう一度プレイ",
   "startRoundN": "ラウンド {{round}} を開始",
   "playersJoined": "参加プレイヤー数: ",

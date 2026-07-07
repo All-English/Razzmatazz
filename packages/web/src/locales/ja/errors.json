@@ -2,13 +2,14 @@
   "auth": {
     "invalidInviteCode": "招待コードが無効です",
     "usernameTooLong": "ユーザー名は20文字以内にしてください",
-    "usernameTooShort": "ユーザー名は2文字以上にしてください"
+    "usernameTooShort": "ユーザー名は1文字以上にしてください"
   },
   "game": {
     "expired": "ゲームの有効期限が切れました",
     "kickedByManager": "管理者によって退室させられました",
     "managerAlreadyConnected": "管理者はすでに接続されています",
     "managerDisconnected": "管理者が切断されました",
+    "managerCannotJoin": "管理者としてゲームに参加することはできません",
     "noPlayersConnected": "接続中のプレイヤーがいません",
     "notFound": "ゲームが見つかりません",
     "playerAlreadyConnected": "プレイヤーはすでに接続されています",

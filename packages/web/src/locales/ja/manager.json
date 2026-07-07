@@ -54,6 +54,7 @@
     "moveToFolder": "フォルダに移動...",
     "duplicate": "コピー",
     "duplicated": "クイズをコピーしました",
+    "export": "JSONとしてエクスポート",
     "combine": "結合",
     "combined": "クイズを結合しました",
     "combineTitle": "新しいクイズのタイトル",

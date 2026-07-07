@@ -57,6 +57,7 @@ export interface ServerToClientEvents {
   [EVENTS.GAME.PRACTICE_WRONG]: () => void
 
   // Player events
+  [EVENTS.PLAYER.CHECK_PIN_RESULT]: (_data: { valid: boolean }) => void
   [EVENTS.PLAYER.SUCCESS_RECONNECT]: (_data: {
     gameId: string
     inviteCode: string
@@ -164,6 +165,7 @@ export interface ClientToServerEvents {
   }) => void
 
   // Player actions
+  [EVENTS.PLAYER.CHECK_PIN]: (_inviteCode: string) => void
   [EVENTS.PLAYER.JOIN]: (_inviteCode: string) => void
   [EVENTS.PLAYER.LOGIN]: (
     _message: MessageWithoutStatus<{ username: string }>,

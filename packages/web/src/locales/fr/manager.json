@@ -54,6 +54,7 @@
     "moveToFolder": "Déplacer vers le dossier...",
     "duplicate": "Dupliquer",
     "duplicated": "Quiz dupliqué",
+    "export": "Exporter en JSON",
     "combine": "Combiner",
     "combined": "Quiz combinés",
     "combineTitle": "Nouveau titre du quiz",

@@ -2,13 +2,14 @@
   "auth": {
     "invalidInviteCode": "Codice di invito non valido",
     "usernameTooLong": "Il nome utente non può superare i 20 caratteri",
-    "usernameTooShort": "Il nome utente non può avere meno di 2 caratteri"
+    "usernameTooShort": "Il nome utente non può avere meno di 1 carattere"
   },
   "game": {
     "expired": "Partita terminata",
     "kickedByManager": "Sei stato espulso dal gestore",
     "managerAlreadyConnected": "Gestore già connesso",
     "managerDisconnected": "Gestore disconnesso",
+    "managerCannotJoin": "Non puoi unirti al tuo stesso gioco",
     "noPlayersConnected": "Nessun giocatore connesso",
     "notFound": "Partita non trovata",
     "playerAlreadyConnected": "Giocatore già connesso",

@@ -27,8 +27,13 @@ const Room = () => {
   useEvent(EVENTS.GAME.SUCCESS_ROOM, (data) => {
     const gameId = typeof data === "string" ? data : data.gameId
     const isRegistered = typeof data === "string" ? false : data.isRegistered
+    const pinToSave = invitation.replace(/\s/gu, "") || pin
 
-    setInviteCode(invitation.replace(/\s/gu, "") || pin || "")
+    if (pinToSave) {
+      localStorage.setItem("game_pin", pinToSave)
+    }
+
+    setInviteCode(pinToSave || "")
 
     if (isRegistered) {
       navigate({ to: "/party/$gameId", params: { gameId } })

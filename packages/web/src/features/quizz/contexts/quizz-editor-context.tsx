@@ -47,6 +47,9 @@ const defaultQuestion = (): QuestionWithId => ({
   time: 30,
 })
 
+const clampIndex = (index: number, array: unknown[]) =>
+  Math.max(0, Math.min(index, array.length - 1))
+
 const toQuestionWithId = (q: Question): QuestionWithId => {
   const correctChunks =
     q.correctChunks.length === q.scrambledChunks.length &&
@@ -78,7 +81,7 @@ export const QuizzEditorProvider = ({
       : [defaultQuestion()],
   )
   const [currentIndex, setCurrentIndex] = useState(0)
-  const currentQuestion = questions[currentIndex] ?? questions[0]
+  const currentQuestion = questions[clampIndex(currentIndex, questions)]
   const [hasSaved, setHasSaved] = useState(false)
 
   // Track the initial normalized state to determine if the editor is dirty
@@ -158,12 +161,15 @@ export const QuizzEditorProvider = ({
   const removeQuestion = (index: number) => {
     const next = questions.filter((_, i) => i !== index)
     setQuestions(next)
-    setCurrentIndex((current) =>
-      Math.min(
-        Math.max(0, current >= index ? current - 1 : current),
-        next.length - 1,
-      ),
-    )
+    setCurrentIndex((current) => {
+      if (current < index) {
+        return current
+      }
+      if (current > index) {
+        return current - 1
+      }
+      return clampIndex(current, next)
+    })
   }
 
   const reorderQuestions = (from: number, to: number) => {

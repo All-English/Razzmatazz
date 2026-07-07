@@ -28,7 +28,7 @@ import {
   Star,
   Upload,
 } from "lucide-react"
-import { type ChangeEvent, useEffect, useRef, useState } from "react"
+import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 
@@ -124,6 +124,32 @@ const QuizListPanel = ({ selectedFolder, onSelectFolder }: Props) => {
     toast.error(t(message))
   })
 
+  const pendingExportId = useRef<string | null>(null)
+
+  useEvent(
+    EVENTS.QUIZZ.DATA,
+    useCallback((data) => {
+      if (data.id !== pendingExportId.current) {
+        return
+      }
+
+      pendingExportId.current = null
+
+      const { id: _id, ...quizzData } = data
+      const blob = new Blob([JSON.stringify(quizzData, null, 2)], {
+        type: "application/json",
+      })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+
+      a.href = url
+      a.download = `${data.subject}.json`
+      a.click()
+
+      URL.revokeObjectURL(url)
+    }, []),
+  )
+
   // Filter quizzes based on selected folder and search query
   const filteredQuizzes = quizz.filter((q) => {
     // 1. Folder filter
@@ -184,6 +210,11 @@ const QuizListPanel = ({ selectedFolder, onSelectFolder }: Props) => {
   const handleDuplicate = (id: string) => {
     socket.emit(EVENTS.QUIZZ.DUPLICATE, id)
     toast.success(t("manager:quizz.duplicated"))
+  }
+
+  const handleExport = (id: string) => {
+    pendingExportId.current = id
+    socket.emit(EVENTS.QUIZZ.GET, id)
   }
 
   const handleMoveSingle = (folder: string) => {
@@ -586,6 +617,7 @@ const QuizListPanel = ({ selectedFolder, onSelectFolder }: Props) => {
                             params: { quizzId: q.id },
                           })
                         }
+                        onExport={() => handleExport(q.id)}
                       />
                     </div>
                   </td>

@@ -54,6 +54,7 @@
     "moveToFolder": "Mover a la carpeta...",
     "duplicate": "Duplicar",
     "duplicated": "Cuestionario duplicado",
+    "export": "Exportar como JSON",
     "combine": "Combinar",
     "combined": "Cuestionarios combinados",
     "combineTitle": "Nuevo título del cuestionario",

@@ -2,13 +2,14 @@
   "auth": {
     "invalidInviteCode": "Invalid invite code",
     "usernameTooLong": "Username cannot exceed 20 characters",
-    "usernameTooShort": "Username cannot be less than 2 characters"
+    "usernameTooShort": "Username cannot be less than 1 character"
   },
   "game": {
     "expired": "Game expired",
     "kickedByManager": "You have been kicked by the manager",
     "managerAlreadyConnected": "Manager already connected",
     "managerDisconnected": "Manager disconnected",
+    "managerCannotJoin": "You cannot join your own game",
     "noPlayersConnected": "No players connected",
     "notFound": "Game not found",
     "playerAlreadyConnected": "Player already connected",

@@ -40,6 +40,8 @@
   "personalBestBadge": "Top",
   "personalBests": "Records personnels",
   "pinLabel": "Code PIN",
+  "reconnect": "Se reconnecter",
+  "reconnectTitle": "Vous étiez dans une partie",
   "playAgain": "Rejouer",
   "startRoundN": "Commencer le round {{round}}",
   "playersJoined": "Joueurs connectés : ",

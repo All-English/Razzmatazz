@@ -15,6 +15,8 @@ export const EVENTS = {
   },
   PLAYER: {
     SUCCESS_RECONNECT: "player:successReconnect",
+    CHECK_PIN: "player:checkPin",
+    CHECK_PIN_RESULT: "player:checkPinResult",
     UPDATE_LEADERBOARD: "player:updateLeaderboard",
     JOIN: "player:join",
     LOGIN: "player:login",

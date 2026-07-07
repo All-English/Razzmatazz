@@ -40,6 +40,8 @@
   "personalBestBadge": "최고",
   "personalBests": "개인 최고 기록",
   "pinLabel": "PIN 코드",
+  "reconnect": "다시 연결하기",
+  "reconnectTitle": "기존에 플레이하던 게임이 있습니다",
   "playAgain": "다시 도전하기",
   "startRoundN": "라운드 {{round}} 시작",
   "playersJoined": "참여한 플레이어: ",

@@ -55,6 +55,7 @@
     "moveToFolder": "폴더로 이동...",
     "duplicate": "복사",
     "duplicated": "퀴즈가 복사되었습니다",
+    "export": "JSON으로 내보내기",
     "combine": "합치기",
     "combined": "퀴즈가 합쳐졌습니다",
     "combineTitle": "새 퀴즈 제목",
