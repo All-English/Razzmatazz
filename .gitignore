@@ -6,3 +6,4 @@ release.json
 web2
 .DS_Store
 deploy.sh
+compose.dev.yml

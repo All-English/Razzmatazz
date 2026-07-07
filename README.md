@@ -78,17 +78,17 @@ Now, choose your preferred deployment method below:
 
 ### 🐳 Using Docker (Recommended)
 
-You can run Razzmatazz using Docker in one of two ways:
+You can run the pre-built Docker image hosted on GitHub Container Registry (GHCR).
 
-#### Option A: Build and Run from Source (If you cloned this repository)
-If you have cloned the repository and want to run it with your latest local updates, you can use Docker Compose to build the image locally:
+Using Docker Compose (recommended):
+You can find the docker compose configuration in the repository:
+[compose.yml](/compose.yml)
 
 ```bash
-docker compose up --build -d
+docker compose up -d
 ```
 
-#### Option B: Run the Pre-built Image (No source code required)
-If you just want to run the application using the pre-built image hosted on GitHub Container Registry (GHCR), you can run it directly:
+Or using Docker directly:
 
 ```bash
 docker run -d \
