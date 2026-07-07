@@ -8,5 +8,5 @@ services:
       - "3050:3000"
     volumes:
       - ./config:/app/config
-    environment:
-      - APP_DOMAIN=${APP_DOMAIN:-https://www.myapp.com}
+    # environment:
+    #   - APP_DOMAIN=https://razzmatazz.example.com
