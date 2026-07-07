@@ -19,6 +19,7 @@ import useSound from "use-sound"
 import { SFX } from "@razzia/web/features/game/utils/constants"
 import toast from "react-hot-toast"
 import clsx from "clsx"
+import KickConfirmDialog from "@razzia/web/components/AlertDialog"
 
 interface Props {
   data: ManagerStatusDataMap["SHOW_ROOM"]
@@ -50,6 +51,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
   const [changeQuizOpen, setChangeQuizOpen] = useState(false)
   const [selectedFolder, setSelectedFolder] = useState<string>("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const [playerToRemove, setPlayerToRemove] = useState<Player | null>(null)
   const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -156,15 +158,8 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
     setTotalPlayers(total)
   })
 
-  const handleKick = (playerId: string) => () => {
-    if (!gameId) {
-      return
-    }
-
-    socket.emit(EVENTS.MANAGER.KICK_PLAYER, {
-      gameId,
-      playerId,
-    })
+  const handleRemoveClick = (player: Player) => () => {
+    setPlayerToRemove(player)
   }
 
   const handleCloseQrCode = () => setQrOpen(false)
@@ -302,8 +297,8 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 <div
                   key={player.id}
                   className="bg-primary group cursor-pointer rounded-xl px-4 py-2 font-bold text-white shadow-md transition-all hover:scale-95 hover:bg-rose-500"
-                  onClick={handleKick(player.id)}
-                  title={t("game:clickToKick", "Click to kick player")}
+                  onClick={handleRemoveClick(player)}
+                  title={t("game:clickToRemove", "Click to remove player")}
                 >
                   <span className="text-xl drop-shadow-sm group-hover:line-through group-hover:decoration-2">
                     {player.username}
@@ -684,6 +679,29 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
           </AlertDialog.Content>
         </AlertDialog.Portal>
       </AlertDialog.Root>
+
+      {/* Remove Player Confirmation Modal */}
+      <KickConfirmDialog
+        open={playerToRemove !== null}
+        onOpenChange={(open) => {
+          if (!open) setPlayerToRemove(null)
+        }}
+        title={t("manager:removePlayerTitle", "Remove Player?")}
+        description={t("manager:removePlayerDescription", {
+          defaultValue: "Are you sure you want to remove {{username}} from the game?",
+          username: playerToRemove?.username
+        })}
+        confirmLabel={t("manager:removeConfirmLabel", "Remove")}
+        onConfirm={() => {
+          if (playerToRemove && gameId) {
+            socket.emit(EVENTS.MANAGER.KICK_PLAYER, {
+              gameId,
+              playerId: playerToRemove.id,
+            })
+          }
+          setPlayerToRemove(null)
+        }}
+      />
     </section>
   )
 }

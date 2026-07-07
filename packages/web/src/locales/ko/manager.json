@@ -7,6 +7,9 @@
   "exitGameTitle": "게임 종료?",
   "exitGameDescription": "정말로 종료하시겠습니까? 게임이 종료되고 모든 플레이어의 연결이 끊어집니다.",
   "exitConfirmLabel": "게임 종료",
+  "removePlayerTitle": "플레이어 내보내기?",
+  "removePlayerDescription": "정말로 {{username}} 플레이어를 내보내시겠습니까?",
+  "removeConfirmLabel": "내보내기",
   "nav": {
     "library": "보관함",
     "reports": "리포트",

@@ -7,6 +7,9 @@
   "exitGameTitle": "ゲームを終了しますか？",
   "exitGameDescription": "本当に終了しますか？ゲームが閉じられ、すべてのプレイヤーの接続が切断されます。",
   "exitConfirmLabel": "ゲームを終了",
+  "removePlayerTitle": "プレイヤーを除外しますか？",
+  "removePlayerDescription": "本当に {{username}} をゲームから除外しますか？",
+  "removeConfirmLabel": "除外する",
   "nav": {
     "library": "ライブラリ",
     "reports": "レポート",

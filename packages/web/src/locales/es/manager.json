@@ -7,6 +7,9 @@
   "exitGameTitle": "¿Salir del juego?",
   "exitGameDescription": "¿Estás seguro de que quieres salir? El juego se cerrará y todos los jugadores serán desconectados.",
   "exitConfirmLabel": "Salir del juego",
+  "removePlayerTitle": "¿Quitar jugador?",
+  "removePlayerDescription": "¿Estás seguro de que quieres quitar a {{username}} del juego?",
+  "removeConfirmLabel": "Quitar",
   "nav": {
     "library": "Biblioteca",
     "reports": "Informes",

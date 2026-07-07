@@ -7,6 +7,9 @@
   "exitGameTitle": "Spiel beenden?",
   "exitGameDescription": "Möchten Sie das Spiel wirklich beenden? Das Spiel wird geschlossen und alle Spieler werden getrennt.",
   "exitConfirmLabel": "Spiel beenden",
+  "removePlayerTitle": "Spieler entfernen?",
+  "removePlayerDescription": "Möchten Sie {{username}} wirklich aus dem Spiel entfernen?",
+  "removeConfirmLabel": "Entfernen",
   "nav": {
     "library": "Bibliothek",
     "reports": "Berichte",
