@@ -117,7 +117,7 @@ The folder will be created automatically on first run with an example quiz to ge
 If you install Razzmatazz as a Progressive Web App (PWA) on your tablets or devices, you can configure it to automatically open direct links — such as when scanning a game lobby QR code with the device's native camera app — directly inside the installed PWA window, rather than a standard browser tab.
 
 To enable this with Docker:
-1. Set the `APP_DOMAIN` environment variable to your actual hosting domain. In `compose.yml`, find the `APP_DOMAIN` line and update it (e.g., `APP_DOMAIN=https://razzia.myhomelab.net`), or pass it directly via `-e APP_DOMAIN=https://razzia.myhomelab.net` in your `docker run` command. A local IP address also works (e.g., `http://192.168.1.100`).
+1. Set the `APP_DOMAIN` environment variable to your actual hosting domain. In `compose.yml`, find the `APP_DOMAIN` line and update it (e.g., `APP_DOMAIN=https://razzmatazz.myhomelab.net`), or pass it directly via `-e APP_DOMAIN=https://razzmatazz.myhomelab.net` in your `docker run` command. A local IP address also works (e.g., `http://192.168.1.100`).
 2. **(Automatic)** That's it. The container automatically generates and serves the required verification file (`/.well-known/web-app-origin-association`) at startup. If you have a reverse proxy (e.g., Nginx Proxy Manager, Cloudflare Tunnels, Caddy) in front of the container, make sure it passes requests to `/.well-known/` through to the container — some proxies block dotfile paths by default.
 
 The application will be available at http://localhost:3050
@@ -147,7 +147,7 @@ If you install Razzmatazz as a Progressive Web App (PWA) on your tablets or devi
 To enable this without Docker:
 1. Set the `APP_DOMAIN` environment variable to your hosting domain **before running the build**, so it is embedded into the app at compile time:
    ```bash
-   APP_DOMAIN=https://razzia.myhomelab.net pnpm run build
+   APP_DOMAIN=https://razzmatazz.myhomelab.net pnpm run build
    ```
    A local IP address also works (e.g., `APP_DOMAIN=http://192.168.1.100 pnpm run build`).
 2. **(Manual)** Unlike the Docker setup, the verification file is **not** automatically regenerated at runtime. After building, locate `dist/web/.well-known/web-app-origin-association` and confirm that your domain appears correctly inside it before deploying.
