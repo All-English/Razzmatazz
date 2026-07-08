@@ -157,12 +157,6 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
       return
     }
 
-    if (game.manager.clientId === clientId) {
-      socket.emit(EVENTS.GAME.ERROR_MESSAGE, "errors:game.managerCannotJoin")
-
-      return
-    }
-
     if (game.players.some((p) => p.clientId === clientId)) {
       game.reconnectPlayer(socket)
 
