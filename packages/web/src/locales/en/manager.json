@@ -36,7 +36,7 @@
     "notFound": "No quiz found",
     "pleaseCreate": "Please create a quiz first",
     "pleaseSelect": "Please select a quiz",
-    "startGame": "Start game",
+    "startGame": "Start Game",
     "hasMismatchError": "Cannot start game: the selected quiz contains mismatched questions.",
     "mismatchBadge": "Mismatch Error",
     "mismatchTooltip": "This quiz has scrambled chunks that don't match the correct sentence. Edit the quiz to fix it before starting a game.",

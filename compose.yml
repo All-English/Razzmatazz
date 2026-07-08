@@ -7,6 +7,11 @@ services:
     ports:
       - "3050:3000"
     volumes:
-      - ./config:/app/config
-    # environment:
-    #   - APP_DOMAIN=https://razzmatazz.example.com
+      - razzmatazz-config:/app/config
+    environment:
+      - MANAGER_PASSWORD=${MANAGER_PASSWORD:-PASSWORD}
+    # - APP_DOMAIN=https://razzmatazz.example.com
+
+
+volumes:
+  razzmatazz-config:

@@ -7,11 +7,11 @@
   </div>
 </p>
 
-## 🧩 What is this project?
+## What is this project?
 
 **Razzmatazz** is a straightforward, open-source scrambled sentence builder game. It lets teachers and hosts run interactive, real-time multiplayer quizzes where players piece sentences back together chunk by chunk.
 
-### 💡 The Backstory: Why Razzmatazz?
+### The Backstory: Why Razzmatazz?
 I teach English to students in Korea, and one of the biggest hurdles my students face is **sentence structure**. They know the vocabulary, but putting the words together in the correct order is a constant challenge. 
 
 I was inspired by a feature in a popular language-learning app (you know, the one with the green owl!) where you see a translation and have to build the sentence in the target language. I wanted a way for my students to practice exactly that—but in a fun, interactive, multiplayer classroom environment. 
@@ -30,63 +30,46 @@ After searching for a good starting point, I found **Razzia** (a fantastic open-
   <img width="30%" src=".github/previews/4.png" alt="Game Lobby">
 </p>
 
-## 🆚 Razzmatazz vs. Razzia
+## Razzmatazz vs. Razzia
 
 Razzmatazz is built on top of the open-source **Razzia** quiz platform (originally developed by [Ralex91](https://github.com/Ralex91/Razzia)). While it shares Razzia's robust real-time communication foundation, Razzmatazz has been heavily adapted and redesigned for language education.
 
 Here are the key improvements and additions in Razzmatazz:
 
-### 🧩 Core Gameplay & Formats
+### Core Gameplay & Formats
 * **Scrambled Sentence Builder**: Instead of traditional multiple-choice questions, Razzmatazz is custom-built for language reconstruction. Players click or tap scrambled word chunks in sequence to build sentences.
 * **Practice Mode**: A relaxed, untimed study configuration. Timer countdowns are lifted so students can build sentences at their own pace, checking answers as they go.
 * **Versus Mode**: A competitive multiplayer game mode. Students race against each other in real-time to build sentences, tracking points and streaks.
 
-### 🎛️ Redesigned Manager Experience
+### Redesigned Manager Experience
 * **New Manager Dashboard**: A brand new, full-screen dashboard for quiz management.
 * **Library Folders & Organization**: Easily sort quizzes by name, group them into folders, and toggle favorites.
 * **Game Lobby**: A brand new, full-screen lobby for game management.
 * **AI-Assisted Story Import**: Paste any paragraph or story, and use AI integration to automatically translate all sentences to generate translation prompts instantly.
 
-### 📱 Player-Facing Polish
+### Player-Facing Polish
 * **Slideshow Waiting Room**: Instead of a simple spinning loading circle, players waiting in the lobby see a smooth slideshow showing the quiz's sentences one by one so they can start previewing the material.
 * **State Restoration**: Robust reconnection handling that preserves active game modes (e.g., Versus mode and Early End buttons) if the manager or player gets disconnected and rejoins mid-game.
 
+## Getting Started
 
-## ⚙️ Prerequisites
+Choose your preferred deployment method below:
 
-Choose one of the following deployment methods:
+### Option A: Using Docker (Recommended)
 
-### Without Docker
+**Prerequisites:** Docker and Docker Compose
 
-- Node.js : version 22 or higher
-- PNPM : version 10.16 or higher (learn more [here](https://pnpm.io/))
+Using Docker Compose is the easiest way to run Razzmatazz.
 
-### With Docker
-
-- Docker and Docker Compose
-
-## 📖 Getting Started
-
-First, clone the repository and navigate into the project directory:
-
-```bash
-git clone https://github.com/All-English/Razzmatazz.git
-cd ./Razzmatazz
-```
-
-Now, choose your preferred deployment method below:
-
-### 🐳 Using Docker (Recommended)
-
-You can run the pre-built Docker image hosted on GitHub Container Registry (GHCR).
-
-Using Docker Compose (recommended):
-You can find the docker compose configuration in the repository:
-[compose.yml](/compose.yml)
-
-```bash
-docker compose up -d
-```
+1. Download the [compose.yml](https://raw.githubusercontent.com/All-English/Razzmatazz/main/compose.yml) file to a new folder.
+2. In the same folder, create a `.env` file and set your custom manager password (required to access the manager dashboard):
+   ```env
+   MANAGER_PASSWORD=your_secure_password
+   ```
+3. Run the container:
+   ```bash
+   docker compose up -d
+   ```
 
 Or using Docker directly:
 
@@ -96,38 +79,31 @@ docker run -d \
   --restart unless-stopped \
   --init \
   -p 3050:3000 \
-  -v "$(pwd)/config:/app/config" \
+  -e MANAGER_PASSWORD=your_secure_password \
+  -v razzmatazz-config:/app/config \
   ghcr.io/all-english/razzmatazz:latest
 ```
 
-**Configuration Volume:**
-The `-v "$(pwd)/config:/app/config"` option mounts a local `config` folder to persist your game settings and quizzes. This allows you to:
+> **Configuration Volume:** The Docker setups automatically mount a configuration volume to persist your game settings and quizzes. The volume will be initialized automatically on first run with an example quiz to get you started.
 
-- Edit your configuration files directly on your host machine
-- Keep your settings when updating the container
-- Easily backup your quizzes and game configuration
+The application will be available at http://localhost:3050.
 
-The folder will be created automatically on first run with an example quiz to get you started.
+### Option B: Without Docker (Node.js)
 
-**PWA Deep-Linking Configuration (Optional):**
-If you install Razzmatazz as a Progressive Web App (PWA) on your tablets or devices, you can configure it to automatically open direct links — such as when scanning a game lobby QR code with the device's native camera app — directly inside the installed PWA window, rather than a standard browser tab.
+**Prerequisites:** Node.js v22+ and PNPM v10.16+
 
-To enable this with Docker:
-1. Set the `APP_DOMAIN` environment variable to your actual hosting domain. In `compose.yml`, find the `APP_DOMAIN` line and update it (e.g., `APP_DOMAIN=https://razzmatazz.myhomelab.net`), or pass it directly via `-e APP_DOMAIN=https://razzmatazz.myhomelab.net` in your `docker run` command. A local IP address also works (e.g., `http://192.168.1.100`).
-2. **(Automatic)** That's it. The container automatically generates and serves the required verification file (`/.well-known/web-app-origin-association`) at startup. If you have a reverse proxy (e.g., Nginx Proxy Manager, Cloudflare Tunnels, Caddy) in front of the container, make sure it passes requests to `/.well-known/` through to the container — some proxies block dotfile paths by default.
+1. First, clone the repository and navigate into the project directory:
+```bash
+git clone https://github.com/All-English/Razzmatazz.git
+cd ./Razzmatazz
+```
 
-The application will be available at http://localhost:3050
-
-### 🛠️ Without Docker
-
-1. Install dependencies:
-
+2. Install dependencies:
 ```bash
 pnpm install
 ```
 
 2. Build and start the application:
-
 ```bash
 # Development mode
 pnpm run dev
@@ -137,44 +113,84 @@ pnpm run build
 pnpm start
 ```
 
-**PWA Deep-Linking Configuration (Optional):**
-If you install Razzmatazz as a Progressive Web App (PWA) on your tablets or devices, you can configure it to automatically open direct links — such as when scanning a game lobby QR code with the device's native camera app — directly inside the installed PWA window, rather than a standard browser tab.
+The application will be available at http://localhost:3000.
 
-To enable this without Docker:
-1. Set the `APP_DOMAIN` environment variable to your hosting domain **before running the build**, so it is embedded into the app at compile time:
-   ```bash
-   APP_DOMAIN=https://razzmatazz.myhomelab.net pnpm run build
-   ```
-   A local IP address also works (e.g., `APP_DOMAIN=http://192.168.1.100 pnpm run build`).
-2. **(Manual)** Unlike the Docker setup, the verification file is **not** automatically regenerated at runtime. After building, locate `dist/web/.well-known/web-app-origin-association` and confirm that your domain appears correctly inside it before deploying.
-3. Ensure your web server is configured to serve files from the `/.well-known/` path. Some servers block dotfile directories by default — check your Nginx, Apache, or Caddy configuration if the file is not publicly accessible.
+## How to Play
+
+Once you have Razzmatazz running (either via Docker or Node.js):
+
+1. Access the manager interface at `http://<your-ip>:3050/manager` (or `:3000/manager` if not using Docker).
+2. Enter the manager password (by default, it is `"PASSWORD"`, see configuration instructions below).
+3. Open a quiz from your library and click the **Host** button.
+4. Share the game URL and PIN code displayed in the lobby with participants.
+5. Wait for players to join on their devices, and click **Start Game** to begin!
 
 ## ⚙️ Configuration
 
-The configuration is split into two main parts:
+### 1. Setting the Manager Password
 
-### 1. Game Configuration (`config/game.json`)
+For security, the manager interface requires a password. The application determines the password using this priority:
+1. **Environment Variable (`MANAGER_PASSWORD`)** (Overrides file config)
+2. **Configuration File (`config/game.json`)** -> `"managerPassword"`
+3. **Default Value (`"PASSWORD"`)** (Access is blocked if left as default)
 
-Main game settings:
+Here is how to set the password based on your installation type:
 
-```json
-{
-  "managerPassword": "PASSWORD"
-}
-```
+#### With Docker (Recommended)
+You can set the password directly via environment variables.
 
-Options:
+* **Using Docker Compose**:
+  You can set this in one of two ways:
+  * **Option 1 (Recommended)**: Create a `.env` file in the same directory as your `compose.yml` and define your password:
+    ```env
+    MANAGER_PASSWORD=your_secure_password
+    ```
+    Docker Compose will automatically detect and inject it.
+  * **Option 2**: Directly edit the `compose.yml` file and hardcode your password in the `environment` section:
+    ```yaml
+    environment:
+      - MANAGER_PASSWORD=your_secure_password
+    ```
 
-- `managerPassword`: The master password for accessing the manager interface. **Must be changed from the default `"PASSWORD"` value**, otherwise manager access is blocked.
+* **Using Docker CLI**:
+  Pass the password as an environment variable using the `-e` flag:
+  ```bash
+  docker run -d \
+    --name razzmatazz \
+    --restart unless-stopped \
+    --init \
+    -p 3050:3000 \
+    -e MANAGER_PASSWORD=your_secure_password \
+    -v razzmatazz-config:/app/config \
+    ghcr.io/all-english/razzmatazz:latest
+  ```
 
-### 2. Quiz Configuration (`config/quizz/*.json`)
+#### Without Docker (Bare Metal)
+If you run the app directly on your host system:
 
-Quizzes can be created in two ways:
+* **Using the Configuration File (Recommended for Production)**:
+  Edit the configuration file at `config/game.json` on your local filesystem:
+  ```json
+  {
+    "managerPassword": "your_secure_password"
+  }
+  ```
 
-- **Via the Quiz Editor** — use the built-in editor available in the manager dashboard (recommended)
-- **Via JSON files** — manually create files in the `config/quizz/` directory
+* **Using a `.env` File (Recommended for Development)**:
+  Create a `.env` file in the root of the repository and specify the password:
+  ```env
+  MANAGER_PASSWORD=your_secure_password
+  ```
 
-You can have multiple quiz files and select which one to use when starting a game.
+### 2. Managing Quizzes (`config/quizz/*.json`)
+
+Quizzes can be created and managed in two ways:
+
+* **Via the Quiz Editor (Recommended)**: Use the built-in, intuitive UI editor available right in the manager dashboard.
+* **Via JSON files**: Manually create or edit JSON files directly in the `config/quizz/` directory.
+
+<details>
+<summary><b>Click here to view the raw JSON Quiz format structure</b></summary>
 
 Example quiz configuration (`config/quizz/example.json`):
 
@@ -214,28 +230,24 @@ Example quiz configuration (`config/quizz/example.json`):
 }
 ```
 
-Quiz Options:
-
+**Quiz Options:**
 - `subject`: Title/topic of the quiz
 - `questions`: Array of question objects containing:
   - `prompt`: The prompt, clue, or translation shown to the players
   - `scrambledChunks`: Array of scrambled word/phrase chunks presented to players to build the sentence
   - `correctChunks`: Array of the chunks in the correct sequence
   - `correctSentence`: The full correct sentence reconstructed by the chunks
-  - `media`: Optional media object displayed with the question:
-    - `type`: `"image"`, `"video"`, or `"audio"`
-    - `url`: URL of the media
+  - `media`: Optional media object displayed with the question (`type`: `"image"`, `"video"`, or `"audio"`, and `url`)
   - `cooldown`: Time in seconds before players can start building the sentence (3-15)
   - `time`: Time in seconds allowed to build the sentence (5-120, or 9999 for Study Mode/no time limit)
+</details>
 
-## 🎮 How to Play
+### 3. PWA Deep-Linking (Advanced Configuration)
 
-1. Access the manager interface at http://localhost:3050/manager (or http://localhost:3000/manager if running without Docker)
-2. Enter the manager password (defined in `config/game.json`)
-3. Share the game URL (http://localhost:3050 or http://localhost:3000) and room code with participants
-4. Wait for players to join
-5. Click the start button to begin the game
+If you install Razzmatazz as a Progressive Web App (PWA) on your tablets or devices, you can configure it to automatically open direct links — such as when scanning a game lobby QR code with the device's native camera app — directly inside the installed PWA window, rather than a standard browser tab.
 
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=All-English/Razzmatazz&type=date&legend=bottom-right)](https://www.star-history.com/#All-English/Razzmatazz&type=date&legend=bottom-right)
+**To enable this:**
+1. Set the `APP_DOMAIN` environment variable to your actual hosting domain (e.g., `APP_DOMAIN=https://razzmatazz.myhomelab.net` or `APP_DOMAIN=http://192.168.1.100`).
+   * **With Docker**: Set this inside `compose.yml` under `environment:`, or via `-e APP_DOMAIN=...` in `docker run`. The verification file will be served automatically.
+   * **Without Docker**: Set this variable **before running the build step** (e.g., `APP_DOMAIN=... pnpm run build`) so it is embedded into the app at compile time.
+2. If you are using a reverse proxy (e.g., Nginx, Cloudflare Tunnels, Caddy), ensure your proxy is configured to pass requests for `/.well-known/web-app-origin-association` through to the container, as some proxies block dotfile paths by default.
