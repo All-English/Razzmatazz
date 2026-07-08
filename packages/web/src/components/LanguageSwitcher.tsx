@@ -13,7 +13,7 @@ const LANGUAGES = [
 ]
 
 const LanguageSwitcher = () => {
-  const { i18n, t } = useTranslation()
+  const { i18n } = useTranslation()
   const normalizedLanguage = i18n.language.slice(0, 2)
 
   return (
@@ -39,7 +39,7 @@ const LanguageSwitcher = () => {
                 value={l.code}
                 className="flex cursor-pointer items-center justify-between gap-3 rounded-sm px-3 py-1.5 text-sm text-gray-700 dark:text-zinc-300 outline-none hover:bg-gray-100 dark:hover:bg-zinc-800 focus:bg-gray-100 dark:focus:bg-zinc-800 data-[state=checked]:font-semibold"
               >
-                <Select.ItemText>{l.label} — {t(`common:language.${l.code}`)}</Select.ItemText>
+                <Select.ItemText>{l.label}</Select.ItemText>
                 <Select.ItemIndicator>
                   <Check className="size-3.5 text-gray-500" />
                 </Select.ItemIndicator>
