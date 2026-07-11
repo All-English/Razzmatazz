@@ -75,12 +75,18 @@ const BulkImportModal = ({ onImport }: Props) => {
 
               let attempts = 0
               let shuffled = shuffle(nextScrambled)
-              while (attempts < 10 && isValidChunksOrder(q.correctSentence, shuffled)) {
+              while (
+                attempts < 10 &&
+                isValidChunksOrder(q.correctSentence, shuffled)
+              ) {
                 shuffled = shuffle(nextScrambled)
                 attempts += 1
               }
               nextScrambled = shuffled
-              nextCorrect = deriveCorrectChunks(q.correctSentence, nextScrambled)
+              nextCorrect = deriveCorrectChunks(
+                q.correctSentence,
+                nextScrambled,
+              )
             } else if (
               !nextCorrect ||
               !isValidChunksOrder(q.correctSentence, nextCorrect) ||

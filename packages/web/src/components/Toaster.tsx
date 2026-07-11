@@ -22,7 +22,7 @@ const Toaster = () => (
                   e.stopPropagation()
                   toast.dismiss(t.id)
                 }}
-                className="ml-2 flex items-center justify-center rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors cursor-pointer"
+                className="ml-2 flex cursor-pointer items-center justify-center rounded-full p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
                 aria-label="Dismiss toast"
               >
                 <X className="size-3.5" />

@@ -153,9 +153,12 @@ const GameWrapper = ({
                       <span className="ml-1 tracking-widest">{inviteCode}</span>
                     </div>
 
-                    <RadixAlertDialog.Root open={qrOpen} onOpenChange={setQrOpen}>
+                    <RadixAlertDialog.Root
+                      open={qrOpen}
+                      onOpenChange={setQrOpen}
+                    >
                       <RadixAlertDialog.Trigger asChild>
-                        <button className="group relative flex h-11 w-11 aspect-square shrink-0 cursor-pointer items-center justify-center rounded-md border border-white/20 bg-white/90 p-1 shadow-md backdrop-blur-md transition-all hover:scale-105">
+                        <button className="group relative flex aspect-square h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-md border border-white/20 bg-white/90 p-1 shadow-md backdrop-blur-md transition-all hover:scale-105">
                           <QRCodeSVG
                             className="h-full w-full"
                             value={`${typeof window !== "undefined" ? window.location.origin : ""}?pin=${inviteCode}`}

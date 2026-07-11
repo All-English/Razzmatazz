@@ -251,27 +251,27 @@ const SentenceBuilder = ({
     <div className="flex h-full flex-1 flex-col justify-between overflow-hidden">
       {/* Manager HUD at Top */}
       {manager && !isPracticeMode && (
-        <div className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4 md:gap-6 px-4 md:px-6 pt-6 md:pt-8">
+        <div className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4 px-4 pt-6 md:gap-6 md:px-6 md:pt-8">
           {/* Timer */}
-          <div className="flex flex-1 min-w-0 md:min-w-[240px] flex-col items-center rounded-2xl md:rounded-3xl border border-white/10 bg-black/40 py-4 px-3 md:p-8 shadow-2xl backdrop-blur-xl transition-all">
-            <span className="mb-1 md:mb-2 text-xs md:text-xl font-black tracking-wider md:tracking-[0.2em] text-white/50 uppercase">
+          <div className="flex min-w-0 flex-1 flex-col items-center rounded-2xl border border-white/10 bg-black/40 px-3 py-4 shadow-2xl backdrop-blur-xl transition-all md:min-w-[240px] md:rounded-3xl md:p-8">
+            <span className="mb-1 text-xs font-black tracking-wider text-white/50 uppercase md:mb-2 md:text-xl md:tracking-[0.2em]">
               {t("game:hud.time")}
             </span>
-            <span className="text-5xl md:text-8xl leading-none font-black text-white tabular-nums drop-shadow-md">
+            <span className="text-5xl leading-none font-black text-white tabular-nums drop-shadow-md md:text-8xl">
               {cooldown}
             </span>
           </div>
 
           {/* Submissions */}
-          <div className="flex flex-1 min-w-0 md:min-w-[240px] flex-col items-center rounded-2xl md:rounded-3xl border border-white/10 bg-black/40 py-4 px-3 md:p-8 shadow-2xl backdrop-blur-xl transition-all">
-            <span className="mb-1 md:mb-2 text-xs md:text-xl font-black tracking-wider md:tracking-[0.2em] text-white/50 uppercase">
+          <div className="flex min-w-0 flex-1 flex-col items-center rounded-2xl border border-white/10 bg-black/40 px-3 py-4 shadow-2xl backdrop-blur-xl transition-all md:min-w-[240px] md:rounded-3xl md:p-8">
+            <span className="mb-1 text-xs font-black tracking-wider text-white/50 uppercase md:mb-2 md:text-xl md:tracking-[0.2em]">
               {t("game:hud.answers")}
             </span>
             <div className="flex items-baseline gap-1 md:gap-3">
-              <span className="text-5xl md:text-8xl leading-none font-black text-white tabular-nums drop-shadow-md">
+              <span className="text-5xl leading-none font-black text-white tabular-nums drop-shadow-md md:text-8xl">
                 {totalAnswer}
               </span>
-              <span className="text-xl md:text-4xl font-black tracking-tight text-white/30">
+              <span className="text-xl font-black tracking-tight text-white/30 md:text-4xl">
                 / {totalPlayer}
               </span>
             </div>
@@ -359,10 +359,10 @@ const SentenceBuilder = ({
 
               <p
                 className={clsx(
-                  "mt-2 text-center text-lg font-bold tracking-wide text-red-300 transition-all duration-300 min-h-[28px]",
+                  "mt-2 min-h-[28px] text-center text-lg font-bold tracking-wide text-red-300 transition-all duration-300",
                   showWrongFeedback
-                    ? "opacity-100 scale-100"
-                    : "opacity-0 scale-95 pointer-events-none select-none",
+                    ? "scale-100 opacity-100"
+                    : "pointer-events-none scale-95 opacity-0 select-none",
                 )}
               >
                 {showWrongFeedback ? wrongFeedbackMsg : "\u00A0"}

@@ -1,5 +1,10 @@
 // oxlint-disable typescript/no-unnecessary-condition
-import { EVENTS, MEDIA_TYPES, NO_TIME_LIMIT, PRACTICE_MODE_TIME } from "@razzia/common/constants"
+import {
+  EVENTS,
+  MEDIA_TYPES,
+  NO_TIME_LIMIT,
+  PRACTICE_MODE_TIME,
+} from "@razzia/common/constants"
 import type {
   Answer,
   GameMode,
@@ -121,7 +126,7 @@ export class RoundManager {
     this.practiceStartTimes.clear()
     this.practiceErrors.clear()
     this.practiceHistory.clear()
-    
+
     for (const timeout of this.practiceTimeouts) {
       clearTimeout(timeout)
     }
@@ -131,7 +136,12 @@ export class RoundManager {
   async start(
     socket: Socket,
     mode: GameMode = "practice",
-    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number; easyMode?: boolean },
+    options?: {
+      shuffle?: boolean
+      startIndex?: number
+      endIndex?: number
+      easyMode?: boolean
+    },
   ): Promise<void> {
     if (this.opts.getManagerId() !== socket.id) {
       return
@@ -366,9 +376,11 @@ export class RoundManager {
     if (this.easyMode) {
       const cleanStr = (s: string) =>
         s.toLowerCase().replace(/[\p{P}\p{S}\s]/gu, "")
-      const isCorrect = submittedChunks && submittedChunks.length > 0
-        ? JSON.stringify(submittedChunks) === JSON.stringify(question.correctChunks)
-        : cleanStr(submittedSentence) === cleanStr(question.correctSentence)
+      const isCorrect =
+        submittedChunks && submittedChunks.length > 0
+          ? JSON.stringify(submittedChunks) ===
+            JSON.stringify(question.correctChunks)
+          : cleanStr(submittedSentence) === cleanStr(question.correctSentence)
 
       if (!isCorrect) {
         socket.emit(EVENTS.GAME.PRACTICE_WRONG)
@@ -860,7 +872,9 @@ export class RoundManager {
         : undefined
 
       // Record in history if not already present
-      const player = this.opts.players.getAll().find((p) => p.username === username)
+      const player = this.opts.players
+        .getAll()
+        .find((p) => p.username === username)
       if (player) {
         const roundNum = player.practiceRound ?? 1
         let history = this.practiceHistory.get(username)

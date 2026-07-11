@@ -52,19 +52,19 @@ function RouteComponent() {
   if (isUnsupportedScreen) {
     return (
       <div className="flex h-svh w-screen flex-col items-center justify-center bg-gray-50 px-6 text-center select-none">
-        <div className="bg-white rounded-3xl border border-gray-200 p-8 shadow-xl max-w-md w-full flex flex-col items-center justify-center">
-          <div className="bg-primary/10 text-primary mb-6 flex size-16 items-center justify-center rounded-2xl animate-bounce">
+        <div className="flex w-full max-w-md flex-col items-center justify-center rounded-3xl border border-gray-200 bg-white p-8 shadow-xl">
+          <div className="bg-primary/10 text-primary mb-6 flex size-16 animate-bounce items-center justify-center rounded-2xl">
             <Tablet className="size-8" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900 leading-snug">
+          <h1 className="text-xl leading-snug font-bold text-gray-900">
             {t("manager:editor.unsupportedScreenTitle")}
           </h1>
-          <p className="mt-3 text-sm text-gray-500 leading-relaxed">
+          <p className="mt-3 text-sm leading-relaxed text-gray-500">
             {t("manager:editor.unsupportedScreenDesc")}
           </p>
           <Button
             onClick={() => navigate({ to: "/manager/config" })}
-            className="mt-6 w-full bg-primary hover:bg-primary/95 px-5 py-3 text-sm font-semibold text-white shadow-md"
+            className="bg-primary hover:bg-primary/95 mt-6 w-full px-5 py-3 text-sm font-semibold text-white shadow-md"
           >
             {t("common:goBack")}
           </Button>

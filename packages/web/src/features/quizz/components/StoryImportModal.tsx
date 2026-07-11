@@ -170,18 +170,14 @@ const StoryImportModal = ({ onImport }: Props) => {
   >(
     () =>
       (localStorage.getItem("razzia_openai_test_status") ?? "idle") as
-        | "idle"
-        | "success"
-        | "error",
+        "idle" | "success" | "error",
   )
   const [geminiTestStatus, setGeminiTestStatus] = useState<
     "idle" | "success" | "error"
   >(
     () =>
       (localStorage.getItem("razzia_gemini_test_status") ?? "idle") as
-        | "idle"
-        | "success"
-        | "error",
+        "idle" | "success" | "error",
   )
   const [openaiTestError, setOpenaiTestError] = useState<string | null>(() =>
     localStorage.getItem("razzia_openai_test_error"),

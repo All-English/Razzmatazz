@@ -26,7 +26,7 @@ const MoveToFolderModal = ({ isOpen, onClose, onMove }: Props) => {
       <div key={node.path}>
         <button
           onClick={() => handleSelect(node.path)}
-          className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 py-3 pr-4 text-left text-sm font-medium text-gray-700 transition-all mb-1"
+          className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary mb-1 flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 py-3 pr-4 text-left text-sm font-medium text-gray-700 transition-all"
           style={{ paddingLeft: `${16 + depth * 16}px` }}
         >
           <Folder className="group-hover:text-primary size-4 shrink-0 text-gray-500" />
@@ -62,13 +62,15 @@ const MoveToFolderModal = ({ isOpen, onClose, onMove }: Props) => {
             {/* Root/No Folder Option */}
             <button
               onClick={() => handleSelect("")}
-              className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-all mb-1"
+              className="hover:bg-primary/5 hover:border-primary/20 hover:text-primary mb-1 flex w-full items-center gap-3 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-all"
             >
               <Home className="group-hover:text-primary size-4 shrink-0 text-gray-500" />
               <span>{t("manager:quizz.noFolder")}</span>
             </button>
 
-            {buildFolderTree(folders).map((node) => renderFolderOption(node, 0))}
+            {buildFolderTree(folders).map((node) =>
+              renderFolderOption(node, 0),
+            )}
 
             {folders.length === 0 && (
               <p className="py-6 text-center text-sm text-gray-400 italic">

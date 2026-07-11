@@ -43,7 +43,9 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   const handlePlayerLeave = (game: Game) => {
     const player = game.playerManager.findById(socket.id)
     if (player) {
-      console.log(`Player ${player.username} disconnected from game ${game.gameId}`)
+      console.log(
+        `Player ${player.username} disconnected from game ${game.gameId}`,
+      )
       player.connected = false
 
       game.playerManager.broadcastCount()
@@ -53,7 +55,9 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
         game.pendingLobbyLeaves.delete(player.clientId)
         const removed = game.removePlayer(socket.id)
         if (removed) {
-          console.log(`Player ${removed.username} timed out from game ${game.gameId}`)
+          console.log(
+            `Player ${removed.username} timed out from game ${game.gameId}`,
+          )
           game.playerManager.broadcastCount()
           game.playerManager.emitPlayerList()
         }

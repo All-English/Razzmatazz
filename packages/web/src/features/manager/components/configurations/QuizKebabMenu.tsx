@@ -1,4 +1,13 @@
-import { Copy, FolderInput, MoreVertical, Star, Trash2, Pencil, Rocket, Download } from "lucide-react"
+import {
+  Copy,
+  FolderInput,
+  MoreVertical,
+  Star,
+  Trash2,
+  Pencil,
+  Rocket,
+  Download,
+} from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -59,14 +68,14 @@ const QuizKebabMenu = ({
           e.stopPropagation()
           setIsOpen(!isOpen)
         }}
-        className="rounded-lg p-2 text-gray-500 dark:text-zinc-400 transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-700 dark:hover:text-zinc-200"
+        className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
       >
         <MoreVertical className="size-4 shrink-0" />
       </button>
 
       {isOpen && (
         <div
-          className={`animate-fade-in absolute right-0 z-30 w-44 divide-y divide-gray-50 dark:divide-zinc-800 rounded-xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-1 shadow-xl ${
+          className={`animate-fade-in absolute right-0 z-30 w-44 divide-y divide-gray-50 rounded-xl border border-gray-100 bg-white py-1 shadow-xl dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 ${
             placement === "top" ? "bottom-full mb-1" : "top-full mt-1"
           }`}
           onClick={(e) => {
@@ -78,30 +87,30 @@ const QuizKebabMenu = ({
             {/* Host */}
             <button
               onClick={onHost}
-              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <Rocket className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
+              <Rocket className="dark:text-zinc-550 size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.host")}</span>
             </button>
 
             {/* Edit */}
             <button
               onClick={onEdit}
-              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <Pencil className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
+              <Pencil className="dark:text-zinc-550 size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.edit")}</span>
             </button>
 
-            <hr className="my-1 border-gray-100 dark:border-zinc-850" />
+            <hr className="dark:border-zinc-850 my-1 border-gray-100" />
 
             {/* Favorite / Unfavorite */}
             <button
               onClick={onFavorite}
-              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
               <Star
-                className={`size-4 shrink-0 ${isFavorite ? "fill-primary text-primary" : "text-gray-400 dark:text-zinc-550"}`}
+                className={`size-4 shrink-0 ${isFavorite ? "fill-primary text-primary" : "dark:text-zinc-550 text-gray-400"}`}
               />
               <span>
                 {isFavorite
@@ -113,27 +122,27 @@ const QuizKebabMenu = ({
             {/* Move to folder */}
             <button
               onClick={onMove}
-              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <FolderInput className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
+              <FolderInput className="dark:text-zinc-550 size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.moveToFolder")}</span>
             </button>
 
             {/* Duplicate */}
             <button
               onClick={onDuplicate}
-              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <Copy className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
+              <Copy className="dark:text-zinc-550 size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.duplicate")}</span>
             </button>
 
             {/* Export as JSON */}
             <button
               onClick={onExport}
-              className="hover:bg-primary/5 hover:text-primary dark:hover:bg-zinc-800 flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 dark:text-zinc-300 transition-colors"
+              className="hover:bg-primary/5 hover:text-primary flex w-full items-center gap-2.5 px-3.5 py-1.5 text-left text-xs font-medium text-gray-700 transition-colors dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <Download className="size-4 shrink-0 text-gray-400 dark:text-zinc-550" />
+              <Download className="dark:text-zinc-550 size-4 shrink-0 text-gray-400" />
               <span>{t("manager:quizz.export")}</span>
             </button>
           </div>

@@ -148,7 +148,9 @@ const ManagerGamePage = () => {
             ? triggerExitConfirmation
             : undefined
         }
-        onExit={status.name === STATUS.FINISHED ? triggerExitConfirmation : undefined}
+        onExit={
+          status.name === STATUS.FINISHED ? triggerExitConfirmation : undefined
+        }
         onEndEarly={
           mode === "versus" &&
           status.name !== STATUS.FINISHED &&

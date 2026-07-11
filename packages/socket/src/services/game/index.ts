@@ -275,7 +275,9 @@ class Game {
         if (status.name === STATUS.WAIT && !this.started) {
           status.data = {
             ...status.data,
-            correctSentences: this.quizz.questions.map((q) => q.correctSentence),
+            correctSentences: this.quizz.questions.map(
+              (q) => q.correctSentence,
+            ),
           }
         }
 
@@ -370,9 +372,13 @@ class Game {
       this.pendingLobbyLeaves.delete(clientId)
       const removedPlayer = this.playerManager.removeByClientId(clientId)
       if (removedPlayer) {
-        this.io.to(this._manager.id).emit(EVENTS.MANAGER.REMOVE_PLAYER, removedPlayer.id)
+        this.io
+          .to(this._manager.id)
+          .emit(EVENTS.MANAGER.REMOVE_PLAYER, removedPlayer.id)
         this.playerManager.broadcastCount()
-        console.log(`Player ${removedPlayer.username} left game ${this.gameId} after grace period`)
+        console.log(
+          `Player ${removedPlayer.username} left game ${this.gameId} after grace period`,
+        )
       }
     }, 2500)
 
@@ -410,7 +416,12 @@ class Game {
   async start(
     socket: Socket,
     mode: GameMode = "practice",
-    options?: { shuffle?: boolean; startIndex?: number; endIndex?: number; easyMode?: boolean },
+    options?: {
+      shuffle?: boolean
+      startIndex?: number
+      endIndex?: number
+      easyMode?: boolean
+    },
   ) {
     await this.round.start(socket, mode, options)
   }

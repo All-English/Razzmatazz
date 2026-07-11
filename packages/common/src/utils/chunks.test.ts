@@ -36,21 +36,29 @@ describe("Chunk Derivation Utilities", () => {
 
   describe("isDerivationSuccessful", () => {
     it("should return true when a valid permutation exists", () => {
-      expect(isDerivationSuccessful("Hello world", ["world", "Hello"])).toBe(true)
+      expect(isDerivationSuccessful("Hello world", ["world", "Hello"])).toBe(
+        true,
+      )
     })
 
     it("should return false when chunks cannot reconstruct the sentence", () => {
-      expect(isDerivationSuccessful("Hello world", ["world", "wrong"])).toBe(false)
+      expect(isDerivationSuccessful("Hello world", ["world", "wrong"])).toBe(
+        false,
+      )
     })
   })
 
   describe("isValidChunksOrder", () => {
     it("should return true for correctly ordered chunks", () => {
-      expect(isValidChunksOrder("I love coding", ["I", "love", "coding"])).toBe(true)
+      expect(isValidChunksOrder("I love coding", ["I", "love", "coding"])).toBe(
+        true,
+      )
     })
 
     it("should return false for incorrectly ordered chunks", () => {
-      expect(isValidChunksOrder("I love coding", ["love", "I", "coding"])).toBe(false)
+      expect(isValidChunksOrder("I love coding", ["love", "I", "coding"])).toBe(
+        false,
+      )
     })
   })
 
@@ -66,7 +74,8 @@ describe("Chunk Derivation Utilities", () => {
     })
 
     it("should handle abbreviations and not split on them", () => {
-      const text = "Dr. Smith went to the store. It cost $5.00 etc. or something."
+      const text =
+        "Dr. Smith went to the store. It cost $5.00 etc. or something."
       const result = splitIntoSentences(text)
       expect(result).toEqual([
         "Dr. Smith went to the store.",
@@ -106,7 +115,8 @@ describe("Chunk Derivation Utilities", () => {
     })
 
     it("should split longer sentences into phrases", () => {
-      const sentence = "When the sun shines tomorrow, we will go to the park and have a nice picnic."
+      const sentence =
+        "When the sun shines tomorrow, we will go to the park and have a nice picnic."
       const chunks = autoGenerateChunks(sentence)
       // Expect phrases of 2-3 words grouped
       expect(chunks.length).toBeGreaterThanOrEqual(4)

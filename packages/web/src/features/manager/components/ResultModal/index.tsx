@@ -27,7 +27,7 @@ const ResultModal = ({ result, onClose }: Props) => {
           <ResultModalHeader />
           <ResultModalAnswers />
           <ResultModalStats />
-          <div className="min-h-0 flex-1 overflow-y-auto overflow-x-auto">
+          <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto">
             <ResultModalTable />
           </div>
         </ResultModalProvider>

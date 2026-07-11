@@ -92,7 +92,10 @@ const ResultModalTable = () => {
               <td className="px-5 py-2.5 font-medium">{pa.playerName}</td>
               <td className="px-4 py-2.5">
                 {pa.submittedSentence !== null ? (
-                  <span className="block max-w-[200px] truncate text-xs text-gray-700" title={pa.submittedSentence}>
+                  <span
+                    className="block max-w-[200px] truncate text-xs text-gray-700"
+                    title={pa.submittedSentence}
+                  >
                     {pa.submittedSentence}
                   </span>
                 ) : (

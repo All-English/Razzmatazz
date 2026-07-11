@@ -49,7 +49,10 @@ export function buildFolderTree(folders: string[]): FolderNode[] {
 
   const sortTree = (nodes: FolderNode[]) => {
     nodes.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { sensitivity: "base", numeric: true }),
+      a.name.localeCompare(b.name, undefined, {
+        sensitivity: "base",
+        numeric: true,
+      }),
     )
     nodes.forEach((n) => sortTree(n.children))
   }
@@ -76,7 +79,9 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
   const createInputRef = useRef<HTMLInputElement>(null)
 
   // Subfolder creation state
-  const [creatingSubfolderOf, setCreatingSubfolderOf] = useState<string | null>(null)
+  const [creatingSubfolderOf, setCreatingSubfolderOf] = useState<string | null>(
+    null,
+  )
   const [newSubfolderName, setNewSubfolderName] = useState("")
   const subfolderInputRef = useRef<HTMLInputElement>(null)
 
@@ -152,19 +157,20 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
     setIsCreating(false)
   }
 
-  const handleCreateSubfolder = (parentPath: string) => (e: React.FormEvent) => {
-    e.preventDefault()
-    const name = newSubfolderName.trim()
-    if (name) {
-      const fullPath = `${parentPath}/${name}`
-      if (!folders.includes(fullPath)) {
-        socket.emit(EVENTS.MANAGER.CREATE_FOLDER, fullPath)
-        onSelectFolder(fullPath)
+  const handleCreateSubfolder =
+    (parentPath: string) => (e: React.FormEvent) => {
+      e.preventDefault()
+      const name = newSubfolderName.trim()
+      if (name) {
+        const fullPath = `${parentPath}/${name}`
+        if (!folders.includes(fullPath)) {
+          socket.emit(EVENTS.MANAGER.CREATE_FOLDER, fullPath)
+          onSelectFolder(fullPath)
+        }
       }
+      setNewSubfolderName("")
+      setCreatingSubfolderOf(null)
     }
-    setNewSubfolderName("")
-    setCreatingSubfolderOf(null)
-  }
 
   const handleRenameFolder = (oldPath: string) => (e: React.FormEvent) => {
     e.preventDefault()
@@ -175,7 +181,10 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
       const newPath = parts.join("/")
 
       if (newPath !== oldPath) {
-        socket.emit(EVENTS.MANAGER.RENAME_FOLDER, { oldName: oldPath, newName: newPath })
+        socket.emit(EVENTS.MANAGER.RENAME_FOLDER, {
+          oldName: oldPath,
+          newName: newPath,
+        })
         if (selectedFolder === oldPath) {
           onSelectFolder(newPath)
         }
@@ -222,8 +231,8 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
         <div
           className={`group relative flex w-full items-center justify-between rounded-lg py-2 pr-3 text-sm transition-all duration-200 ${
             isSelected
-              ? "bg-primary/5 dark:bg-primary/10 font-semibold text-primary"
-              : "text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-900/50"
+              ? "bg-primary/5 dark:bg-primary/10 text-primary font-semibold"
+              : "text-gray-700 hover:bg-gray-50 dark:text-zinc-300 dark:hover:bg-zinc-900/50"
           }`}
           style={{ paddingLeft: `${12 + depth * 16}px` }}
         >
@@ -245,14 +254,14 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                   openMenuFolder === node.path ? null : node.path,
                 )
               }
-              className="rounded-md p-1 hover:bg-gray-200 dark:hover:bg-zinc-800 text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300"
+              className="rounded-md p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-700 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
             >
               <MoreVertical className="size-4" />
             </button>
             {openMenuFolder === node.path && (
               <div
                 ref={menuRef}
-                className={`absolute right-0 z-20 w-36 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-1 shadow-lg ${
+                className={`absolute right-0 z-20 w-36 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-zinc-800 dark:bg-zinc-900 ${
                   folderMenuPlacement === "top"
                     ? "bottom-full mb-1"
                     : "top-full mt-1"
@@ -264,7 +273,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                     setNewSubfolderName("")
                     setOpenMenuFolder(null)
                   }}
-                  className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs text-gray-600 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                  className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs text-gray-600 hover:bg-gray-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 >
                   <FolderPlus className="size-3.5" />
                   <span>{t("manager:sidebar.newSubfolder")}</span>
@@ -276,7 +285,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                     setRenameValue(node.name)
                     setOpenMenuFolder(null)
                   }}
-                  className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs text-gray-600 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                  className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs text-gray-600 hover:bg-gray-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 >
                   <Pencil className="size-3.5" />
                   <span>{t("manager:sidebar.renameFolder")}</span>
@@ -314,7 +323,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                   if (!newSubfolderName.trim()) setCreatingSubfolderOf(null)
                 }, 200)
               }}
-              className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-2 py-1.5 text-sm outline-none focus:ring-1 text-gray-900 dark:text-zinc-100"
+              className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 outline-none focus:ring-1 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
             />
           </form>
         )}
@@ -325,10 +334,10 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
   }
 
   return (
-    <div className="hidden lg:flex h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-4 select-none">
+    <div className="hidden h-full w-[240px] shrink-0 flex-col justify-between border-r border-gray-200 bg-white p-4 select-none lg:flex dark:border-zinc-800 dark:bg-zinc-950">
       <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto pr-1">
         {/* Section Title */}
-        <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 dark:text-zinc-400 uppercase">
+        <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 uppercase dark:text-zinc-400">
           <span>{t("manager:nav.library")}</span>
         </div>
 
@@ -339,8 +348,8 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             onClick={() => onSelectFolder("all")}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
               selectedFolder === "all"
-                ? "bg-primary/5 dark:bg-primary/10 font-semibold text-primary"
-                : "text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-900/50"
+                ? "bg-primary/5 dark:bg-primary/10 text-primary font-semibold"
+                : "text-gray-700 hover:bg-gray-50 dark:text-zinc-300 dark:hover:bg-zinc-900/50"
             }`}
           >
             <FolderOpen
@@ -354,8 +363,8 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             onClick={() => onSelectFolder("favorites")}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
               selectedFolder === "favorites"
-                ? "bg-primary/5 dark:bg-primary/10 font-semibold text-primary"
-                : "text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-900/50"
+                ? "bg-primary/5 dark:bg-primary/10 text-primary font-semibold"
+                : "text-gray-700 hover:bg-gray-50 dark:text-zinc-300 dark:hover:bg-zinc-900/50"
             }`}
           >
             <FolderHeart
@@ -367,11 +376,11 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
 
         {/* User Folders Header */}
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 dark:text-zinc-400 uppercase">
+          <div className="flex items-center justify-between px-2 text-xs font-bold tracking-wider text-gray-500 uppercase dark:text-zinc-400">
             <span>{t("manager:sidebar.yourFolders")}</span>
             <button
               onClick={() => setIsCreating(true)}
-              className="rounded-md p-1 text-gray-500 dark:text-zinc-400 transition-colors hover:bg-gray-200 dark:hover:bg-zinc-800 hover:text-gray-700 dark:hover:text-zinc-200"
+              className="rounded-md p-1 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
               title={t("manager:sidebar.newFolder")}
             >
               <FolderPlus className="size-4" />
@@ -393,7 +402,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
                       if (!newFolderName.trim()) setIsCreating(false)
                     }, 200)
                   }}
-                  className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-2 py-1.5 text-sm outline-none focus:ring-1 text-gray-900 dark:text-zinc-100"
+                  className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 outline-none focus:ring-1 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
                 />
               </form>
             )}
@@ -401,7 +410,7 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
             {buildFolderTree(folders).map((node) => renderFolderNode(node, 0))}
 
             {folders.length === 0 && !isCreating && (
-              <p className="px-2 py-4 text-center text-xs text-gray-500 dark:text-zinc-400 italic">
+              <p className="px-2 py-4 text-center text-xs text-gray-500 italic dark:text-zinc-400">
                 {t("manager:quizz.none")}
               </p>
             )}
@@ -410,13 +419,13 @@ const FolderSidebar = ({ selectedFolder, onSelectFolder }: Props) => {
       </div>
 
       {/* Bottom: Trash */}
-      <div className="mt-4 shrink-0 border-t border-gray-200/60 dark:border-zinc-800 pt-4">
+      <div className="mt-4 shrink-0 border-t border-gray-200/60 pt-4 dark:border-zinc-800">
         <button
           onClick={() => onSelectFolder("trash")}
           className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
             selectedFolder === "trash"
-              ? "bg-red-50 dark:bg-red-950/20 font-semibold text-red-700 dark:text-red-400"
-              : "text-gray-700 dark:text-zinc-300 hover:bg-red-50/50 dark:hover:bg-red-950/10 hover:text-red-600 dark:hover:text-red-400"
+              ? "bg-red-50 font-semibold text-red-700 dark:bg-red-950/20 dark:text-red-400"
+              : "text-gray-700 hover:bg-red-50/50 hover:text-red-600 dark:text-zinc-300 dark:hover:bg-red-950/10 dark:hover:text-red-400"
           }`}
         >
           <Trash2

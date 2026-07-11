@@ -10,8 +10,19 @@ import { useGameModeStore } from "@razzia/web/features/game/stores/gameMode"
 import { useManagerStore } from "@razzia/web/features/game/stores/manager"
 import { useOnClickOutside } from "@razzia/web/hooks/useOnClickOutside"
 import { useConfig } from "@razzia/web/features/manager/contexts/config-context"
-import { buildFolderTree, type FolderNode } from "@razzia/web/features/manager/components/configurations/FolderSidebar"
-import { Maximize2, X, Check, Folder, FolderHeart, FolderOpen, Search } from "lucide-react"
+import {
+  buildFolderTree,
+  type FolderNode,
+} from "@razzia/web/features/manager/components/configurations/FolderSidebar"
+import {
+  Maximize2,
+  X,
+  Check,
+  Folder,
+  FolderHeart,
+  FolderOpen,
+  Search,
+} from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -111,7 +122,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
         <button
           onClick={() => setSelectedFolder(node.path)}
           className={clsx(
-            "flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200 mb-1",
+            "mb-1 flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm transition-all duration-200",
             isSelected
               ? "border-primary bg-primary/5 text-primary font-bold"
               : "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900",
@@ -201,7 +212,9 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
     const startOptions = {
       shuffle,
       easyMode,
-      ...(isLimitEnabled ? { startIndex: startIndex - 1, endIndex: endIndex - 1 } : {}),
+      ...(isLimitEnabled
+        ? { startIndex: startIndex - 1, endIndex: endIndex - 1 }
+        : {}),
     }
 
     socket.emit(EVENTS.MANAGER.START_GAME, {
@@ -382,10 +395,10 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                     type="checkbox"
                     checked={shuffle}
                     onChange={(e) => setShuffle(e.target.checked)}
-                    className="sr-only peer"
+                    className="peer sr-only"
                   />
-                  <div className="h-5 w-9 rounded-full bg-white/10 border border-white/20 transition-all duration-200 peer-checked:bg-primary peer-checked:border-primary" />
-                  <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:translate-x-4 shadow" />
+                  <div className="peer-checked:bg-primary peer-checked:border-primary h-5 w-9 rounded-full border border-white/20 bg-white/10 transition-all duration-200" />
+                  <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white shadow transition-all duration-200 peer-checked:translate-x-4" />
                 </div>
                 <span>{t("manager:quizz.shuffle")}</span>
               </label>
@@ -397,12 +410,17 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                       type="checkbox"
                       checked={easyMode}
                       onChange={(e) => setEasyMode(e.target.checked)}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="h-5 w-9 rounded-full bg-white/10 border border-white/20 transition-all duration-200 peer-checked:bg-primary peer-checked:border-primary" />
-                    <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:translate-x-4 shadow" />
+                    <div className="peer-checked:bg-primary peer-checked:border-primary h-5 w-9 rounded-full border border-white/20 bg-white/10 transition-all duration-200" />
+                    <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white shadow transition-all duration-200 peer-checked:translate-x-4" />
                   </div>
-                  <span>{t("manager:quizz.easyMode", "Easy Mode (Allow Multiple Attempts)")}</span>
+                  <span>
+                    {t(
+                      "manager:quizz.easyMode",
+                      "Easy Mode (Allow Multiple Attempts)",
+                    )}
+                  </span>
                 </label>
               )}
 
@@ -419,10 +437,10 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                           setEndIndex(activeQuizQuestionCount || 1)
                         }
                       }}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="h-5 w-9 rounded-full bg-white/10 border border-white/20 transition-all duration-200 peer-checked:bg-primary peer-checked:border-primary" />
-                    <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:translate-x-4 shadow" />
+                    <div className="peer-checked:bg-primary peer-checked:border-primary h-5 w-9 rounded-full border border-white/20 bg-white/10 transition-all duration-200" />
+                    <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white shadow transition-all duration-200 peer-checked:translate-x-4" />
                   </div>
                   <span>{t("manager:quizz.limitRange")}</span>
                 </label>
@@ -533,9 +551,9 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
               </button>
             </div>
 
-            <div className="flex flex-1 gap-6 overflow-hidden min-h-0">
+            <div className="flex min-h-0 flex-1 gap-6 overflow-hidden">
               {/* Folder Sidebar */}
-              <div className="flex w-52 shrink-0 flex-col gap-4 border-r border-gray-100 pr-4 select-none overflow-y-auto">
+              <div className="flex w-52 shrink-0 flex-col gap-4 overflow-y-auto border-r border-gray-100 pr-4 select-none">
                 <div className="flex flex-col gap-1.5">
                   <button
                     onClick={() => setSelectedFolder("all")}
@@ -547,7 +565,9 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                     )}
                   >
                     <FolderOpen className="size-4 shrink-0" />
-                    <span className="truncate">{t("manager:sidebar.allQuizzes")}</span>
+                    <span className="truncate">
+                      {t("manager:sidebar.allQuizzes")}
+                    </span>
                   </button>
 
                   <button
@@ -560,7 +580,9 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                     )}
                   >
                     <FolderHeart className="size-4 shrink-0" />
-                    <span className="truncate">{t("manager:sidebar.favorites")}</span>
+                    <span className="truncate">
+                      {t("manager:sidebar.favorites")}
+                    </span>
                   </button>
                 </div>
 
@@ -570,14 +592,16 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                       {t("manager:sidebar.yourFolders")}
                     </div>
                     <div className="flex flex-col gap-1">
-                      {buildFolderTree(folders).map((node) => renderFolderButton(node, 0))}
+                      {buildFolderTree(folders).map((node) =>
+                        renderFolderButton(node, 0),
+                      )}
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Quiz List & Search */}
-              <div className="flex flex-1 flex-col min-w-0 min-h-0">
+              <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                 {/* Search Bar */}
                 <div className="relative mb-3">
                   <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-gray-400" />
@@ -586,7 +610,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                     placeholder={t("manager:quizz.search")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-white py-2 pr-10 pl-9.5 text-sm placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all"
+                    className="focus:border-primary focus:ring-primary w-full rounded-xl border border-gray-200 bg-white py-2 pr-10 pl-9.5 text-sm placeholder-gray-400 transition-all focus:ring-1 focus:outline-none"
                   />
                   {searchQuery && (
                     <button
@@ -599,7 +623,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 </div>
 
                 {/* Quizzes List */}
-                <div className="flex-1 space-y-2.5 overflow-y-auto pr-1 min-h-0">
+                <div className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1">
                   {filteredQuizzes.map((quizz) => {
                     const hasMismatch = Boolean(quizz.hasMismatch)
                     const isCurrentActive = quizz.id === activeQuizzId
@@ -617,18 +641,18 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                               : "hover:border-primary/50 border-gray-200 bg-white hover:bg-gray-50",
                         )}
                       >
-                        <div className="flex flex-col gap-1 min-w-0 flex-1 pr-4">
+                        <div className="flex min-w-0 flex-1 flex-col gap-1 pr-4">
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="font-semibold text-gray-900 truncate">
+                            <span className="truncate font-semibold text-gray-900">
                               {quizz.subject}
                             </span>
-                            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500 shrink-0">
+                            <span className="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
                               {t("manager:quizz.questionsCount", {
                                 count: quizz.questionCount ?? 0,
                               })}
                             </span>
                             {isCurrentActive && (
-                              <span className="bg-primary rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase shrink-0">
+                              <span className="bg-primary shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
                                 {t("common:active", "Active")}
                               </span>
                             )}
@@ -659,7 +683,9 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
 
                   {filteredQuizzes.length === 0 && (
                     <div className="py-12 text-center text-gray-500">
-                      <p className="text-sm font-medium">{t("manager:quizz.notFound")}</p>
+                      <p className="text-sm font-medium">
+                        {t("manager:quizz.notFound")}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -688,8 +714,9 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
         }}
         title={t("manager:removePlayerTitle", "Remove Player?")}
         description={t("manager:removePlayerDescription", {
-          defaultValue: "Are you sure you want to remove {{username}} from the game?",
-          username: playerToRemove?.username
+          defaultValue:
+            "Are you sure you want to remove {{username}} from the game?",
+          username: playerToRemove?.username,
         })}
         confirmLabel={t("manager:removeConfirmLabel", "Remove")}
         onConfirm={() => {

@@ -46,7 +46,7 @@ const ManagerPassword = ({ onSubmit }: Props) => {
 
       <Link
         to="/"
-        className="mt-6 text-sm font-bold text-white/50 transition-colors hover:text-white/80 underline underline-offset-4"
+        className="mt-6 text-sm font-bold text-white/50 underline underline-offset-4 transition-colors hover:text-white/80"
       >
         {t("manager:enterGamePin", "Enter Game PIN Code")}
       </Link>

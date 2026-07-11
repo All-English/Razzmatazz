@@ -77,14 +77,16 @@ const Reconnect = () => {
   }
 
   return (
-    <Card className="relative mt-4 gap-3 bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800">
+    <Card className="relative mt-4 gap-3 border border-gray-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <button
         className="absolute top-3 right-3 opacity-40 hover:opacity-100"
         onClick={handleDismiss}
       >
         <X className="size-6 text-gray-500 dark:text-zinc-400" />
       </button>
-      <p className="font-semibold text-gray-900 dark:text-zinc-100">{t("game:reconnectTitle")}</p>
+      <p className="font-semibold text-gray-900 dark:text-zinc-100">
+        {t("game:reconnectTitle")}
+      </p>
       <Button onClick={handleReconnect}>{t("game:reconnect")}</Button>
     </Card>
   )

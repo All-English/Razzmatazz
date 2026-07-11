@@ -74,58 +74,67 @@ const TrashPanel = ({ onSelectFolder }: Props) => {
   const isAllSelected = trash.length > 0 && selectedIds.length === trash.length
 
   return (
-    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-gray-50 dark:bg-zinc-900 p-4 sm:p-8 select-none">
+    <div className="relative flex h-full flex-1 flex-col overflow-y-auto bg-gray-50 p-4 select-none sm:p-8 dark:bg-zinc-900">
       {/* Folder Dropdown for tablet/mobile (visible only below lg: 1024px) */}
-      <div className="lg:hidden mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-zinc-800 p-4 shadow-xs">
-        <label className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider">
+      <div className="mb-6 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-xs sm:flex-row sm:items-center lg:hidden dark:border-zinc-800 dark:bg-zinc-950">
+        <label className="text-xs font-bold tracking-wider text-gray-500 uppercase dark:text-zinc-400">
           {t("manager:nav.library")}:
         </label>
         <select
           value="trash"
           onChange={(e) => onSelectFolder(e.target.value)}
-          className="rounded-lg border border-gray-200 dark:border-zinc-800 bg-gray-50/50 dark:bg-zinc-900 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-zinc-300 outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-64"
+          className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-200 bg-gray-50/50 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:ring-1 sm:w-64 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
         >
-          <option value="all" className="dark:bg-zinc-900">📁 {t("manager:sidebar.allQuizzes")}</option>
-          <option value="favorites" className="dark:bg-zinc-900">❤️ {t("manager:sidebar.favorites")}</option>
+          <option value="all" className="dark:bg-zinc-900">
+            📁 {t("manager:sidebar.allQuizzes")}
+          </option>
+          <option value="favorites" className="dark:bg-zinc-900">
+            ❤️ {t("manager:sidebar.favorites")}
+          </option>
           {[...folders]
             .sort((a, b) =>
-              a.localeCompare(b, undefined, { sensitivity: "base", numeric: true }),
+              a.localeCompare(b, undefined, {
+                sensitivity: "base",
+                numeric: true,
+              }),
             )
             .map((f) => (
               <option key={f} value={f} className="dark:bg-zinc-900">
                 📁 {f}
               </option>
             ))}
-          <option value="trash" className="dark:bg-zinc-900">🗑️ {t("manager:sidebar.trash")}</option>
+          <option value="trash" className="dark:bg-zinc-900">
+            🗑️ {t("manager:sidebar.trash")}
+          </option>
         </select>
       </div>
 
       {/* Header */}
-      <div className="border-gray-150 dark:border-zinc-800 mb-6 border-b pb-5">
+      <div className="border-gray-150 mb-6 border-b pb-5 dark:border-zinc-800">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">
           {t("manager:trash.title")}
         </h1>
-        <p className="mt-2 inline-block rounded-lg border border-amber-100 dark:border-amber-900/30 bg-amber-50 dark:bg-amber-950/20 px-3 py-2 text-xs font-medium text-amber-600 dark:text-amber-400">
+        <p className="mt-2 inline-block rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-600 dark:border-amber-900/30 dark:bg-amber-950/20 dark:text-amber-400">
           ⚠️ {t("manager:trash.autoDeleteNotice")}
         </p>
       </div>
 
       {/* Trash Table */}
-      <div className="min-w-full overflow-x-auto rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-xs">
+      <div className="min-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-xs dark:border-zinc-800 dark:bg-zinc-950">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-gray-200 dark:border-zinc-800 bg-gray-100/70 dark:bg-zinc-900/50 text-xs font-semibold tracking-wider text-gray-500 dark:text-zinc-400 uppercase">
+            <tr className="border-b border-gray-200 bg-gray-100/70 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-400">
               <th className="w-12 px-4 py-3">
                 <input
                   type="checkbox"
                   checked={isAllSelected}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900"
+                  className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300 bg-white dark:border-zinc-700 dark:bg-zinc-900"
                 />
               </th>
               <th className="px-4 py-3">Title</th>
-              <th className="hidden sm:table-cell w-32 px-4 py-3">Questions</th>
-              <th className="hidden sm:table-cell w-52 px-4 py-3">
+              <th className="hidden w-32 px-4 py-3 sm:table-cell">Questions</th>
+              <th className="hidden w-52 px-4 py-3 sm:table-cell">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-3.5" />
                   <span>{t("manager:trash.deletedOn")}</span>
@@ -149,18 +158,18 @@ const TrashPanel = ({ onSelectFolder }: Props) => {
                       type="checkbox"
                       checked={isChecked}
                       onChange={(e) => handleSelectOne(q.id, e.target.checked)}
-                      className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900"
+                      className="text-primary focus:ring-primary size-4 rounded-sm border-gray-300 bg-white dark:border-zinc-700 dark:bg-zinc-900"
                     />
                   </td>
                   <td className="max-w-[300px] truncate px-4 py-3.5 font-medium text-gray-900 dark:text-zinc-300">
                     {q.subject}
                   </td>
-                  <td className="hidden sm:table-cell px-4 py-3.5 text-gray-500 dark:text-zinc-400">
-                    <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-zinc-800 px-2.5 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300">
+                  <td className="hidden px-4 py-3.5 text-gray-500 sm:table-cell dark:text-zinc-400">
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600 dark:bg-zinc-800 dark:text-zinc-300">
                       {q.questionCount ?? 0}
                     </span>
                   </td>
-                  <td className="hidden sm:table-cell px-4 py-3.5 text-xs text-gray-400 dark:text-zinc-505">
+                  <td className="dark:text-zinc-505 hidden px-4 py-3.5 text-xs text-gray-400 sm:table-cell">
                     {formatDate(q.deletedAt)}
                   </td>
                   <td className="px-4 py-3.5 text-right">
@@ -168,7 +177,7 @@ const TrashPanel = ({ onSelectFolder }: Props) => {
                       {/* Restore */}
                       <button
                         onClick={() => handleRestore(q.id)}
-                        className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-2.5 py-1.5 text-xs font-semibold text-gray-700 dark:text-zinc-300 shadow-xs transition-all hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-100"
+                        className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:bg-gray-50 hover:text-gray-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                       >
                         <Undo2 className="text-primary size-3.5" />
                         <span>{t("manager:trash.restore")}</span>
@@ -178,7 +187,7 @@ const TrashPanel = ({ onSelectFolder }: Props) => {
                       <AlertDialog
                         trigger={
                           <button
-                            className="border-gray-250 dark:border-zinc-800 rounded-lg border bg-white dark:bg-zinc-900 p-1.5 text-red-500 shadow-xs transition-colors hover:border-red-200 dark:hover:border-zinc-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                            className="border-gray-250 rounded-lg border bg-white p-1.5 text-red-500 shadow-xs transition-colors hover:border-red-200 hover:bg-red-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700 dark:hover:bg-red-950/20"
                             title={t("manager:trash.permanentDelete")}
                           >
                             <Trash2 className="size-3.5" />

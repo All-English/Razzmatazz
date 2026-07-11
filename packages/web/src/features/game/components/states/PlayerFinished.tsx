@@ -31,7 +31,11 @@ const PlayerFinished = ({ data: { rank, subject, practiceTime } }: Props) => {
   const hasLogged = useRef(false)
 
   useEffect(() => {
-    if (isPracticeMode && typeof practiceTime === "number" && !hasLogged.current) {
+    if (
+      isPracticeMode &&
+      typeof practiceTime === "number" &&
+      !hasLogged.current
+    ) {
       hasLogged.current = true
 
       // Update best time

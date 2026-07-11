@@ -37,10 +37,14 @@ export const ResultModalProvider = ({ children, result, onClose }: Props) => {
   const [questionIndex, setQuestionIndex] = useState(0)
 
   const isPractice = result.mode === "practice"
-  const total = isPractice ? (result.rounds?.length ?? 0) : result.questions.length
+  const total = isPractice
+    ? (result.rounds?.length ?? 0)
+    : result.questions.length
   const totalPlayers = result.players.length
 
-  const questionResult = !isPractice ? result.questions[questionIndex] : undefined
+  const questionResult = !isPractice
+    ? result.questions[questionIndex]
+    : undefined
   const roundResult = isPractice ? result.rounds?.[questionIndex] : undefined
 
   const answeredCount = questionResult

@@ -5,4 +5,5 @@ export interface ManagerConfig {
   results: GameResultMeta[]
   folders: string[] // user-created folder names
   trash: QuizzMeta[] // soft-deleted quizzes
+  activeGameId?: string // if the manager has an active game
 }

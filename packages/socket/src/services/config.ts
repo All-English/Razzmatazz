@@ -170,7 +170,9 @@ const healQuizz = (
   filePath: string,
   identifier: string,
 ): boolean => {
-  const questionsBefore = parsed.questions ? JSON.stringify(parsed.questions) : ""
+  const questionsBefore = parsed.questions
+    ? JSON.stringify(parsed.questions)
+    : ""
   if (parsed.questions && Array.isArray(parsed.questions)) {
     parsed.questions = parsed.questions.map((q) => {
       if (
@@ -195,7 +197,9 @@ const healQuizz = (
 
   if (modified) {
     fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2))
-    console.info(`Auto-healed invalid correctChunks in quizz config "${identifier}"`)
+    console.info(
+      `Auto-healed invalid correctChunks in quizz config "${identifier}"`,
+    )
   }
   return modified
 }

@@ -34,29 +34,38 @@ const Wait = ({ data: { text, correctSentences } }: Props) => {
   return (
     <section className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center p-6 text-white select-none">
       {correctSentences && correctSentences.length > 0 ? (
-        <div className="flex flex-col items-center gap-8 text-center max-w-2xl w-full">
+        <div className="flex w-full max-w-2xl flex-col items-center gap-8 text-center">
           {/* Pulsing indicator */}
-          <div className="relative flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 shadow-lg shadow-primary/20">
-            <span className="absolute size-4 rounded-full bg-primary animate-ping opacity-75" />
-            <span className="relative size-3 rounded-full bg-primary shadow-inner" />
+          <div className="bg-primary/10 shadow-primary/20 relative flex h-6 w-6 items-center justify-center rounded-full shadow-lg">
+            <span className="bg-primary absolute size-4 animate-ping rounded-full opacity-75" />
+            <span className="bg-primary relative size-3 rounded-full shadow-inner" />
           </div>
 
           <div className="space-y-3">
-            <h2 className="text-3xl font-black md:text-5xl tracking-tight drop-shadow-md text-white" style={{ textWrap: "balance" }}>
-              {t("game:waitingForGameToStart", "Waiting for the game to start.")}
+            <h2
+              className="text-3xl font-black tracking-tight text-white drop-shadow-md md:text-5xl"
+              style={{ textWrap: "balance" }}
+            >
+              {t(
+                "game:waitingForGameToStart",
+                "Waiting for the game to start.",
+              )}
             </h2>
-            <p className="text-white/60 text-sm md:text-base font-medium">
-              {t("game:getReadyHint", "Here are some sentences you will see in the game:")}
+            <p className="text-sm font-medium text-white/60 md:text-base">
+              {t(
+                "game:getReadyHint",
+                "Here are some sentences you will see in the game:",
+              )}
             </p>
           </div>
 
           {/* Sentence Card with transition */}
-          <div className="relative w-full overflow-hidden min-h-[120px] md:min-h-[145px] flex items-center justify-center rounded-2xl border border-white/10 bg-black/40 p-6 md:p-8 shadow-2xl backdrop-blur-xl">
+          <div className="relative flex min-h-[120px] w-full items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-6 shadow-2xl backdrop-blur-xl md:min-h-[145px] md:p-8">
             <p
-              className={`text-xl md:text-2xl lg:text-3xl font-black leading-relaxed tracking-wide text-primary transition-all duration-500 ease-in-out ${
+              className={`text-primary text-xl leading-relaxed font-black tracking-wide transition-all duration-500 ease-in-out md:text-2xl lg:text-3xl ${
                 fadeState === "in"
-                  ? "opacity-100 scale-100 translate-y-0"
-                  : "opacity-0 scale-95 translate-y-2 blur-xs"
+                  ? "translate-y-0 scale-100 opacity-100"
+                  : "translate-y-2 scale-95 opacity-0 blur-xs"
               }`}
             >
               {correctSentences[currentSentenceIndex]}
@@ -64,12 +73,14 @@ const Wait = ({ data: { text, correctSentences } }: Props) => {
           </div>
 
           {/* Bullet indicators */}
-          <div className="flex gap-1.5 flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center gap-1.5">
             {correctSentences.map((_, index) => (
               <span
                 key={index}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === currentSentenceIndex ? "w-6 bg-primary" : "w-1.5 bg-white/20"
+                  index === currentSentenceIndex
+                    ? "bg-primary w-6"
+                    : "w-1.5 bg-white/20"
                 }`}
               />
             ))}

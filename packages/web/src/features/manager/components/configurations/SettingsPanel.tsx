@@ -22,9 +22,9 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
   ]
 
   return (
-    <div className="flex h-full flex-1 flex-col overflow-y-auto bg-white dark:bg-zinc-950 p-4 sm:p-8 select-none">
+    <div className="flex h-full flex-1 flex-col overflow-y-auto bg-white p-4 select-none sm:p-8 dark:bg-zinc-950">
       {/* Header */}
-      <div className="mb-6 border-b border-gray-100 dark:border-zinc-800 pb-4">
+      <div className="mb-6 border-b border-gray-100 pb-4 dark:border-zinc-800">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">
           {t("manager:nav.settings")}
         </h1>
@@ -36,7 +36,7 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
       {/* Settings Grid */}
       <div className="max-w-2xl space-y-6">
         {/* Language Switcher Setting */}
-        <div className="border-gray-150 dark:border-zinc-800 flex items-center justify-between rounded-xl border bg-gray-50/30 dark:bg-zinc-900/20 p-5 transition-all">
+        <div className="border-gray-150 flex items-center justify-between rounded-xl border bg-gray-50/30 p-5 transition-all dark:border-zinc-800 dark:bg-zinc-900/20">
           <div className="flex gap-3">
             <Globe className="mt-0.5 size-5 text-gray-400 dark:text-zinc-500" />
             <div>
@@ -54,7 +54,7 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
         </div>
 
         {/* Theme Setting */}
-        <div className="border-gray-150 dark:border-zinc-800 flex items-center justify-between rounded-xl border bg-gray-50/30 dark:bg-zinc-900/20 p-5 transition-all">
+        <div className="border-gray-150 flex items-center justify-between rounded-xl border bg-gray-50/30 p-5 transition-all dark:border-zinc-800 dark:bg-zinc-900/20">
           <div className="flex gap-3">
             <SunMoon className="mt-0.5 size-5 text-gray-400 dark:text-zinc-500" />
             <div>
@@ -69,9 +69,11 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
           <div>
             <Select.Root
               value={theme}
-              onValueChange={(val) => onChangeTheme(val as "system" | "light" | "dark")}
+              onValueChange={(val) =>
+                onChangeTheme(val as "system" | "light" | "dark")
+              }
             >
-              <Select.Trigger className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 hover:border-gray-300 dark:hover:border-zinc-750 focus:outline-none">
+              <Select.Trigger className="dark:hover:border-zinc-750 flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 hover:border-gray-300 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
                 <SunMoon className="size-4 text-gray-500 dark:text-zinc-400" />
                 <Select.Value />
               </Select.Trigger>
@@ -80,14 +82,14 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
                 <Select.Content
                   position="popper"
                   sideOffset={4}
-                  className="z-50 min-w-32 overflow-hidden rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-md"
+                  className="z-50 min-w-32 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-zinc-800 dark:bg-zinc-900"
                 >
                   <Select.Viewport className="p-1">
                     {THEMES.map((t) => (
                       <Select.Item
                         key={t.code}
                         value={t.code}
-                        className="flex cursor-pointer items-center rounded-sm px-3 py-1.5 text-sm text-gray-700 dark:text-zinc-300 outline-none hover:bg-gray-100 dark:hover:bg-zinc-800 focus:bg-gray-100 dark:focus:bg-zinc-800 data-[state=checked]:font-semibold"
+                        className="flex cursor-pointer items-center rounded-sm px-3 py-1.5 text-sm text-gray-700 outline-none hover:bg-gray-100 focus:bg-gray-100 data-[state=checked]:font-semibold dark:text-zinc-300 dark:hover:bg-zinc-800 dark:focus:bg-zinc-800"
                       >
                         <Select.ItemText>{t.label}</Select.ItemText>
                       </Select.Item>
@@ -104,32 +106,38 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
           href="https://github.com/All-English/Razzmatazz"
           target="_blank"
           rel="noopener noreferrer"
-          className="border-gray-150 dark:border-zinc-800 flex items-center justify-between rounded-xl border bg-gray-50/30 dark:bg-zinc-900/20 p-5 hover:bg-gray-50/80 dark:hover:bg-zinc-900/40 transition-all group"
+          className="border-gray-150 group flex items-center justify-between rounded-xl border bg-gray-50/30 p-5 transition-all hover:bg-gray-50/80 dark:border-zinc-800 dark:bg-zinc-900/20 dark:hover:bg-zinc-900/40"
         >
           <div className="flex gap-3">
-            <GithubIcon size={20} className="mt-0.5 text-gray-400 dark:text-zinc-500 group-hover:text-gray-600 dark:group-hover:text-zinc-300 transition-colors" />
+            <GithubIcon
+              size={20}
+              className="mt-0.5 text-gray-400 transition-colors group-hover:text-gray-600 dark:text-zinc-500 dark:group-hover:text-zinc-300"
+            />
             <div>
-              <p className="font-semibold text-gray-900 dark:text-zinc-100 group-hover:text-primary transition-colors">
+              <p className="group-hover:text-primary font-semibold text-gray-900 transition-colors dark:text-zinc-100">
                 {t("manager:settings.githubRepository", "GitHub Repository")}
               </p>
               <p className="mt-0.5 text-xs text-gray-500 dark:text-zinc-400">
-                {t("manager:settings.githubSubtitle", "View the source code and contribute")}
+                {t(
+                  "manager:settings.githubSubtitle",
+                  "View the source code and contribute",
+                )}
               </p>
             </div>
           </div>
-          <ExternalLink className="size-4 text-gray-400 dark:text-zinc-600 group-hover:text-gray-500 dark:group-hover:text-zinc-400 transition-colors" />
+          <ExternalLink className="size-4 text-gray-400 transition-colors group-hover:text-gray-500 dark:text-zinc-600 dark:group-hover:text-zinc-400" />
         </a>
 
         {/* System Status Setting */}
-        <div className="border-gray-150 dark:border-zinc-800 space-y-4 rounded-xl border bg-gray-50/30 dark:bg-zinc-900/20 p-5">
+        <div className="border-gray-150 space-y-4 rounded-xl border bg-gray-50/30 p-5 dark:border-zinc-800 dark:bg-zinc-900/20">
           <h2 className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-zinc-100">
             <ShieldAlert className="size-4 text-gray-400 dark:text-zinc-500" />
             <span>{t("manager:settings.systemInfo")}</span>
           </h2>
 
-          <div className="grid grid-cols-2 gap-4 border-t border-gray-100 dark:border-zinc-800 pt-3 text-sm">
+          <div className="grid grid-cols-2 gap-4 border-t border-gray-100 pt-3 text-sm dark:border-zinc-800">
             <div className="space-y-1">
-              <span className="text-xs font-semibold tracking-wider text-gray-400 dark:text-zinc-500 uppercase">
+              <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase dark:text-zinc-500">
                 {t("manager:settings.serverConnection")}
               </span>
               <div className="flex items-center gap-2 font-medium">
@@ -137,7 +145,11 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
                   className={`size-4 ${isConnected ? "text-emerald-500" : "text-red-500"}`}
                 />
                 <span
-                  className={isConnected ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}
+                  className={
+                    isConnected
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-red-600 dark:text-red-400"
+                  }
                 >
                   {isConnected
                     ? t("manager:settings.connected")
@@ -147,7 +159,7 @@ const SettingsPanel = ({ theme, onChangeTheme }: Props) => {
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs font-semibold tracking-wider text-gray-400 dark:text-zinc-500 uppercase">
+              <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase dark:text-zinc-500">
                 {t("manager:settings.appVersion")}
               </span>
               <div className="font-medium text-gray-700 dark:text-zinc-300">

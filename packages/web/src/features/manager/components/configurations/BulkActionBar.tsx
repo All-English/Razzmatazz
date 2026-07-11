@@ -40,9 +40,9 @@ const BulkActionBar = ({
   if (selectedCount === 0) return null
 
   return (
-    <div className="border-gray-150 bg-secondary animate-fade-in fixed bottom-6 left-1/2 z-40 flex w-[calc(100%-2rem)] max-w-lg sm:max-w-none sm:w-auto -translate-x-1/2 flex-col sm:flex-row items-center gap-3 sm:gap-6 rounded-2xl sm:rounded-full border px-4 py-3 sm:px-6 text-white shadow-2xl select-none">
+    <div className="border-gray-150 bg-secondary animate-fade-in fixed bottom-6 left-1/2 z-40 flex w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 flex-col items-center gap-3 rounded-2xl border px-4 py-3 text-white shadow-2xl select-none sm:w-auto sm:max-w-none sm:flex-row sm:gap-6 sm:rounded-full sm:px-6">
       {/* Selected Count */}
-      <div className="flex items-center gap-2 border-b border-white/10 pb-2.5 sm:pb-0 sm:border-b-0 sm:border-r sm:pr-6 w-full sm:w-auto justify-between sm:justify-start">
+      <div className="flex w-full items-center justify-between gap-2 border-b border-white/10 pb-2.5 sm:w-auto sm:justify-start sm:border-r sm:border-b-0 sm:pr-6 sm:pb-0">
         <div className="flex items-center gap-2">
           <button
             onClick={onClear}
@@ -57,34 +57,34 @@ const BulkActionBar = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto">
+      <div className="flex w-full flex-wrap items-center justify-center gap-2 sm:w-auto sm:flex-nowrap sm:gap-3">
         {/* Favorite */}
         <button
           onClick={onFavorite}
-          className="flex items-center gap-2 rounded-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-semibold text-gray-200 transition-colors hover:bg-white/10 hover:text-white whitespace-nowrap"
+          className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-gray-200 transition-colors hover:bg-white/10 hover:text-white sm:px-3.5 sm:py-2"
           title={t("manager:quizz.favorite")}
         >
-          <Star className="size-4 text-gray-300 shrink-0" />
+          <Star className="size-4 shrink-0 text-gray-300" />
           <span>{t("manager:quizz.favorite")}</span>
         </button>
 
         {/* Move to folder */}
         <button
           onClick={onMove}
-          className="flex items-center gap-2 rounded-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-semibold text-gray-200 transition-colors hover:bg-white/10 hover:text-white whitespace-nowrap"
+          className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-gray-200 transition-colors hover:bg-white/10 hover:text-white sm:px-3.5 sm:py-2"
           title={t("manager:quizz.moveToFolder")}
         >
-          <FolderInput className="size-4 text-gray-300 shrink-0" />
+          <FolderInput className="size-4 shrink-0 text-gray-300" />
           <span>{t("manager:quizz.moveToFolder")}</span>
         </button>
 
         {/* Duplicate */}
         <button
           onClick={onDuplicate}
-          className="flex items-center gap-2 rounded-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-semibold text-gray-200 transition-colors hover:bg-white/10 hover:text-white whitespace-nowrap"
+          className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-gray-200 transition-colors hover:bg-white/10 hover:text-white sm:px-3.5 sm:py-2"
           title={t("manager:quizz.duplicate")}
         >
-          <Copy className="size-4 text-gray-300 shrink-0" />
+          <Copy className="size-4 shrink-0 text-gray-300" />
           <span>{t("manager:quizz.duplicate")}</span>
         </button>
 
@@ -93,10 +93,10 @@ const BulkActionBar = ({
           <>
             <button
               onClick={() => setCombineOpen(true)}
-              className="flex items-center gap-2 rounded-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-semibold text-gray-200 transition-colors hover:bg-white/10 hover:text-white whitespace-nowrap"
+              className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-gray-200 transition-colors hover:bg-white/10 hover:text-white sm:px-3.5 sm:py-2"
               title={t("manager:quizz.combine")}
             >
-              <Merge className="size-4 text-gray-300 shrink-0" />
+              <Merge className="size-4 shrink-0 text-gray-300" />
               <span>{t("manager:quizz.combine")}</span>
             </button>
 
@@ -159,7 +159,7 @@ const BulkActionBar = ({
         {/* Delete */}
         <button
           onClick={onDelete}
-          className="flex items-center gap-2 rounded-full bg-red-600/90 px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-red-600 whitespace-nowrap"
+          className="flex items-center gap-2 rounded-full bg-red-600/90 px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap text-white shadow-sm transition-colors hover:bg-red-600 sm:px-4 sm:py-2"
           title={t("common:delete")}
         >
           <Trash2 className="size-4 shrink-0" />
