@@ -55,7 +55,6 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
 
       game.playerManager.broadcastCount()
 
-      // Give 60 seconds to reconnect before leaving the lobby
       const timeout = setTimeout(() => {
         game.pendingLobbyLeaves.delete(player.clientId)
         const removed = game.removePlayer(socket.id)
@@ -63,8 +62,6 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
           console.log(
             `Player ${removed.username} timed out from game ${game.gameId}`,
           )
-          game.playerManager.broadcastCount()
-          game.playerManager.emitPlayerList()
         }
       }, 60_000)
 
