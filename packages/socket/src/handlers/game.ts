@@ -252,7 +252,7 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
 
     if (game) {
       console.log(`Manager explicitly exited game ${game.inviteCode}`)
-      io.to(game.gameId).emit(EVENTS.GAME.RESET, "game:waitingForPlayers")
+      io.to(game.gameId).emit(EVENTS.GAME.RESET, "errors:game.ended")
       registry.removeGame(game.gameId)
     }
   })

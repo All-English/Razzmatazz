@@ -6,6 +6,7 @@
   },
   "game": {
     "expired": "Game expired",
+    "ended": "The game has ended",
     "kickedByManager": "You have been kicked by the manager",
     "managerAlreadyConnected": "Manager already connected",
     "managerDisconnected": "Manager disconnected",

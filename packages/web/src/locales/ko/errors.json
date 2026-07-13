@@ -6,6 +6,7 @@
   },
   "game": {
     "expired": "게임이 만료되었습니다",
+    "ended": "게임이 종료되었습니다",
     "kickedByManager": "관리자에 의해 강퇴되었습니다",
     "managerAlreadyConnected": "관리자가 이미 연결되어 있습니다",
     "managerDisconnected": "관리자 연결이 끊어졌습니다",

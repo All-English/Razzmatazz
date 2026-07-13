@@ -6,6 +6,7 @@
   },
   "game": {
     "expired": "ゲームの有効期限が切れました",
+    "ended": "ゲームが終了しました",
     "kickedByManager": "管理者によって退室させられました",
     "managerAlreadyConnected": "管理者はすでに接続されています",
     "managerDisconnected": "管理者が切断されました",

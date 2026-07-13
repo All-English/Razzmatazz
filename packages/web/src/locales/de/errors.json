@@ -6,6 +6,7 @@
   },
   "game": {
     "expired": "Spiel abgelaufen",
+    "ended": "Das Spiel wurde beendet",
     "kickedByManager": "Du wurdest vom Manager entfernt",
     "managerAlreadyConnected": "Manager bereits verbunden",
     "managerDisconnected": "Manager getrennt",

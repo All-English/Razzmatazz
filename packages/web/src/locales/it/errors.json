@@ -6,6 +6,7 @@
   },
   "game": {
     "expired": "Partita terminata",
+    "ended": "Il gioco è terminato",
     "kickedByManager": "Sei stato espulso dal gestore",
     "managerAlreadyConnected": "Gestore già connesso",
     "managerDisconnected": "Gestore disconnesso",
