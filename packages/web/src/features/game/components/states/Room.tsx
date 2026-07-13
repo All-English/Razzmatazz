@@ -40,6 +40,11 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
   const { gameId, players, activeQuizzId, setActiveQuizzId } = useManagerStore()
   const { socket } = useSocket()
   const webUrl = window.location.origin
+  const isLocalhost =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname === "[::1]")
   const [playerList, setPlayerList] = useState<Player[]>(players)
   const [totalPlayers, setTotalPlayers] = useState(players.length)
   const [qrOpen, setQrOpen] = useState(false)
@@ -239,6 +244,11 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
                 <p className="mt-0.5 text-lg font-bold break-all text-gray-800">
                   {webUrl}
                 </p>
+                {isLocalhost && (
+                  <p className="mt-1.5 text-[10px] leading-snug font-medium text-amber-600 max-w-xs">
+                    ⚠️ <strong>LAN Play:</strong> Open the lobby using your local IP address instead of <em>localhost</em> so players can join.
+                  </p>
+                )}
               </div>
 
               <div className="my-3 h-0.5 w-full bg-gray-200" />
