@@ -33,8 +33,8 @@ class Game {
     clientId: string
     connected: boolean
   }
-  private readonly quizz: Quizz
-  private readonly playerManager: PlayerManager
+  private quizz: Quizz
+  readonly playerManager: PlayerManager
   private readonly round: RoundManager
   private readonly cooldown: CooldownTimer
 
@@ -50,7 +50,7 @@ class Game {
     string,
     { name: Status; data: StatusDataMap[Status] }
   >()
-  private pendingLobbyLeaves = new Map<string, NodeJS.Timeout>()
+  readonly pendingLobbyLeaves = new Map<string, NodeJS.Timeout>()
   private pendingManagerLobbyLeave: NodeJS.Timeout | null = null
 
   constructor(io: Server, socket: Socket, quizz: Quizz) {

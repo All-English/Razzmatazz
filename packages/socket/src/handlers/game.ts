@@ -85,12 +85,7 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     }),
   )
 
-  socket.on("game:playerLeave", ({ gameId }) => {
-    withGame(gameId, socket, (game) => {
-      handlePlayerLeave(game)
-    })
-  })
-
+  // @ts-expect-error - Leftover legacy fallback
   socket.on(EVENTS.GAME.RESET, () => {
     socket.emit(EVENTS.GAME.RESET, "errors:game.expired")
   })

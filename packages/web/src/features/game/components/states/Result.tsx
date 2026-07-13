@@ -58,6 +58,8 @@ const Result = ({
     if (!correct && typeof window !== "undefined" && navigator.vibrate) {
       navigator.vibrate(200)
     }
+
+    sfxResults()
     // oxlint-disable-next-line
   }, [myPoints, correct, isPracticeMode])
 
