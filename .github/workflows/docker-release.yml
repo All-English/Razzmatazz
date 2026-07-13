@@ -1,7 +1,9 @@
 name: Docker Release
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ["Bump Version on Release"]
+    types:
+      - completed
 
 env:
   DOCKER_PLATFORMS: |
@@ -11,26 +13,24 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Extract version and tags
         run: |
-          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
-            VERSION=${GITHUB_REF_NAME#v}
-            echo "VERSION=$VERSION" >> $GITHUB_ENV
-            
-            # Extract major.minor (ex: 1.2.3 -> 1.2)
-            MAJOR_MINOR=$(echo $VERSION | cut -d. -f1,2)
-            echo "MAJOR_MINOR=$MAJOR_MINOR" >> $GITHUB_ENV
-          else
-            echo "VERSION=latest" >> $GITHUB_ENV
-            echo "MAJOR_MINOR=latest" >> $GITHUB_ENV
-          fi
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+          # Extract major.minor (ex: 1.2.3 -> 1.2)
+          MAJOR_MINOR=$(echo $VERSION | cut -d. -f1,2)
+          echo "MAJOR_MINOR=$MAJOR_MINOR" >> $GITHUB_ENV
 
       - name: Extract repository details (lowercase)
         run: |
