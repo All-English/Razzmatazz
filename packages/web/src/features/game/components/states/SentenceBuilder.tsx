@@ -1,4 +1,8 @@
-import { EVENTS, MEDIA_TYPES, PRACTICE_MODE_TIME } from "@razzia/common/constants"
+import {
+  EVENTS,
+  MEDIA_TYPES,
+  PRACTICE_MODE_TIME,
+} from "@razzia/common/constants"
 import type { QuestionMediaType } from "@razzia/common/types/game"
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
 import QuestionMedia from "@razzia/web/components/QuestionMedia"
@@ -35,7 +39,10 @@ const COMPETITIVE_CHUNK_COLORS = [
   "bg-[#F39C12]",
 ]
 
-const DISABLED_MUSIC_MEDIA: QuestionMediaType[] = [MEDIA_TYPES.AUDIO, MEDIA_TYPES.VIDEO]
+const DISABLED_MUSIC_MEDIA: QuestionMediaType[] = [
+  MEDIA_TYPES.AUDIO,
+  MEDIA_TYPES.VIDEO,
+]
 
 const SentenceBuilder = ({
   data: {
@@ -280,10 +287,12 @@ const SentenceBuilder = ({
       )}
 
       <div className="mx-auto inline-flex h-full w-full max-w-7xl flex-1 flex-col items-center justify-center gap-8 px-4 py-6">
-        {/* Prompt */}
-        <h2 className="text-center text-3xl leading-tight font-bold text-white drop-shadow-2xl md:text-4xl lg:text-5xl">
-          {prompt}
-        </h2>
+        {/* Prompt Card */}
+        <div className="flex w-full max-w-3xl flex-col items-center justify-center rounded-[2rem] border border-white/15 bg-black/40 px-6 py-5 shadow-xl backdrop-blur-md transition-all md:px-10 md:py-7">
+          <h2 className="text-center text-3xl leading-tight font-black text-white drop-shadow-md md:text-4xl lg:text-5xl">
+            {prompt}
+          </h2>
+        </div>
 
         <QuestionMedia media={media} alt={prompt} />
 
