@@ -51,6 +51,7 @@ class Game {
     { name: Status; data: StatusDataMap[Status] }
   >()
   private pendingLobbyLeaves = new Map<string, NodeJS.Timeout>()
+  private pendingManagerLobbyLeave: NodeJS.Timeout | null = null
 
   constructor(io: Server, socket: Socket, quizz: Quizz) {
     const clientId = socket.handshake.auth.clientId as string
@@ -168,6 +169,8 @@ class Game {
   // Reconnect
 
   reconnectManager(socket: Socket) {
+    this.clearManagerLobbyTimeout()
+
     if (this._manager.connected) {
       if (this._manager.id === socket.id) {
         const status =
@@ -354,6 +357,18 @@ class Game {
 
   setManagerDisconnected() {
     this._manager.connected = false
+  }
+
+  setManagerLobbyTimeout(timeout: NodeJS.Timeout) {
+    this.clearManagerLobbyTimeout()
+    this.pendingManagerLobbyLeave = timeout
+  }
+
+  clearManagerLobbyTimeout() {
+    if (this.pendingManagerLobbyLeave) {
+      clearTimeout(this.pendingManagerLobbyLeave)
+      this.pendingManagerLobbyLeave = null
+    }
   }
 
   removePlayer(socketId: string): Player | undefined {
@@ -559,6 +574,7 @@ class Game {
     this.savePracticeResults()
     this.cooldown.abort()
     this.round.reset()
+    this.clearManagerLobbyTimeout()
     for (const timeout of this.pendingLobbyLeaves.values()) {
       clearTimeout(timeout)
     }

@@ -32,11 +32,16 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
 
     if (!game.started) {
       game.abortCooldown()
-      io.to(game.gameId).emit(
-        EVENTS.GAME.RESET,
-        "errors:game.managerDisconnected",
-      )
-      registry.removeGame(game.gameId)
+
+      const timeout = setTimeout(() => {
+        io.to(game.gameId).emit(
+          EVENTS.GAME.RESET,
+          "errors:game.managerDisconnected",
+        )
+        registry.removeGame(game.gameId)
+      }, 60_000)
+
+      game.setManagerLobbyTimeout(timeout)
     }
   }
 
