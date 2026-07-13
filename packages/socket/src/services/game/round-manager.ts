@@ -250,7 +250,7 @@ export class RoundManager {
       scrambledChunks: question.scrambledChunks,
       media: question.media,
       time: question.time,
-      totalPlayer: this.opts.players.count(),
+      totalPlayer: this.opts.players.connectedCount(),
       questionIndex: this.currentQuestion,
       correctChunks: question.correctChunks,
       easyMode: this.easyMode,
@@ -415,7 +415,7 @@ export class RoundManager {
       .emit(EVENTS.GAME.PLAYER_ANSWER, this.playersAnswers.length)
     this.opts.players.broadcastCount()
 
-    if (this.playersAnswers.length === this.opts.players.count()) {
+    if (this.playersAnswers.length === this.opts.players.connectedCount()) {
       this.opts.cooldown.abort()
     }
   }

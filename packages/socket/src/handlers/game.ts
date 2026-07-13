@@ -78,13 +78,6 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     withGame(gameId, socket, (game) => game.reconnectPlayer(socket)),
   )
 
-  socket.on(EVENTS.MANAGER.LEAVE, ({ gameId }) =>
-    withManagerGame(gameId, (game) => {
-      handleManagerLeave(game)
-      registry.removeGame(game.gameId)
-    }),
-  )
-
   // @ts-expect-error - Leftover legacy fallback
   socket.on(EVENTS.GAME.RESET, () => {
     socket.emit(EVENTS.GAME.RESET, "errors:game.expired")

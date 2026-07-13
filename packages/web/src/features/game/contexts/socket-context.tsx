@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react"
 import { io, Socket } from "socket.io-client"
@@ -121,14 +122,19 @@ export const useEvent = <E extends keyof ServerToClientEvents>(
   callback: ServerToClientEvents[E],
 ) => {
   const { socket } = useSocket()
+  const callbackRef = useRef(callback)
+
+  useEffect(() => {
+    callbackRef.current = callback
+  })
 
   useEffect(() => {
     // oxlint-disable-next-line no-explicit-any, no-unsafe-argument
-    socket.on(event, callback as any)
+    const handler = ((...args: any[]) => (callbackRef.current as any)(...args)) as any
+    socket.on(event, handler)
 
     return () => {
-      // oxlint-disable-next-line no-explicit-any, no-unsafe-argument
-      socket.off(event, callback as any)
+      socket.off(event, handler)
     }
-  }, [socket, event, callback])
+  }, [socket, event])
 }

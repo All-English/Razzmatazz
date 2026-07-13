@@ -320,9 +320,6 @@ class Game {
 
     if (this.mode === "practice" && status.name === STATUS.SHOW_RESULT) {
       status = this.round.getPracticeNextQuestionStatus(player.username)
-      if (this.playerStatus.has(oldSocketId)) {
-        this.playerStatus.set(oldSocketId, status)
-      }
     }
 
     if (status.name === STATUS.WAIT && !this.started) {
@@ -332,12 +329,9 @@ class Game {
       }
     }
 
-    const oldStatus = this.playerStatus.get(oldSocketId)
-
-    if (oldStatus) {
-      this.playerStatus.delete(oldSocketId)
-      this.playerStatus.set(socket.id, oldStatus)
-    }
+    // Migrate player status from old socket ID to new socket ID
+    this.playerStatus.delete(oldSocketId)
+    this.playerStatus.set(socket.id, status)
 
     socket.emit(EVENTS.PLAYER.SUCCESS_RECONNECT, {
       gameId: this.gameId,
@@ -383,21 +377,16 @@ class Game {
       this.pendingLobbyLeaves.delete(clientId)
     }
 
-    const timeout = setTimeout(() => {
-      this.pendingLobbyLeaves.delete(clientId)
-      const removedPlayer = this.playerManager.removeByClientId(clientId)
-      if (removedPlayer) {
-        this.io
-          .to(this._manager.id)
-          .emit(EVENTS.MANAGER.REMOVE_PLAYER, removedPlayer.id)
-        this.playerManager.broadcastCount()
-        console.log(
-          `Player ${removedPlayer.username} left game ${this.gameId} after grace period`,
-        )
-      }
-    }, 2500)
-
-    this.pendingLobbyLeaves.set(clientId, timeout)
+    const removedPlayer = this.playerManager.removeByClientId(clientId)
+    if (removedPlayer) {
+      this.io
+        .to(this._manager.id)
+        .emit(EVENTS.MANAGER.REMOVE_PLAYER, removedPlayer.id)
+      this.playerManager.broadcastCount()
+      console.log(
+        `Player ${removedPlayer.username} left game ${this.gameId} after grace period`,
+      )
+    }
 
     return player
   }

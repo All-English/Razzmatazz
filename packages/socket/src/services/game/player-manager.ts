@@ -162,6 +162,10 @@ export class PlayerManager {
     return this.players.length
   }
 
+  connectedCount(): number {
+    return this.players.filter((p) => p.connected).length
+  }
+
   broadcastCount(): void {
     this.io.to(this.gameId).emit(EVENTS.GAME.TOTAL_PLAYERS, this.players.length)
   }

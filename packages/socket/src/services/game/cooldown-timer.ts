@@ -13,6 +13,9 @@ export class CooldownTimer {
 
   start(seconds: number): Promise<void> {
     if (this.active) {
+      console.warn(
+        `CooldownTimer.start(${seconds}) called while already active — ignoring`,
+      )
       return Promise.resolve()
     }
 

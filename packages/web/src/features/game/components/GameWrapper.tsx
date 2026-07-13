@@ -15,7 +15,7 @@ import { useManagerStore } from "@razzia/web/features/game/stores/manager"
 import { useQuestionStore } from "@razzia/web/features/game/stores/question"
 import { MANAGER_SKIP_BTN } from "@razzia/web/features/game/utils/constants"
 import clsx from "clsx"
-import { type PropsWithChildren, useEffect, useState } from "react"
+import { type PropsWithChildren, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 
@@ -46,6 +46,11 @@ const GameWrapper = ({
   const [isConfirmingEnd, setIsConfirmingEnd] = useState(false)
   const [qrOpen, setQrOpen] = useState(false)
   const next = statusName ? MANAGER_SKIP_BTN[statusName] : null
+
+  const onNextRef = useRef(onNext)
+  useEffect(() => {
+    onNextRef.current = onNext
+  })
 
   const inviteCode = manager ? managerInviteCode : playerInviteCode
 
@@ -94,7 +99,8 @@ const GameWrapper = ({
 
         e.preventDefault()
         if (!isDisabled) {
-          handleNext()
+          setIsDisabled(true)
+          onNextRef.current?.()
         }
       }
     }

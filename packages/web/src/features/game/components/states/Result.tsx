@@ -4,7 +4,7 @@ import CricleXmark from "@razzia/web/features/game/components/icons/CricleXmark"
 import { usePlayerStore } from "@razzia/web/features/game/stores/player"
 import { SFX } from "@razzia/web/features/game/utils/constants"
 import clsx from "clsx"
-import { useEffect, useMemo } from "react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import useSound from "use-sound"
 
@@ -41,7 +41,7 @@ const Result = ({
     volume: 0.2,
   })
 
-  const feedbackMessage = useMemo<string>(() => {
+  const [feedbackMessage] = useState<string>(() => {
     const list = t(correct ? "game:correctMessages" : "game:wrongMessages", {
       returnObjects: true,
     }) as unknown as string[]
@@ -50,7 +50,7 @@ const Result = ({
       return list[idx]
     }
     return t(message)
-  }, [correct, message, t])
+  })
 
   useEffect(() => {
     player.updatePoints(myPoints)
