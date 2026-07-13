@@ -63,6 +63,14 @@ const PinInput = ({
 
       if (e.key === "ArrowRight") {
         focus(index + 1)
+
+        return
+      }
+
+      if (e.key >= "0" && e.key <= "9") {
+        e.preventDefault()
+        update(index, e.key)
+        focus(index + 1)
       }
     }
 
@@ -103,6 +111,8 @@ const PinInput = ({
           onChange={handleChange(i)}
           onKeyDown={handleKeyDown(i)}
           onPaste={handlePaste}
+          onFocus={(e) => e.target.select()}
+          onClick={(e) => (e.target as HTMLInputElement).select()}
           className="focus:border-primary w-10 flex-1 rounded-lg border-2 border-gray-300 p-2 text-center text-lg font-semibold outline-none"
         />
       ))}
