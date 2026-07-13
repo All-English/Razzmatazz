@@ -67,19 +67,6 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
     }
   }
 
-  socket.on("disconnect", () => {
-    const managerGame = registry.getGameByManagerSocketId(socket.id)
-
-    if (managerGame) {
-      handleManagerLeave(managerGame)
-    }
-
-    const playerGame = registry.getGameByPlayerSocketId(socket.id)
-
-    if (playerGame) {
-      handlePlayerLeave(playerGame)
-    }
-  })
 
   socket.on(EVENTS.MANAGER.RECONNECT, ({ gameId }) =>
     withManagerGame(gameId, (game) => game.reconnectManager(socket)),
