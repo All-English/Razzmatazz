@@ -60,7 +60,7 @@ export const SFX = {
     THREE: "/sounds/three.mp3",
     SECOND: "/sounds/second.mp3",
     FIRST: "/sounds/first.mp3",
-    SNEAR_ROOL: "/sounds/snearRoll.mp3",
+    SNARE_ROLL: "/sounds/snearRoll.mp3",
   },
   RESULTS_SOUND: "/sounds/results.mp3",
   SHOW_SOUND: "/sounds/show.mp3",

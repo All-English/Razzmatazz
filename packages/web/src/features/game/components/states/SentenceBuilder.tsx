@@ -1,4 +1,4 @@
-import { EVENTS, PRACTICE_MODE_TIME } from "@razzia/common/constants"
+import { EVENTS, MEDIA_TYPES, PRACTICE_MODE_TIME } from "@razzia/common/constants"
 import type { QuestionMediaType } from "@razzia/common/types/game"
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
 import QuestionMedia from "@razzia/web/components/QuestionMedia"
@@ -35,7 +35,7 @@ const COMPETITIVE_CHUNK_COLORS = [
   "bg-[#F39C12]",
 ]
 
-const DISABLED_MUSIC_MEDIA: QuestionMediaType[] = ["audio", "video"]
+const DISABLED_MUSIC_MEDIA: QuestionMediaType[] = [MEDIA_TYPES.AUDIO, MEDIA_TYPES.VIDEO]
 
 const SentenceBuilder = ({
   data: {
@@ -331,7 +331,7 @@ const SentenceBuilder = ({
                 )}
                 {barChunks.map((chunk, i) => {
                   const isWrong =
-                    showWrongFeedback && chunk.text !== correctChunks[i]
+                    showWrongFeedback && chunk.text !== correctChunks?.[i]
 
                   return (
                     <button

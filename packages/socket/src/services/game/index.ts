@@ -34,6 +34,7 @@ class Game {
     connected: boolean
   }
   private quizz: Quizz
+  private originalQuizz: Quizz
   readonly playerManager: PlayerManager
   private readonly round: RoundManager
   private readonly cooldown: CooldownTimer
@@ -57,7 +58,8 @@ class Game {
     const clientId = socket.handshake.auth.clientId as string
 
     this.io = io
-    this.quizz = quizz
+    this.originalQuizz = JSON.parse(JSON.stringify(quizz))
+    this.quizz = JSON.parse(JSON.stringify(this.originalQuizz))
     this.gameId = uuid()
     this.quizzId = (quizz as QuizzWithId).id ?? ""
 
@@ -403,9 +405,10 @@ class Game {
   }
 
   updateQuiz(quizz: Quizz) {
-    this.quizz = quizz
+    this.originalQuizz = JSON.parse(JSON.stringify(quizz))
+    this.quizz = JSON.parse(JSON.stringify(this.originalQuizz))
     this.quizzId = (quizz as QuizzWithId).id ?? ""
-    this.round.updateQuizz(quizz)
+    this.round.updateQuizz(this.quizz)
 
     // Broadcast the new correctSentences to all players in the lobby
     const players = this.playerManager.getAll()
@@ -484,6 +487,7 @@ class Game {
     this.savePracticeResults()
 
     // Reset all round + player state
+    this.quizz = JSON.parse(JSON.stringify(this.originalQuizz))
     this.round.reset()
     this.playerManager.resetScores()
 

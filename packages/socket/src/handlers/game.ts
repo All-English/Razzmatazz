@@ -116,6 +116,13 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   )
 
   socket.on(EVENTS.PLAYER.CHECK_PIN, (inviteCode) => {
+    const result = inviteCodeValidator.safeParse(inviteCode)
+    if (result.error) {
+      socket.emit(EVENTS.PLAYER.CHECK_PIN_RESULT, { valid: false })
+
+      return
+    }
+
     const game = registry.getGameByInviteCode(inviteCode)
 
     socket.emit(EVENTS.PLAYER.CHECK_PIN_RESULT, { valid: Boolean(game) })

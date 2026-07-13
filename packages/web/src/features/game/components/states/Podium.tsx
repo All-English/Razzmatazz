@@ -15,7 +15,7 @@ const usePodiumAnimation = (topLength: number) => {
 
   const [sfxtThree] = useSound(SFX.PODIUM.THREE, { volume: 0.1 })
   const [sfxSecond] = useSound(SFX.PODIUM.SECOND, { volume: 0.1 })
-  const [sfxRool, { stop: sfxRoolStop }] = useSound(SFX.PODIUM.SNEAR_ROOL, {
+  const [sfxRoll, { stop: sfxRollStop }] = useSound(SFX.PODIUM.SNARE_ROLL, {
     volume: 0.1,
   })
   const [sfxFirst] = useSound(SFX.PODIUM.FIRST, { volume: 0.1 })
@@ -23,16 +23,16 @@ const usePodiumAnimation = (topLength: number) => {
   useEffect(() => {
     const actions: Partial<Record<number, () => void>> = {
       4: () => {
-        sfxRoolStop()
+        sfxRollStop()
         sfxFirst()
       },
-      3: sfxRool,
+      3: sfxRoll,
       2: sfxSecond,
       1: sfxtThree,
     }
 
     actions[apparition]?.()
-  }, [apparition, sfxFirst, sfxSecond, sfxtThree, sfxRool, sfxRoolStop])
+  }, [apparition, sfxFirst, sfxSecond, sfxtThree, sfxRoll, sfxRollStop])
 
   useEffect(() => {
     if (topLength < 3) {
