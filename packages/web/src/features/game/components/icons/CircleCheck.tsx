@@ -2,7 +2,7 @@ interface Props {
   className?: string
 }
 
-const CricleCheck = ({ className }: Props) => (
+const CircleCheck = ({ className }: Props) => (
   <svg
     fill="#22c55e"
     width="800px"
@@ -38,4 +38,4 @@ const CricleCheck = ({ className }: Props) => (
   </svg>
 )
 
-export default CricleCheck
+export default CircleCheck

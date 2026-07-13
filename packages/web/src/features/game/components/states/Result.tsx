@@ -1,6 +1,6 @@
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
-import CricleCheck from "@razzia/web/features/game/components/icons/CricleCheck"
-import CricleXmark from "@razzia/web/features/game/components/icons/CricleXmark"
+import CircleCheck from "@razzia/web/features/game/components/icons/CircleCheck"
+import CircleXmark from "@razzia/web/features/game/components/icons/CircleXmark"
 import { usePlayerStore } from "@razzia/web/features/game/stores/player"
 import { SFX } from "@razzia/web/features/game/utils/constants"
 import clsx from "clsx"
@@ -66,9 +66,9 @@ const Result = ({
   return (
     <section className="anim-show relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center">
       {correct ? (
-        <CricleCheck className="aspect-square max-h-60 w-full text-emerald-400" />
+        <CircleCheck className="aspect-square max-h-60 w-full text-emerald-400" />
       ) : (
-        <CricleXmark className="aspect-square max-h-60 w-full text-red-500" />
+        <CircleXmark className="aspect-square max-h-60 w-full text-red-500" />
       )}
       <h2 className="mt-1 text-4xl font-bold text-white drop-shadow-lg">
         {feedbackMessage}

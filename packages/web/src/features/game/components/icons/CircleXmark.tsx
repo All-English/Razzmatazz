@@ -2,7 +2,7 @@ interface Props {
   className?: string
 }
 
-const CricleXmark = ({ className }: Props) => (
+const CircleXmark = ({ className }: Props) => (
   <svg
     fill="#ef4444"
     width="800px"
@@ -32,4 +32,4 @@ const CricleXmark = ({ className }: Props) => (
   </svg>
 )
 
-export default CricleXmark
+export default CircleXmark
