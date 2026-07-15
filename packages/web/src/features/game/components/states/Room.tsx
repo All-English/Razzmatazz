@@ -150,11 +150,17 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
 
   useEffect(() => {
     playMusic()
+  }, [playMusic])
 
+  const stopMusicRef = useRef(stopMusic)
+  useEffect(() => {
+    stopMusicRef.current = stopMusic
+  }, [stopMusic])
+
+  useEffect(() => {
     return () => {
-      stopMusic()
+      stopMusicRef.current()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useOnClickOutside({ ref: qrContentRef, handler: () => setQrOpen(false) })

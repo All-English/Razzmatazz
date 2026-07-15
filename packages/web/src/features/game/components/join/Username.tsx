@@ -48,6 +48,7 @@ const Username = () => {
         onChange={(e) => setUsername(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={t("game:usernamePlaceholder")}
+        autoFocus
       />
       <Button className="mt-4" onClick={handleLogin}>
         {t("common:submit")}

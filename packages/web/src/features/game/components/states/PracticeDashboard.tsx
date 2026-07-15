@@ -7,7 +7,7 @@ import {
 } from "@razzia/web/features/game/contexts/socket-context"
 import { useManagerStore } from "@razzia/web/features/game/stores/manager"
 import { SFX } from "@razzia/web/features/game/utils/constants"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import useSound from "use-sound"
 
@@ -42,11 +42,17 @@ const PracticeDashboard = ({
 
   useEffect(() => {
     playMusic()
+  }, [playMusic])
 
+  const stopMusicRef = useRef(stopMusic)
+  useEffect(() => {
+    stopMusicRef.current = stopMusic
+  }, [stopMusic])
+
+  useEffect(() => {
     return () => {
-      stopMusic()
+      stopMusicRef.current()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEvent(EVENTS.MANAGER.PRACTICE_PROGRESS, ({ students: updated }) => {

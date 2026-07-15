@@ -102,12 +102,18 @@ const SentenceBuilder = ({
     }
 
     playMusic()
+  }, [playMusic, manager, media?.type])
 
+  const stopMusicRef = useRef(stopMusic)
+  useEffect(() => {
+    stopMusicRef.current = stopMusic
+  }, [stopMusic])
+
+  useEffect(() => {
     return () => {
-      stopMusic()
+      stopMusicRef.current()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [manager, media?.type])
+  }, [])
 
   useEvent(EVENTS.GAME.COOLDOWN, (sec) => {
     setCooldown(sec)
