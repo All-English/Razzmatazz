@@ -641,12 +641,12 @@ export class RoundManager {
         const nextQuestion = this.opts.quizz.questions[newCompleted]
 
         if (nextQuestion) {
-          this.opts.io.to(socket.id).emit(EVENTS.GAME.UPDATE_QUESTION, {
+          this.opts.io.to(player.id).emit(EVENTS.GAME.UPDATE_QUESTION, {
             current: newCompleted + 1,
             total: this.opts.quizz.questions.length,
           })
 
-          this.opts.send(socket.id, STATUS.BUILD_SENTENCE, {
+          this.opts.send(player.id, STATUS.BUILD_SENTENCE, {
             prompt: nextQuestion.prompt,
             scrambledChunks: nextQuestion.scrambledChunks,
             media: nextQuestion.media,
@@ -677,7 +677,7 @@ export class RoundManager {
             })
           }
 
-          this.opts.send(socket.id, STATUS.FINISHED, {
+          this.opts.send(player.id, STATUS.FINISHED, {
             subject: this.opts.quizz.subject,
             top: [],
             rank: 0,
