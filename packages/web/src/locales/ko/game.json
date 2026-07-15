@@ -89,5 +89,6 @@
   ],
   "lobbySettings": "로비 설정",
   "gameModeLabel": "게임 모드",
-  "waitingForPlayersToJoin": "플레이어 접속 대기 중..."
+  "waitingForPlayersToJoin": "플레이어 접속 대기 중...",
+  "tapToEnableAudio": "오디오를 활성화하려면 화면을 누르세요"
 }

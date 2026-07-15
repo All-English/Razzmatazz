@@ -89,5 +89,6 @@
   ],
   "lobbySettings": "Ajustes de la sala",
   "gameModeLabel": "Modo de juego",
-  "waitingForPlayersToJoin": "Esperando a que los jugadores se conecten..."
+  "waitingForPlayersToJoin": "Esperando a que los jugadores se conecten...",
+  "tapToEnableAudio": "Toca la pantalla para activar el audio"
 }

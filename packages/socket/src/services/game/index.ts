@@ -252,6 +252,8 @@ class Game {
     const player = this.playerManager.findByClientId(clientId)
 
     if (!player) {
+      socket.emit(EVENTS.GAME.RESET, "errors:game.notFound")
+
       return
     }
 

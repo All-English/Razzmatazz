@@ -24,7 +24,7 @@ import AlertDialog from "@razzia/web/components/AlertDialog"
 const ManagerGamePage = () => {
   const navigate = useNavigate()
   const { gameId: gameIdParam } = useParams({ from: "/party/manager/$gameId" })
-  const { socket } = useSocket()
+  const { socket, isConnected } = useSocket()
   const {
     gameId,
     status,
@@ -47,20 +47,17 @@ const ManagerGamePage = () => {
     }
   })
 
-  useEvent("connect", () => {
-    if (gameIdParam) {
+  useEffect(() => {
+    if (isConnected && gameIdParam) {
       socket.emit(EVENTS.MANAGER.RECONNECT, { gameId: gameIdParam })
     }
-  })
+  }, [isConnected, gameIdParam, socket])
 
   useEffect(() => {
     if (socket) {
-      if (socket.connected && gameIdParam) {
-        socket.emit(EVENTS.MANAGER.RECONNECT, { gameId: gameIdParam })
-      }
       socket.emit(EVENTS.MANAGER.GET_CONFIG)
     }
-  }, [socket, gameIdParam])
+  }, [socket])
 
   useEvent(EVENTS.MANAGER.CONFIG, (configData) => {
     setConfig(configData)

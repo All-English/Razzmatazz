@@ -39,11 +39,6 @@ const PlayerGamePage = () => {
     }
   }, [isConnected, gameIdParam, socket])
 
-  useEvent("connect", () => {
-    if (gameIdParam) {
-      socket.emit(EVENTS.PLAYER.RECONNECT, { gameId: gameIdParam })
-    }
-  })
 
   useEvent(
     EVENTS.PLAYER.SUCCESS_RECONNECT,

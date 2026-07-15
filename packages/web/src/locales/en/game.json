@@ -90,5 +90,6 @@
   "backToLobby": "Back to Lobby",
   "lobbySettings": "Lobby Settings",
   "gameModeLabel": "Game Mode",
-  "waitingForPlayersToJoin": "Waiting for players to connect..."
+  "waitingForPlayersToJoin": "Waiting for players to connect...",
+  "tapToEnableAudio": "Tap screen to enable audio"
 }

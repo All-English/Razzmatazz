@@ -46,6 +46,48 @@ const GameWrapper = ({
   const [isConfirmingEnd, setIsConfirmingEnd] = useState(false)
   const [qrOpen, setQrOpen] = useState(false)
   const next = statusName ? MANAGER_SKIP_BTN[statusName] : null
+  const [audioSuspended, setAudioSuspended] = useState(false)
+
+  useEffect(() => {
+    const checkAudio = () => {
+      const howlerGlobal = (window as any).Howler
+      const ctx = howlerGlobal?.ctx
+      if (ctx && ctx.state === "suspended") {
+        setAudioSuspended(true)
+      } else {
+        setAudioSuspended(false)
+      }
+    }
+
+    checkAudio()
+    const interval = setInterval(checkAudio, 1000)
+
+    const handleInteraction = () => {
+      const howlerGlobal = (window as any).Howler
+      const ctx = howlerGlobal?.ctx
+      if (ctx && ctx.state === "suspended") {
+        ctx
+          .resume()
+          .then(() => {
+            setAudioSuspended(false)
+          })
+          .catch((err: any) =>
+            console.warn("Failed to resume AudioContext:", err),
+          )
+      } else {
+        setAudioSuspended(false)
+      }
+    }
+
+    window.addEventListener("click", handleInteraction)
+    window.addEventListener("touchstart", handleInteraction)
+
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener("click", handleInteraction)
+      window.removeEventListener("touchstart", handleInteraction)
+    }
+  }, [])
 
   const onNextRef = useRef(onNext)
   useEffect(() => {
@@ -284,6 +326,17 @@ const GameWrapper = ({
           </>
         )}
       </div>
+      {audioSuspended && (
+        <div className="pointer-events-none fixed top-4 left-1/2 z-[999] flex -translate-x-1/2 items-center justify-center animate-bounce">
+          <div className="pointer-events-auto flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs font-bold text-amber-500 shadow-xl backdrop-blur-md">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
+            </span>
+            {t("game:tapToEnableAudio", "Tap screen to enable audio")}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

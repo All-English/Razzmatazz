@@ -88,5 +88,6 @@
   ],
   "lobbySettings": "ロビー設定",
   "gameModeLabel": "ゲームモード",
-  "waitingForPlayersToJoin": "プレイヤーの接続を待っています..."
+  "waitingForPlayersToJoin": "プレイヤーの接続を待っています...",
+  "tapToEnableAudio": "画面をタップしてオーディオを有効にします"
 }

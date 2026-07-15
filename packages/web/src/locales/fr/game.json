@@ -89,5 +89,6 @@
   ],
   "lobbySettings": "Paramètres du salon",
   "gameModeLabel": "Mode de jeu",
-  "waitingForPlayersToJoin": "En attente de connexion des joueurs..."
+  "waitingForPlayersToJoin": "En attente de connexion des joueurs...",
+  "tapToEnableAudio": "Appuyez sur l'écran pour activer le son"
 }
