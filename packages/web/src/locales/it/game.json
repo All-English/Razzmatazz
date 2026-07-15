@@ -90,5 +90,7 @@
   "lobbySettings": "Impostazioni sala d'attesa",
   "gameModeLabel": "Modalità di gioco",
   "waitingForPlayersToJoin": "In attesa di connessione dei giocatori...",
-  "tapToEnableAudio": "Tocca lo schermo per attivare l'audio"
+  "tapToEnableAudio": "Tocca lo schermo per attivare l'audio",
+  "waitingForGameToStart": "In attesa dell'inizio del gioco.",
+  "getReadyHint": "Ecco alcune frasi che vedrai nel gioco:"
 }

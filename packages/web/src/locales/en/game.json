@@ -91,5 +91,7 @@
   "lobbySettings": "Lobby Settings",
   "gameModeLabel": "Game Mode",
   "waitingForPlayersToJoin": "Waiting for players to connect...",
-  "tapToEnableAudio": "Tap screen to enable audio"
+  "tapToEnableAudio": "Tap screen to enable audio",
+  "waitingForGameToStart": "Waiting for the game to start.",
+  "getReadyHint": "Here are some sentences you will see in the game:"
 }

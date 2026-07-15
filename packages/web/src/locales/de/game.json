@@ -90,5 +90,7 @@
   "lobbySettings": "Lobby-Einstellungen",
   "gameModeLabel": "Spielmodus",
   "waitingForPlayersToJoin": "Warten auf Verbindung der Spieler...",
-  "tapToEnableAudio": "Tippen Sie auf den Bildschirm, um den Ton zu aktivieren"
+  "tapToEnableAudio": "Tippen Sie auf den Bildschirm, um den Ton zu aktivieren",
+  "waitingForGameToStart": "Warten auf den Spielstart.",
+  "getReadyHint": "Hier sind einige Sätze, die Sie im Spiel sehen werden:"
 }

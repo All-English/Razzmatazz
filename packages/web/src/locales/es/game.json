@@ -90,5 +90,7 @@
   "lobbySettings": "Ajustes de la sala",
   "gameModeLabel": "Modo de juego",
   "waitingForPlayersToJoin": "Esperando a que los jugadores se conecten...",
-  "tapToEnableAudio": "Toca la pantalla para activar el audio"
+  "tapToEnableAudio": "Toca la pantalla para activar el audio",
+  "waitingForGameToStart": "Esperando a que comience el juego.",
+  "getReadyHint": "Aquí hay algunas oraciones que verás en el juego:"
 }

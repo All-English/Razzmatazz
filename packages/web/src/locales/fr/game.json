@@ -90,5 +90,7 @@
   "lobbySettings": "Paramètres du salon",
   "gameModeLabel": "Mode de jeu",
   "waitingForPlayersToJoin": "En attente de connexion des joueurs...",
-  "tapToEnableAudio": "Appuyez sur l'écran pour activer le son"
+  "tapToEnableAudio": "Appuyez sur l'écran pour activer le son",
+  "waitingForGameToStart": "En attente du début de la partie.",
+  "getReadyHint": "Voici quelques phrases que vous verrez dans le jeu :"
 }
