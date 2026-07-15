@@ -106,8 +106,8 @@ const SentenceBuilder = ({
     return () => {
       stopMusic()
     }
-    // oxlint-disable-next-line
-  }, [playMusic])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [manager, media?.type])
 
   useEvent(EVENTS.GAME.COOLDOWN, (sec) => {
     setCooldown(sec)

@@ -46,7 +46,8 @@ const PracticeDashboard = ({
     return () => {
       stopMusic()
     }
-  }, [playMusic, stopMusic])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEvent(EVENTS.MANAGER.PRACTICE_PROGRESS, ({ students: updated }) => {
     setStudents(updated)

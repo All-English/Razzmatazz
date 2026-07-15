@@ -154,7 +154,8 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
     return () => {
       stopMusic()
     }
-  }, [playMusic, stopMusic])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useOnClickOutside({ ref: qrContentRef, handler: () => setQrOpen(false) })
 

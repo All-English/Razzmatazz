@@ -89,6 +89,27 @@ const GameWrapper = ({
     }
   }, [])
 
+  useEffect(() => {
+    // Eagerly preload all game sound assets into the browser cache
+    const soundUrls = [
+      "/sounds/answersMusic.mp3",
+      "/sounds/answersSound.mp3",
+      "/sounds/three.mp3",
+      "/sounds/second.mp3",
+      "/sounds/first.mp3",
+      "/sounds/snearRoll.mp3",
+      "/sounds/results.mp3",
+      "/sounds/show.mp3",
+      "/sounds/boump.mp3",
+    ]
+    soundUrls.forEach((url) => {
+      const audio = new Audio()
+      audio.src = url
+      audio.preload = "auto"
+      audio.load()
+    })
+  }, [])
+
   const onNextRef = useRef(onNext)
   useEffect(() => {
     onNextRef.current = onNext
